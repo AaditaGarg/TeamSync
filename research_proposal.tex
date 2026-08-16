@@ -1,0 +1,329 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\title{\textbf{CampusSync: A Cross-College Collaboration Platform \\ for Hackathon Team Formation and Project Collaboration}\\[4pt]
+\large Project Proposal for UCS503P}
+\author{
+Submitted to: Prof. Asif \\
+Thapar Institute of Engineering and Technology \\[10pt]
+Aadita Garg$^{*}$, CSED \quad Ridhima Goel$^{\dagger}$, CSED \quad Vedika Gupta$^{\ddagger}$, CSED
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+\let\thefootnote\relax\footnotetext{
+$^{*}$Roll No: 1024030461, Email: agarg9\_be24@thapar.edu \\
+$^{\dagger}$Roll No: 1024030466, Email: Rgoel\_be24@thapar.edu \\
+$^{\ddagger}$Roll No: 1024030337, Email: vgupta9\_be24@thapar.edu}
+
+\section{Higher-order goal \textit{...secondary framing}}
+This project aims to make cross-institutional student collaboration as easy as within-college
+collaboration, by reducing the friction students face when assembling a team for a hackathon
+or a personal/academic project. While the broader motivation is to strengthen the student
+developer ecosystem across colleges, the immediate engineering objective is to translate
+skill-based teammate discovery into a measurable, deployable software solution.
+
+\section{Time-to-value \textit{...primary heuristic}}
+\begin{itemize}[leftmargin=*]
+  \item We will deliver meaningful increments quickly by prototyping the core profile-and-match
+  workflow and validating it with a small pilot group of students within a short iteration window.
+  \item We will prioritize fast feedback over perfection by using weekly iterations (and targeting
+  CI-backed automation early) to reduce release friction.
+  \item Success is defined by what can be delivered and measured in the first iteration -- a
+  working profile, listing, and match flow -- then improved based on user feedback.
+\end{itemize}
+
+\section{Problem Statement}
+Hackathons and academic/personal software projects increasingly require diverse, multidisciplinary
+skill sets that a single college's student body often cannot fully provide. A student strong in
+one area (e.g., machine learning) may need a teammate skilled in another (e.g., frontend
+development or UI/UX), but no such teammate may exist within their own institute. Common pain
+points include:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Fragmentation:} teammate search currently happens through scattered personal
+  contacts, college-specific WhatsApp/Discord groups, or generic social posts, with no shared,
+  searchable channel across institutes.
+  \item \textbf{No cross-college visibility:} a student at one college who needs a Flutter
+  developer, and a student at another college who has that exact skill and is looking for a
+  project, have no platform through which to find each other.
+  \item \textbf{Low trust / verification:} open forums and generic social platforms cannot
+  confirm that a profile genuinely belongs to a verified college student.
+  \item \textbf{Poor skill discoverability:} even within informal groups, there is no structured
+  way to search or filter people by tech stack, availability, or complementary (rather than
+  identical) skills.
+\end{itemize}
+\textbf{Why this matters now (contextual relevance):} With hackathon participation and
+inter-college technical events growing rapidly, even a lightweight, trustworthy matchmaking
+layer can noticeably reduce the time students spend searching for teammates and improve the
+quality of teams that get formed.
+
+\subsection{Objectives}
+\begin{itemize}[leftmargin=*]
+  \item Develop a verified cross-college platform for student profiles and project/team listings.
+  \item Enable students to discover teammates based on complementary skills and interests.
+  \item Implement a ranked matching mechanism for project-specific requirements.
+  \item Evaluate the system using time-to-first-match, cross-college match rate, and
+  connection-to-team conversion.
+  \item Deploy and validate the system through a small multi-college pilot.
+\end{itemize}
+
+\section{Proposed Solution \textit{...Software Proposition}}
+\subsection{Overview}
+Build a web-based ``teammate-to-team'' platform, \textbf{CampusSync}, with the following
+components:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Verified student profile:} sign-up restricted to valid college email domains,
+  with a structured profile listing tech stack, domain interests, experience level, and past
+  project portfolio.
+  \item \textbf{GitHub-linked verification:} students can link a GitHub profile/repository to
+  their account, giving other students a verifiable signal of real project work alongside
+  self-reported skills.
+  \item \textbf{Team/project listings:} a student or existing team posts an open requirement
+  (e.g., ``Need a Flutter developer for a fintech hackathon project, 48-hour build'') and
+  specifies the roles/skills needed.
+  \item \textbf{Matching engine:} recommends candidates by scoring skill complementarity,
+  availability, and interest overlap, rather than plain keyword search.
+  \item \textbf{Connection \& messaging:} in-app chat once a connection request is accepted, so
+  students can coordinate without leaving the platform.
+  \item \textbf{Team workspace:} once a team is formed, a shared space for task allocation and
+  status tracking during the hackathon/project.
+\end{itemize}
+
+\subsection{Core workflow}
+\begin{enumerate}[leftmargin=*]
+  \item Student registers with a verified college email and builds a skill profile.
+  \item Student either posts a requirement (``looking for teammates'') or browses/searches
+  existing listings and profiles.
+  \item The matching engine surfaces ranked candidate matches based on complementary skills.
+  \item Both parties send/accept a connection request, unlocking in-app chat.
+  \item If a team is formed, members get access to a shared workspace for the duration of the
+  hackathon or project.
+\end{enumerate}
+
+\subsection{Operational constraints for an educational, multi-college setting}
+\begin{itemize}[leftmargin=*]
+  \item Keep the solution usable on low-to-mid range devices via responsive web design.
+  \item Avoid dependence on advanced research algorithms; focus on workflow, verification, and
+  matching correctness.
+  \item Design for deployability using common web hosting and managed databases, so it can be
+  piloted across multiple colleges without infrastructure overhead.
+\end{itemize}
+
+\section{Solution Approach \textit{...Engineering focus}}
+This is an engineering course project, so we focus on scalable user, verification, and matching
+workflows rather than novel algorithm research.
+
+\subsection{Matching assistance \textit{...non-research}}
+Teammate matching will be heuristic-based, not a research contribution:
+\begin{itemize}[leftmargin=*]
+  \item Normalize structured tags (tech stack, domain interest, experience level).
+  \item Use a simple complementary-skill scoring measure (e.g., weighted overlap between
+  ``skills offered'' and ``skills needed'') without claiming state-of-the-art recommendation
+  performance. The score will combine skill complementarity with interest overlap, experience
+  level, and availability using configurable weights.
+  \item Show top-ranked candidate matches to the user for their own decision; never
+  auto-assign teams.
+\end{itemize}
+
+\subsection{Web architecture \textit{...web-based solution}}
+A typical 3-tier web architecture:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Frontend:} responsive UI for profile creation, browsing listings, and chat
+  (React.js + Tailwind CSS).
+  \item \textbf{Backend API:} authentication, profile/listing CRUD, matching logic, and
+  notifications (Node.js + Express.js).
+  \item \textbf{Database:} stores users, listings, connections, and messages (MongoDB Atlas).
+\end{itemize}
+
+\subsection{CI/CD and fast delivery enabler}
+CI/CD will be used to:
+\begin{itemize}[leftmargin=*]
+  \item Automatically build and run tests on every change.
+  \item Produce repeatable deployment artifacts to staging.
+  \item Enable safe and frequent releases of incremental features (e.g., adding the matching
+  engine after the core profile/listing flow is stable).
+\end{itemize}
+
+\section{Evaluation Criterion \textit{...measurable and attributable}}
+We define success using measurable metrics tied to the core workflow.
+
+\subsection{Primary evaluation metric}
+\textbf{Time-to-first-match (TTM):} time between a student posting a team requirement and
+receiving the first candidate match that satisfies a predefined relevance threshold (a minimum
+skill/role compatibility score, not simply the first candidate returned).
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Target:} median TTM $\leq$ 24 hours during the pilot, subject to sufficient
+  active users and listings.
+  \item \textbf{Attribution:} measured from database timestamps (listing/profile creation vs.
+  first match surfaced by the matching engine).
+\end{itemize}
+
+\subsection{Secondary evaluation metrics}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Connection-to-team conversion rate:} percentage of accepted connections that
+  result in a confirmed team.
+  \item \textbf{Cross-college match rate:} percentage of successful matches formed between
+  students of \emph{different} colleges (the platform's core value proposition).
+  \item \textbf{Profile completeness / verification rate:} percentage of sign-ups that complete
+  college email verification and a full skill profile.
+  \item \textbf{GitHub linkage rate:} percentage of profiles with a linked GitHub repository,
+  used as a proxy for verified technical activity.
+  \item \textbf{User clarity:} student-reported clarity of the matching and connection flow
+  using a simple 1--5 feedback question.
+  \item \textbf{Reliability:} availability of staging/production for login and profile browsing
+  during pilot hours (e.g., $\geq$ 99\% uptime).
+\end{itemize}
+
+\subsection{Pilot validation plan \textit{...high-level}}
+\begin{itemize}[leftmargin=*]
+  \item Recruit 15--25 pilot users across at least two colleges around an upcoming hackathon.
+  \item Compare metrics before/after within the iteration window by logging baseline estimates
+  via short interviews (``how did you find teammates last time?'').
+\end{itemize}
+
+\section{Timeline}
+The project will be executed over a 12-week window using weekly iterations, consistent with
+the time-to-value approach described earlier.
+
+\begin{center}
+\begin{tabular}{|p{4.3cm}|p{1.6cm}|p{6.3cm}|}
+\hline
+\textbf{Phase} & \textbf{Weeks} & \textbf{Deliverable} \\
+\hline
+Requirement analysis \& literature review & 1--2 & Finalized problem statement, SRS draft \\
+\hline
+System design (DB schema, architecture, wireframes) & 3--4 & ER diagram, architecture diagram, UI mockups \\
+\hline
+Backend development (auth, profiles, listings) & 5--7 & Working REST APIs, DB integration \\
+\hline
+Frontend development & 6--8 & Responsive web app connected to backend \\
+\hline
+Matching engine \& team workspace & 8--9 & Complementary-skill matching, shared team workspace \\
+\hline
+Testing (unit, integration, pilot UAT) & 10 & Test reports, bug fixes \\
+\hline
+Deployment \& documentation & 11 & Hosted demo, final report \\
+\hline
+Buffer, presentation \& submission & 12 & Final proposal defense / demo \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Note:} Weeks 1--7 constitute the \textbf{Initial MVP} (Profile $\rightarrow$
+Listing $\rightarrow$ Search $\rightarrow$ Connection $\rightarrow$ Chat). Weeks 8--9 begin
+\textbf{Iteration 2} (Matching Engine $\rightarrow$ Team Workspace $\rightarrow$ Analytics), as
+detailed in the Project Scope and Deliverables section.
+
+\section{Expected Outcomes}
+\begin{itemize}[leftmargin=*]
+  \item A working prototype demonstrating end-to-end team formation across at least two
+  colleges.
+  \item A validated complementary-skill matching engine with measurable time-to-first-match on
+  pilot data.
+  \item A measurable cross-college match rate demonstrating the platform's ability to facilitate
+  inter-college collaboration.
+  \item A reusable, documented codebase (GitHub repository: \texttt{campus-sync}) that can be
+  extended beyond the course submission.
+  \item A basis for a potential real-world pilot around an upcoming inter-college hackathon.
+\end{itemize}
+
+\section{Scalability \textit{...with foresight}}
+The proposition should scale in both theoretical and practical senses.
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Scalable (theoretically):} The system should support growth in number of
+  colleges, users, and listings by:
+  \begin{itemize}
+    \item decoupling components (frontend/backend),
+    \item enabling pagination and indexing for common queries (search by skill, college, status),
+    \item using stateless API design.
+  \end{itemize}
+  \item \textbf{Operationally deployable (practically):} The system should run on common web
+  hosting:
+  \begin{itemize}
+    \item managed database,
+    \item platform-hosted or containerized deployment,
+    \item CI/CD pipeline for staging/production, so onboarding a new college is a
+    configuration change, not a re-architecture.
+  \end{itemize}
+\end{enumerate}
+
+\section{Engine availability heuristic}
+A mature set of ``engines'' (tooling/services) is available to implement this as a web-based
+project:
+\begin{itemize}[leftmargin=*]
+  \item Web framework for REST APIs and reactive pages.
+  \item Managed document database.
+  \item Authentication approach (token-based, with email-domain verification and optional OAuth).
+  \item Real-time messaging library for in-app chat.
+  \item Test framework for unit/integration tests.
+  \item CI runner and staging deployment target.
+\end{itemize}
+We will use these mature components to focus on workflow design, verification, matching
+correctness, and measurement rather than inventing new infrastructure.
+
+\section{Project scope and deliverables \textit{...iteration-friendly}}
+\subsection{Initial deliverable \textit{...first iteration}}
+\begin{itemize}[leftmargin=*]
+  \item College-email verified sign-up and structured skill profile
+  \item Listing creation: post a ``looking for teammates'' requirement
+  \item Basic browse/search of listings and profiles
+  \item Connection request + in-app chat once accepted
+  \item Basic logging and timestamps for TTM measurement
+  \item CI: build + backend unit tests + linting
+  \item CD to staging with a single command or pipeline job
+\end{itemize}
+
+\subsection{Subsequent deliverables}
+\begin{itemize}[leftmargin=*]
+  \item Complementary-skill matching engine with ranked recommendations
+  \item Team workspace with task allocation and status tracking
+  \item Admin dashboard for pilot metrics (TTM, conversion rate, cross-college rate)
+  \item Improved search/filtering and indexed queries for scale readiness
+\end{itemize}
+
+\section{Risks and mitigations}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Cold start (too few users to match):} run the pilot around a scheduled hackathon
+  so demand and supply of teammates arrive at the same time; seed listings manually if needed.
+  \item \textbf{Identity / trust:} restrict sign-up to verified college email domains; keep
+  match decisions user-initiated, never automatic.
+  \item \textbf{Cross-college onboarding friction:} start with two colleges rather than an open
+  rollout, to keep verification and support manageable.
+  \item \textbf{Evaluation measurement ambiguity:} instrument timestamps and define clear
+  listing/match/connection states before development begins.
+  \item \textbf{Operational issues in pilot:} use staging early; ensure CI/CD produces
+  repeatable deployments.
+\end{itemize}
+
+\section{Summary}
+This project proposes a deployable web platform, CampusSync, to reduce the friction students
+face when finding teammates for hackathons and projects outside their own college. It meets the
+course criteria by emphasizing time-to-value through rapid iterations, implementing CI/CD to
+support frequent safe releases, and using measurable evaluation criteria (especially
+time-to-first-match and cross-college match rate). It remains focused on engineering workflow,
+verification, and scalability readiness rather than research-driven novelty.
+
+\section{References}
+\begin{enumerate}[leftmargin=*]
+  \item P. Resnick and H. R. Varian, ``Recommender systems,'' \textit{Communications of the
+  ACM}, vol. 40, no. 3, pp. 56--58, 1997.
+  \item L. N. Lee and A. B. Lee, ``Automated team formation in collaborative learning
+  environments: A skill-based approach,'' \textit{Journal of Educational Technology \& Society},
+  vol. 22, no. 1, pp. 1--12, 2019.
+  \item F. Ricci, L. Rokach, and B. Shapira, \textit{Recommender Systems Handbook}, 2nd ed.
+  Springer, 2015.
+  \item C. Ren, Y. Wang, and X. Li, ``A survey on online collaboration platforms for
+  distributed teams,'' in \textit{Proceedings of the ACM Conference on Computer-Supported
+  Cooperative Work}, 2020.
+  \item I. Sommerville, \textit{Software Engineering}, 10th ed. Pearson Education, 2016.
+\end{enumerate}
+
+\end{document}
