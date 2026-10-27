@@ -100,12 +100,14 @@ All 9 formal Software Engineering UML & modeling diagrams are compiled as vector
 
 ## 📅 Project Roadmap & Downloads
 
-* [**Project Proposal PDF**](downloads/CampusSync_Proposal.pdf) — LaTeX research proposal submitted to Prof. Asif.
-* [**Mid-Semester Report DOCX**](downloads/TeamSync_MidSem_Report.docx) — Formal evaluation report.
-* [**Defense Presentation Slides**](downloads/TeamSync_MidSem_Presentation.pdf) — Mid-semester review slide deck.
-* [**Gantt Chart & WBS Schedule**](downloads/Gantt_Chart.pdf) & [Excel Sheet](downloads/TeamSync_Gantt_Chart.xlsx) — 12-week sprint schedule.
+* [**TeamSync Project Document (PDF)**](<TeamSync .pdf>) — Complete compiled project document.
+* [**Presentation Slide Deck (PPTX)**](TeamSync.pptx) — TeamSync presentation slides.
+* [**Gantt Chart & WBS Schedule (PDF)**](Gantt-Chart-.pdf) & [Excel Sheet](<TeamSync_Gantt_Chart (1).xlsx>) — 12-week sprint schedule.
+* [**Project Proposal PDF**](../project-proposal/CampusSync_Proposal.pdf) — LaTeX research proposal submitted to Prof. Asif.
+* [**Mid-Semester Report DOCX**](../project-report-prototype-stage/TeamSync_MidSem_Report.docx) — Formal evaluation report.
+* [**Defense Presentation Slides (PDF)**](<../project-report-prototype-stage/TeamSync_MidSem_Presentation (1).pdf>) — Mid-semester review slide deck.
 * **Weekly Student Reflective Journals:**
-  * [Aadita Garg Journal](downloads/Aadita_Garg_Journal.pdf)
-  * [Ridhima Goel Journal](downloads/Ridhima_Goel_Journal.pdf)
-  * [Vedika Gupta Journal](downloads/Vedika_Gupta_Journal.pdf)
+  * [Aadita Garg Journal](../journals/Aadita_Garg_1024030461_Journal.pdf)
+  * [Ridhima Goel Journal](<../journals/Ridhima_Goel_1024030466_Journal__1___1_.pdf>)
+  * [Vedika Gupta Journal](../journals/Vedika_Gupta_1024030437_Journal.pdf)
 
