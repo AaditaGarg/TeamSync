@@ -66,12 +66,13 @@ code/
 docs/
 ├── Diagrams/               # 9 Formal UML Diagrams (Activity, Sequence, Class, DFD, ER, etc.)
 ├── Gantt-Chart-.pdf        # 12-Week Gantt chart schedule
+├── TeamSync_Gantt_Chart (1).xlsx # Gantt chart spreadsheet
 ├── TeamSync.pptx           # Presentation slide deck
-├── index.html              # Project documentation showcase site (GitHub Pages)
 └── index.md                # Comprehensive academic Markdown specification
 journals/                   # Weekly reflective student engineering journals
 project-proposal/           # LaTeX proposal source and compiled PDF submitted to Prof. Asif
 project-report-prototype-stage/ # Mid-semester presentation deck and progress report
+site/                       # GitHub Pages project documentation site (index.html)
 ```
 
 ## Run locally
