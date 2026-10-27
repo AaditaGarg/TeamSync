@@ -101,14 +101,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 The frontend includes a built-in mock telemetry store (`src/data/mockData.js`). This allows immediate, full interactive testing of the Team Workspace, Project Listings, Kanban Task Board, and Notifications without requiring local MongoDB setup.
 
-## Demo accounts & student profiles
-
-| Profile Role | Student Name | Institutional Email | Assigned Focus |
-| :--- | :--- | :--- | :--- |
-| **Frontend Lead** | Aadita Garg | `agarg9_be24@thapar.edu` | React 19 Client Dashboard & UI/UX |
-| **Backend Systems** | Ridhima Goel | `Rgoel_be24@thapar.edu` | Heuristic Matching Algorithm & REST APIs |
-| **Database & QA** | Vedika Gupta | `vgupta9_be24@thapar.edu` | MongoDB Schema, UML Diagrams & Testing |
-
 ## Demo flow
 
 1. **Overview Dashboard:** Explore the system overview, active hackathon builds, and real-time pilot metrics.
