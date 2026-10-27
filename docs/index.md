@@ -2,7 +2,7 @@
 
 *Verified skill-based teammate matching & collaboration workspace · UCS503P Software Engineering*
 
-[Repository](https://github.com/AaditaGarg/TeamSync) · [Documentation Website](https://AaditaGarg.github.io/TeamSync/)
+[Repository](https://github.com/AaditaGarg/TeamSync)
 
 ---
 
@@ -108,3 +108,4 @@ All 9 formal Software Engineering UML & modeling diagrams are compiled as vector
   * [Aadita Garg Journal](downloads/Aadita_Garg_Journal.pdf)
   * [Ridhima Goel Journal](downloads/Ridhima_Goel_Journal.pdf)
   * [Vedika Gupta Journal](downloads/Vedika_Gupta_Journal.pdf)
+

@@ -3,8 +3,6 @@
 > **Cross-College Collaboration Platform for Hackathon Team Formation and Verified Skill-Based Matching**  
 > *Course Project for UCS503P (Software Engineering) · Thapar Institute of Engineering and Technology*
 
-🌐 **Live Documentation Website:** [https://AaditaGarg.github.io/TeamSync/](https://AaditaGarg.github.io/TeamSync/)
-
 ---
 
 ## 👥 Academic Profile
@@ -39,8 +37,8 @@
 
 ## 🚀 Quick Links & Deliverables
 
-* 🌐 **[Live Documentation Portal](https://AaditaGarg.github.io/TeamSync/)**
 * 📄 **[Project Proposal (PDF)](docs/downloads/CampusSync_Proposal.pdf)**
 * 📊 **[Mid-Semester Report (DOCX)](docs/downloads/TeamSync_MidSem_Report.docx)**
 * 📐 **[All 9 UML Diagrams](docs/Diagrams/)**
 * 📅 **[Gantt Chart (PDF)](docs/downloads/Gantt_Chart.pdf)** & **[Excel Sheet](docs/downloads/TeamSync_Gantt_Chart.xlsx)**
+
