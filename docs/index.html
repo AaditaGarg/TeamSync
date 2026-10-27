@@ -1,18 +1,2915 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/TeamSync/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CampusSync — Team Workspace</title>
-    <meta name="description" content="CampusSync team workspace: track teams, projects, tasks and deadlines across your hackathon build." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/TeamSync/assets/index-RADge-0s.js"></script>
-    <link rel="stylesheet" crossorigin href="/TeamSync/assets/index-BixATJJS.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeamSync — Academic Project Documentation | UCS503P</title>
+  <meta name="description" content="CampusSync / TeamSync: A Cross-College Collaboration Platform for Hackathon Team Formation and Verified Skill-Based Matching. UCS503P Software Engineering Documentation." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+            accent: {
+              purple: '#8b5cf6',
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+            },
+            dark: {
+              bg: '#090D16',
+              surface: '#0F172A',
+              card: '#131D33',
+              border: '#1E293B',
+              hover: '#1E2942',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Mermaid.js for Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <!-- KaTeX for Math Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Ambient Glow Effects */
+    .glow-purple {
+      background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15), transparent 70%);
+    }
+    .glow-cyan {
+      background: radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.12), transparent 70%);
+    }
+    .glow-indigo {
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15), transparent 70%);
+    }
+
+    /* Glassmorphism */
+    .glass-panel {
+      background: rgba(19, 29, 51, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .light .glass-panel {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* Subtle grid pattern */
+    .bg-grid {
+      background-size: 32px 32px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    .light .bg-grid {
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    }
+
+    /* Reading Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+      z-index: 100;
+      transition: width 0.1s ease;
+    }
+  </style>
+</head>
+<body class="bg-dark-bg text-slate-200 antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+  
+  <!-- Progress Bar -->
+  <div id="progress-bar" style="width: 0%;"></div>
+
+  <!-- Top Institutional Bar -->
+  <div class="border-b border-dark-border bg-slate-900/90 backdrop-blur-md px-4 py-2 text-xs font-mono text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300 font-semibold">UCS503P — Software Engineering Practicum</span>
+        <span class="text-slate-600">|</span>
+        <span>Thapar Institute of Engineering & Technology, Patiala</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <span>Evaluator: <strong class="text-slate-200">Prof. Asif</strong></span>
+        <span class="hidden sm:inline text-slate-600">|</span>
+        <span class="hidden sm:inline">Group: <strong class="text-brand-400">3C32</strong> (CSED)</span>
+        <span class="hidden md:inline text-slate-600">|</span>
+        <span class="hidden md:inline bg-brand-900/40 text-brand-300 px-2 py-0.5 rounded text-[11px] border border-brand-700/50">Mid-Sem Prototype Passed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-40 border-b border-dark-border bg-dark-bg/85 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-accent-purple to-accent-cyan p-0.5 shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-dark-surface rounded-[10px] flex items-center justify-center font-bold text-white text-lg tracking-wider">
+            TS
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-tight text-white group-hover:text-brand-300 transition-colors">TeamSync</span>
+            <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20 font-bold">Docs</span>
+          </div>
+          <span class="text-[11px] text-slate-400 block -mt-1 font-mono">CampusSync Collaboration Platform</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-300">
+        <a href="#executive-overview" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Overview</a>
+        <a href="#team" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Team</a>
+        <a href="#srs" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">SRS Specs</a>
+        <a href="#architecture" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Architecture</a>
+        <a href="#diagrams" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors flex items-center gap-1">
+          <span>UML Diagrams</span>
+          <span class="bg-brand-500/20 text-brand-300 text-[10px] px-1 rounded-full font-mono">9</span>
+        </a>
+        <a href="#matching-engine" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Match Engine</a>
+        <a href="#timeline" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Gantt</a>
+        <a href="#testing" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">QA & Metrics</a>
+        <a href="#prototype" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Prototype</a>
+        <a href="#downloads" class="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors text-accent-cyan">Downloads</a>
+      </nav>
+
+      <!-- Action Utilities -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Command Search Button -->
+        <button onclick="toggleCommandPalette()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-slate-400 bg-slate-900 border border-dark-border rounded-lg hover:border-slate-700 hover:text-slate-200 transition-colors">
+          <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          <span>Search docs...</span>
+          <kbd class="font-mono text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400 border border-slate-700">⌘K</kbd>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/70 border border-dark-border transition-colors" title="Toggle theme">
+          <i data-lucide="moon" id="theme-icon" class="w-4 h-4"></i>
+        </button>
+
+        <!-- GitHub Repository Button -->
+        <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span>Repository</span>
+        </a>
+
+        <!-- Live Demo / Prototype Modal Trigger -->
+        <button onclick="openPrototypeModal()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-brand-600 to-accent-purple hover:from-brand-500 hover:to-accent-purple/90 text-white shadow-lg shadow-brand-500/25 transition-all">
+          <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+          <span>Live Demo</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 border border-dark-border">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden border-b border-dark-border bg-dark-surface px-4 py-3 space-y-1">
+      <a href="#executive-overview" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Executive Overview</a>
+      <a href="#team" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Team Governance</a>
+      <a href="#srs" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Software Requirements (SRS)</a>
+      <a href="#architecture" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Architecture & Tech Stack</a>
+      <a href="#diagrams" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800 flex justify-between">
+        <span>UML Diagrams</span>
+        <span class="bg-brand-500/30 text-brand-300 text-xs px-2 py-0.5 rounded-full font-mono">9 Available</span>
+      </a>
+      <a href="#matching-engine" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Matching Engine Heuristic</a>
+      <a href="#timeline" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Gantt Chart & SDLC</a>
+      <a href="#testing" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Testing & Pilot Metrics</a>
+      <a href="#prototype" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm hover:bg-slate-800">Prototype Walkthrough</a>
+      <a href="#downloads" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-sm text-accent-cyan hover:bg-slate-800">Downloads Center</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden pt-12 pb-20 border-b border-dark-border bg-grid">
+    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[350px] glow-indigo blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-32 w-[400px] h-[400px] glow-purple blur-3xl pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Badges -->
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>UCS503P Capstone Project</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>Institutional Verification (@thapar.edu)</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+          <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
+          <span>GitHub Activity Verified</span>
+        </span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.12]">
+        Break Campus Silos. <br/>
+        <span class="bg-gradient-to-r from-brand-400 via-accent-purple to-accent-cyan bg-clip-text text-transparent">
+          Form Elite Hackathon Teams
+        </span> Across Colleges.
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl leading-relaxed font-normal">
+        <strong>CampusSync (TeamSync)</strong> is a verified, cross-institutional matchmaking platform engineered to eliminate team formation friction. By pairing student institutional credentials with verifiable GitHub activity and a weighted-overlap heuristic matching algorithm, students discover high-synergy teammates tailored to specific 48-hour build requirements.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#executive-overview" class="px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm shadow-lg shadow-brand-600/30 flex items-center gap-2 transition-all hover:translate-y-[-1px]">
+          <span>Explore Architecture & Specs</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#matching-engine" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border font-semibold text-sm flex items-center gap-2 transition-colors">
+          <i data-lucide="cpu" class="w-4 h-4 text-accent-cyan"></i>
+          <span>Interactive Match Simulator</span>
+        </a>
+        <a href="#downloads" class="px-5 py-3 rounded-xl bg-dark-surface hover:bg-slate-800 text-slate-300 border border-dark-border font-medium text-sm flex items-center gap-2 transition-colors">
+          <i data-lucide="download" class="w-4 h-4 text-emerald-400"></i>
+          <span>Download Reports & Proposal</span>
+        </a>
+      </div>
+
+      <!-- Metric Cards Grid -->
+      <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">Target TTM</span>
+          <span class="text-2xl font-bold text-brand-400 font-mono">≤ 24h</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">Time-to-first-match</span>
+        </div>
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">Verification</span>
+          <span class="text-2xl font-bold text-emerald-400 font-mono">100%</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">College domain auth</span>
+        </div>
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">Architecture</span>
+          <span class="text-2xl font-bold text-accent-cyan font-mono">3-Tier</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">Stateless REST + Atlas</span>
+        </div>
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">SE Diagrams</span>
+          <span class="text-2xl font-bold text-accent-purple font-mono">9 UML</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">Structural & behavioral</span>
+        </div>
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">Pilot Target</span>
+          <span class="text-2xl font-bold text-amber-400 font-mono">25+</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">Students (2 Colleges)</span>
+        </div>
+        <div class="glass-panel p-4 rounded-xl border border-dark-border">
+          <span class="text-xs font-mono text-slate-400 block mb-1">Sprint Cadence</span>
+          <span class="text-2xl font-bold text-rose-400 font-mono">12 Wk</span>
+          <span class="text-[11px] text-slate-400 block mt-0.5">Agile Scrum delivery</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Quick Jump Sub-bar -->
+  <div class="sticky top-16 z-30 bg-slate-900/95 border-b border-dark-border backdrop-blur-md hidden md:block">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-6 overflow-x-auto py-2.5 text-xs font-mono text-slate-400 no-scrollbar">
+        <span class="text-slate-500 uppercase tracking-widest text-[10px]">Jump To:</span>
+        <a href="#executive-overview" class="hover:text-brand-300 transition-colors">1. Executive Overview</a>
+        <a href="#team" class="hover:text-brand-300 transition-colors">2. Team Governance</a>
+        <a href="#srs" class="hover:text-brand-300 transition-colors">3. SRS Specification</a>
+        <a href="#architecture" class="hover:text-brand-300 transition-colors">4. System Architecture</a>
+        <a href="#diagrams" class="hover:text-brand-300 transition-colors">5. UML Diagrams (9)</a>
+        <a href="#matching-engine" class="hover:text-brand-300 transition-colors">6. Matching Algorithm</a>
+        <a href="#timeline" class="hover:text-brand-300 transition-colors">7. Gantt & SDLC</a>
+        <a href="#risks" class="hover:text-brand-300 transition-colors">8. Risk Matrix</a>
+        <a href="#testing" class="hover:text-brand-300 transition-colors">9. Testing & QA</a>
+        <a href="#prototype" class="hover:text-brand-300 transition-colors">10. Prototype Walkthrough</a>
+        <a href="#downloads" class="hover:text-brand-300 transition-colors">11. Downloads Center</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+    <!-- 1. Executive Overview Section -->
+    <section id="executive-overview" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="layers" class="w-4 h-4"></i>
+        <span>Section 01 // Project Foundation</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Executive Overview & Problem Formulation</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Academic problem statement, higher-order vision, user personas, and comparative value proposition formulated for UCS503P at Thapar Institute of Engineering and Technology.
+      </p>
+
+      <!-- Problem vs Solution 2-Column Grid -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Problem Card -->
+        <div class="glass-panel p-6 rounded-2xl border border-rose-500/20 bg-rose-950/10">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i>
+              <span>The Industry & Campus Pain Point</span>
+            </span>
+            <span class="text-xs font-mono text-rose-400">Status Quo Deficiencies</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Why Hackathon Team Formation Fails Today</h3>
+          <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            Hackathons and multidisciplinary technical builds require diverse complementary skill sets (e.g., deep learning + mobile frontends + smart contracts) that a single college department rarely provides. Current student collaboration suffers from 4 fundamental bottlenecks:
+          </p>
+          <ul class="space-y-3 text-xs text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Extreme Fragmentation:</strong> Teammate discovery is scattered across unsearchable WhatsApp chats, batch Discord servers, and informal personal networks.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Zero Cross-College Visibility:</strong> A Thapar ML engineer who needs a Flutter UI developer has zero mechanism to discover a talented developer at DTU or PEC searching for that exact project.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Trust & Verification Deficit:</strong> Open forums and social posts cannot verify actual student standing, leading to unresponsive teammates, ghosting, or falsified technical skills.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Poor Skill Complementarity:</strong> Keyword matching pairs people with identical stacks (two Python backend devs) rather than complementary pairs (Frontend + Backend).</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Solution Card -->
+        <div class="glass-panel p-6 rounded-2xl border border-emerald-500/20 bg-emerald-950/10">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span>The TeamSync Solution</span>
+            </span>
+            <span class="text-xs font-mono text-emerald-400">Engineering Proposition</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Structured, Verifiable, Complementary Matching</h3>
+          <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            TeamSync translates skill-based teammate discovery into a deployable, 3-tier web platform tailored specifically to time-boxed hackathon sprints:
+          </p>
+          <ul class="space-y-3 text-xs text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">College Email Verification:</strong> Sign-ups are strictly gated behind verified institutional domains (`@thapar.edu`), guaranteeing student authenticity.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">GitHub Proof of Work:</strong> Integrated GitHub API signals display verified commit frequency, top languages, and active repositories.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Heuristic Scoring Engine:</strong> Ranks candidates via complementary skill overlap, domain interest alignment, and availability window without black-box opacity.</div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+              <div><strong class="text-white">Integrated Team Workspace:</strong> In-app connection handshake, encrypted coordination chat, and Kanban task allocation for the duration of the hackathon.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Comparative Value Matrix -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border overflow-x-auto">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-mono mb-4">Comparative Paradigm Matrix: Traditional vs. TeamSync</h3>
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-dark-border text-slate-400 font-mono">
+              <th class="py-3 px-4">Evaluation Dimension</th>
+              <th class="py-3 px-4 text-rose-400">Informal Channels (WhatsApp / Discord)</th>
+              <th class="py-3 px-4 text-amber-400">Generic Platforms (LinkedIn / Devpost)</th>
+              <th class="py-3 px-4 text-emerald-400">TeamSync Platform</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-border text-slate-300">
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Institutional Authentication</td>
+              <td class="py-3 px-4 text-slate-400">None (Anonymous phone / handles)</td>
+              <td class="py-3 px-4 text-slate-400">Self-reported without student gating</td>
+              <td class="py-3 px-4 text-emerald-300 font-medium">Strict college domain validation (@thapar.edu)</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Cross-College Discoverability</td>
+              <td class="py-3 px-4 text-slate-400">Siloed to intra-college group links</td>
+              <td class="py-3 px-4 text-slate-400">Global noise, not hackathon-specific</td>
+              <td class="py-3 px-4 text-emerald-300 font-medium">Multi-institution indexed directory</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Teammate Matching Strategy</td>
+              <td class="py-3 px-4 text-slate-400">Manual text scrolling & spamming</td>
+              <td class="py-3 px-4 text-slate-400">Keyword searching or job board style</td>
+              <td class="py-3 px-4 text-emerald-300 font-medium">Complementary weighted overlap algorithm</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Technical Proof-of-Work</td>
+              <td class="py-3 px-4 text-slate-400">Zero signal / unverified claims</td>
+              <td class="py-3 px-4 text-slate-400">Resume bullets without verification</td>
+              <td class="py-3 px-4 text-emerald-300 font-medium">Live GitHub repo & commit metrics verification</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Post-Formation Workspace</td>
+              <td class="py-3 px-4 text-slate-400">None (switch to third-party apps)</td>
+              <td class="py-3 px-4 text-slate-400">External redirect</td>
+              <td class="py-3 px-4 text-emerald-300 font-medium">Built-in Kanban board & deadline coordinator</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Target User Personas -->
+      <div class="mt-8">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <i data-lucide="users" class="w-5 h-5 text-brand-400"></i>
+          <span>Target User Personas</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass-panel p-5 rounded-xl border border-dark-border">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center font-bold font-mono">AS</div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Aarav Sharma</h4>
+                <span class="text-[11px] text-slate-400 block">3rd Year, Computer Science (AI/ML)</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300 mb-2 leading-relaxed">
+              "I have a deep neural network prototype ready for a healthcare hackathon, but I need a frontend partner who can build an interactive React dashboard in 48 hours."
+            </p>
+            <div class="flex flex-wrap gap-1 mt-3">
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">PyTorch</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">FastAPI</span>
+              <span class="text-[10px] bg-brand-900/40 text-brand-300 px-2 py-0.5 rounded font-mono">Needs: React</span>
+            </div>
+          </div>
+
+          <div class="glass-panel p-5 rounded-xl border border-dark-border">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-full bg-accent-purple/20 text-purple-300 flex items-center justify-center font-bold font-mono">PV</div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Priya Verma</h4>
+                <span class="text-[11px] text-slate-400 block">2nd Year, Software Engineering (UI/UX)</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300 mb-2 leading-relaxed">
+              "I have strong design and Tailwind skills with verified GitHub projects, but no one in my immediate friend circle participates in cross-college hackathons."
+            </p>
+            <div class="flex flex-wrap gap-1 mt-3">
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Figma</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Tailwind CSS</span>
+              <span class="text-[10px] bg-purple-900/40 text-purple-300 px-2 py-0.5 rounded font-mono">Needs: Team Lead</span>
+            </div>
+          </div>
+
+          <div class="glass-panel p-5 rounded-xl border border-dark-border">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-full bg-accent-cyan/20 text-cyan-300 flex items-center justify-center font-bold font-mono">RK</div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Rohan Kapoor</h4>
+                <span class="text-[11px] text-slate-400 block">4th Year, Information Tech (Fintech Lead)</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300 mb-2 leading-relaxed">
+              "We have a 3-person team formed for Smart India Hackathon. We are missing 1 teammate skilled in WebSockets and DevOps to ensure live streaming stability."
+            </p>
+            <div class="flex flex-wrap gap-1 mt-3">
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Docker</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">MongoDB</span>
+              <span class="text-[10px] bg-cyan-900/40 text-cyan-300 px-2 py-0.5 rounded font-mono">Needs: DevOps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Team Governance & Roles Section -->
+    <section id="team" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="shield" class="w-4 h-4"></i>
+        <span>Section 02 // Academic Governance</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Team Structure & Responsibility Matrix</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Project execution team for UCS503P (Software Engineering) at Computer Science and Engineering Department, Thapar Institute of Engineering & Technology, Patiala.
+      </p>
+
+      <!-- Institutional Card -->
+      <div class="mt-6 p-4 rounded-xl bg-slate-900/80 border border-dark-border flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-mono text-slate-400">Institutional Supervision</span>
+          <h4 class="text-base font-bold text-white">Prof. Asif</h4>
+          <span class="text-xs text-slate-400">Faculty Supervisor & Evaluator | Computer Science & Engineering Department</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="px-3 py-1.5 rounded-lg bg-dark-surface border border-dark-border text-xs">
+            <span class="text-slate-400 font-mono block text-[10px]">Course Code</span>
+            <span class="text-white font-bold">UCS503P</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-dark-surface border border-dark-border text-xs">
+            <span class="text-slate-400 font-mono block text-[10px]">Academic Group</span>
+            <span class="text-brand-400 font-bold">Group 3C32</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-dark-surface border border-dark-border text-xs">
+            <span class="text-slate-400 font-mono block text-[10px]">Academic Year</span>
+            <span class="text-slate-200 font-bold">2026 – 2027</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Members Grid -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Aadita Garg -->
+        <div class="glass-panel p-6 rounded-2xl border border-brand-500/30 relative overflow-hidden group hover:border-brand-500 transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 glow-indigo blur-xl"></div>
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-accent-purple p-0.5 shadow-md">
+              <div class="w-full h-full bg-dark-surface rounded-[14px] flex items-center justify-center font-bold text-white text-xl">
+                AG
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">Aadita Garg</h3>
+              <span class="text-xs font-mono text-brand-400 block">Roll No: 1024030461</span>
+              <span class="text-[11px] text-slate-400 font-mono">agarg9_be24@thapar.edu</span>
+            </div>
+          </div>
+          
+          <div class="space-y-3 text-xs">
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Core Modules</span>
+              <div class="flex flex-wrap gap-1">
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Frontend Architecture</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">React 19 Dashboard</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">UI/UX Design</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Team Presentation</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Assigned Deliverables</span>
+              <p class="text-slate-300 leading-relaxed">
+                Led frontend client engineering with Vite + React 19, modular state views (Overview, Teams, Tasks, Notifications), mid-term defense slides, and project repository governance.
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-dark-border flex items-center justify-between">
+              <a href="downloads/Aadita_Garg_Journal.pdf" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-brand-400 hover:text-brand-300 font-medium">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Student Journal</span>
+              </a>
+              <a href="https://github.com/AaditaGarg" target="_blank" class="text-slate-400 hover:text-white">
+                <i data-lucide="github" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ridhima Goel -->
+        <div class="glass-panel p-6 rounded-2xl border border-accent-purple/30 relative overflow-hidden group hover:border-accent-purple transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 glow-purple blur-xl"></div>
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-accent-purple to-accent-cyan p-0.5 shadow-md">
+              <div class="w-full h-full bg-dark-surface rounded-[14px] flex items-center justify-center font-bold text-white text-xl">
+                RG
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">Ridhima Goel</h3>
+              <span class="text-xs font-mono text-accent-purple block">Roll No: 1024030466</span>
+              <span class="text-[11px] text-slate-400 font-mono">Rgoel_be24@thapar.edu</span>
+            </div>
+          </div>
+          
+          <div class="space-y-3 text-xs">
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Core Modules</span>
+              <div class="flex flex-wrap gap-1">
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Matching Heuristic</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">REST API Gateway</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Research Proposal</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">LaTeX Formulation</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Assigned Deliverables</span>
+              <p class="text-slate-300 leading-relaxed">
+                Authored complete UCS503P Project Proposal in LaTeX, engineered mathematical formulation for complementary skill-overlap scoring, and designed RESTful API contracts.
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-dark-border flex items-center justify-between">
+              <a href="downloads/Ridhima_Goel_Journal.pdf" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-accent-purple hover:text-purple-300 font-medium">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Student Journal</span>
+              </a>
+              <span class="text-[11px] font-mono text-slate-500">BE 3rd Year CSED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vedika Gupta -->
+        <div class="glass-panel p-6 rounded-2xl border border-accent-cyan/30 relative overflow-hidden group hover:border-accent-cyan transition-all">
+          <div class="absolute top-0 right-0 w-24 h-24 glow-cyan blur-xl"></div>
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-accent-cyan to-emerald-500 p-0.5 shadow-md">
+              <div class="w-full h-full bg-dark-surface rounded-[14px] flex items-center justify-center font-bold text-white text-xl">
+                VG
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">Vedika Gupta</h3>
+              <span class="text-xs font-mono text-accent-cyan block">Roll No: 1024030437</span>
+              <span class="text-[11px] text-slate-400 font-mono">vgupta9_be24@thapar.edu</span>
+            </div>
+          </div>
+          
+          <div class="space-y-3 text-xs">
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Core Modules</span>
+              <div class="flex flex-wrap gap-1">
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Database Modeling</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">UML Diagrams (9)</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">Gantt Chart (WBS)</span>
+                <span class="bg-slate-800 text-slate-200 px-2 py-0.5 rounded">QA & Pilot Testing</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1">Assigned Deliverables</span>
+              <p class="text-slate-300 leading-relaxed">
+                Modeled 3-tier ER data schemas, drafted all 9 formal UML software engineering diagrams (Activity, Sequence, Class, DFD, etc.), created 12-week Gantt schedule and testing test cases.
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-dark-border flex items-center justify-between">
+              <a href="downloads/Vedika_Gupta_Journal.pdf" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-accent-cyan hover:text-cyan-300 font-medium">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Student Journal</span>
+              </a>
+              <span class="text-[11px] font-mono text-slate-500">BE 3rd Year CSED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Software Requirements Specification (SRS) -->
+    <section id="srs" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="file-code-2" class="w-4 h-4"></i>
+        <span>Section 03 // Requirements Engineering</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Software Requirements Specification (SRS)</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        IEEE-standard functional & non-functional requirements categorized by MoSCoW prioritization, implementation verification criteria, and system constraints.
+      </p>
+
+      <!-- SRS Filter Controls -->
+      <div class="mt-8 flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-3 rounded-xl border border-dark-border">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-mono text-slate-400">Filter By:</span>
+          <button onclick="filterSRS('all')" id="srs-btn-all" class="px-3 py-1 rounded-lg text-xs font-semibold bg-brand-600 text-white transition-colors">All (14)</button>
+          <button onclick="filterSRS('functional')" id="srs-btn-functional" class="px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Functional (8)</button>
+          <button onclick="filterSRS('non-functional')" id="srs-btn-non-functional" class="px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Non-Functional (6)</button>
+          <button onclick="filterSRS('p0')" id="srs-btn-p0" class="px-3 py-1 rounded-lg text-xs font-medium text-rose-300 hover:bg-slate-800 transition-colors">P0 Critical</button>
+        </div>
+        <div class="text-xs font-mono text-slate-400 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Iteration 1 & 2 Coverage</span>
+        </div>
+      </div>
+
+      <!-- Requirements Table -->
+      <div class="mt-4 glass-panel rounded-2xl border border-dark-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-dark-border bg-slate-900/80 text-slate-400 font-mono">
+                <th class="py-3 px-4">Req ID</th>
+                <th class="py-3 px-4">Type</th>
+                <th class="py-3 px-4">Module Name</th>
+                <th class="py-3 px-4">Requirement Specification</th>
+                <th class="py-3 px-4">Priority</th>
+                <th class="py-3 px-4">Verification Method</th>
+                <th class="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="srs-tbody" class="divide-y divide-dark-border text-slate-300">
+              
+              <!-- FR-01 -->
+              <tr class="srs-row srs-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-01</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Identity & Domain Auth</td>
+                <td class="py-3 px-4">The platform shall restrict student registration to verified college email domains (`@thapar.edu`) using one-time token authorization.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Regex domain verification test</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- FR-02 -->
+              <tr class="srs-row srs-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-02</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">GitHub Proof-of-Work</td>
+                <td class="py-3 px-4">The system shall allow users to bind an active GitHub profile, surfacing public repos, primary languages, and star activity as verifiable signals.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">GitHub REST v3 API callback test</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- FR-03 -->
+              <tr class="srs-row srs-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-03</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Project / Team Listings</td>
+                <td class="py-3 px-4">Students and team captains shall create requirement listings specifying hackathon title, open slots, required skill tags, and commitment window.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">CRUD API integration test</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- FR-04 -->
+              <tr class="srs-row srs-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-04</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Complementary Matching</td>
+                <td class="py-3 px-4">The engine shall calculate weighted-overlap match scores between listing requirements and candidate profiles, returning a ranked recommendation leaderboard.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Mathematical unit test vectors</td>
+                <td class="py-3 px-4"><span class="text-brand-400 font-semibold flex items-center gap-1"><i data-lucide="loader" class="w-3 h-3 animate-spin"></i> Active Iter 2</span></td>
+              </tr>
+
+              <!-- FR-05 -->
+              <tr class="srs-row srs-functional srs-p1 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-05</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Connection Handshake</td>
+                <td class="py-3 px-4">Users shall send and receive two-way connection requests. Both parties must mutually accept before communication channels unlock.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">P1 (Should)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">State-transition acceptance test</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- FR-06 -->
+              <tr class="srs-row srs-functional srs-p1 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-06</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">In-App Direct Messaging</td>
+                <td class="py-3 px-4">Connected teammates shall communicate via in-app chat to coordinate team formation without exposing private phone numbers or external accounts.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">P1 (Should)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">WebSocket message latency test</td>
+                <td class="py-3 px-4"><span class="text-brand-400 font-semibold flex items-center gap-1"><i data-lucide="loader" class="w-3 h-3 animate-spin"></i> Active Iter 2</span></td>
+              </tr>
+
+              <!-- FR-07 -->
+              <tr class="srs-row srs-functional srs-p1 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-07</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Team Workspace & Kanban</td>
+                <td class="py-3 px-4">Once confirmed, teammates access a shared workspace containing a task board (Todo / In Progress / Done) with assignee and deadline tracking.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">P1 (Should)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">UI component integration test</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- FR-08 -->
+              <tr class="srs-row srs-functional srs-p2 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-brand-300">FR-08</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-700/50">Functional</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Pilot TTM Instrumentation</td>
+                <td class="py-3 px-4">The platform shall log timestamps at listing creation and first qualifying match generation to compute median Time-to-First-Match (TTM).</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-mono font-bold">P2 (Could)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Database query audit test</td>
+                <td class="py-3 px-4"><span class="text-slate-400 font-semibold">Planned Week 10</span></td>
+              </tr>
+
+              <!-- NFR-01 -->
+              <tr class="srs-row srs-non-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-01</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">API Response Latency</td>
+                <td class="py-3 px-4">All REST API endpoints shall respond in less than 200ms under standard pilot load of 50 concurrent active users.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Load testing via Autocannon</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> 94ms avg</span></td>
+              </tr>
+
+              <!-- NFR-02 -->
+              <tr class="srs-row srs-non-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-02</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Availability & Uptime</td>
+                <td class="py-3 px-4">The platform shall maintain ≥ 99.0% uptime throughout the scheduled 48-hour pilot hackathon sprint window.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Uptime monitor healthcheck</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Passed</span></td>
+              </tr>
+
+              <!-- NFR-03 -->
+              <tr class="srs-row srs-non-functional srs-p0 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-03</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Data Security & Privacy</td>
+                <td class="py-3 px-4">Passwords and auth tokens shall be hashed using bcrypt (12 rounds); session state maintained exclusively via cryptographically signed JWTs.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold">P0 (Must)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Security audit & penetration check</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Implemented</span></td>
+              </tr>
+
+              <!-- NFR-04 -->
+              <tr class="srs-row srs-non-functional srs-p1 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-04</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Mobile Responsiveness</td>
+                <td class="py-3 px-4">All core UI views (profiles, listings, team workspace) shall render without horizontal scroll or broken layout on viewports down to 320px.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">P1 (Should)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Lighthouse responsive check</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> 98/100</span></td>
+              </tr>
+
+              <!-- NFR-05 -->
+              <tr class="srs-row srs-non-functional srs-p1 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-05</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">Database Index Scalability</td>
+                <td class="py-3 px-4">MongoDB collections shall utilize compound indexes on `college`, `skills`, and `listingStatus` to prevent unindexed collscans.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">P1 (Should)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">Mongoose `explain()` query planner</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Indexed</span></td>
+              </tr>
+
+              <!-- NFR-06 -->
+              <tr class="srs-row srs-non-functional srs-p2 hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-mono font-bold text-accent-cyan">NFR-06</td>
+                <td class="py-3 px-4 font-mono"><span class="px-2 py-0.5 rounded bg-cyan-900/50 text-cyan-300 border border-cyan-700/50">Non-Func</span></td>
+                <td class="py-3 px-4 font-semibold text-white">CI/CD Automation Pipeline</td>
+                <td class="py-3 px-4">The codebase shall run automated linting (oxlint) and build passes on every pull request to ensure high maintainability and zero regressions.</td>
+                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-mono font-bold">P2 (Could)</span></td>
+                <td class="py-3 px-4 text-slate-400 font-mono">GitHub Actions pipeline audit</td>
+                <td class="py-3 px-4"><span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Active</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. System Architecture & Technical Stack -->
+    <section id="architecture" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>Section 04 // System Engineering</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">System Architecture & Technical Stack</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Decoupled 3-tier web architecture diagram, end-to-end data pipelines, REST API contracts, and technology stack rationales.
+      </p>
+
+      <!-- 3-Tier Architecture High-Level Design -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="network" class="w-5 h-5 text-brand-400"></i>
+            <span>High-Level 3-Tier Architecture (HLD)</span>
+          </h3>
+          <span class="text-xs font-mono text-slate-400">Client ⇄ Gateway ⇄ Persistence</span>
+        </div>
+
+        <!-- Mermaid Architecture Flow -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-dark-border overflow-x-auto text-center">
+          <div class="mermaid text-sm">
+flowchart TB
+    subgraph ClientLayer ["1. Presentation Layer (Client Tier)"]
+        Browser["Responsive Web Browser (React 19 + Tailwind)"]
+        Mobile["Mobile Web Client (PWA-Ready Viewports)"]
+        UI_Components["Views: Workspace, Listings, Kanban, Chat, Pilot Analytics"]
+    end
+
+    subgraph APILayer ["2. Application & Logic Tier (Node.js / Express Gateway)"]
+        AuthService["Auth & Domain Verifier (@thapar.edu JWT)"]
+        ListingService["Listings & Profile Manager"]
+        MatchingEngine["Heuristic Complementary Match Engine"]
+        RealtimeGateway["WebSocket / Socket.io Real-Time Broker"]
+    end
+
+    subgraph DataLayer ["3. Persistence & Cloud Tier (Data Storage)"]
+        Mongo["MongoDB Atlas (B-Tree Indexed Collections)"]
+        UsersCol[("Users & Profiles")]
+        ListingsCol[("Listings & Teams")]
+        MatchesCol[("Match History")]
+        TasksCol[("Kanban Tasks")]
+    end
+
+    subgraph ExternalServices ["4. External Ecosystem Services"]
+        GitHubAPI["GitHub REST v3 API (Proof-of-Work Verification)"]
+        MailService["SMTP Campus Email Gateway"]
+        CDN["Static Asset CDN & GitHub Pages"]
+    end
+
+    Browser -->|HTTPS / REST API| APILayer
+    Mobile -->|HTTPS / REST API| APILayer
+    Browser <-->|WSS WebSockets| RealtimeGateway
+    
+    AuthService --> Mongo
+    ListingService --> Mongo
+    MatchingEngine --> Mongo
+    RealtimeGateway --> Mongo
+
+    AuthService --> MailService
+    ListingService --> GitHubAPI
+    ClientLayer -.-> CDN
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack Component Cards -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Frontend Card -->
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 mb-3 text-brand-400">
+            <i data-lucide="layout" class="w-5 h-5"></i>
+            <h4 class="text-sm font-bold text-white">Presentation Tier</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Built with <strong>React 19</strong>, <strong>Tailwind CSS v4</strong>, and <strong>Vite 8</strong>. Provides reactive client routing, glassmorphism design tokens, Lucide iconography, and Recharts analytics visualizations.
+          </p>
+          <div class="flex flex-wrap gap-1 font-mono text-[10px]">
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">React 19.2</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Tailwind v4</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Vite 8</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Recharts</span>
+          </div>
+        </div>
+
+        <!-- Backend Card -->
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 mb-3 text-accent-purple">
+            <i data-lucide="server" class="w-5 h-5"></i>
+            <h4 class="text-sm font-bold text-white">API & Logic Tier</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Engineered on <strong>Node.js</strong> and <strong>Express.js</strong>. Implements stateless JWT authentication, heuristic score calculations, rate-limiting middleware, and clean modular REST routes.
+          </p>
+          <div class="flex flex-wrap gap-1 font-mono text-[10px]">
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Node 20 LTS</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Express 4.19</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">JWT Auth</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Bcrypt</span>
+          </div>
+        </div>
+
+        <!-- Database Card -->
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 mb-3 text-accent-cyan">
+            <i data-lucide="database" class="w-5 h-5"></i>
+            <h4 class="text-sm font-bold text-white">Data Persistence Tier</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Powered by <strong>MongoDB Atlas</strong> with Mongoose ODM schemas. Utilizes B-Tree multi-key indexes on skill arrays and compound indexes for rapid candidate filtering.
+          </p>
+          <div class="flex flex-wrap gap-1 font-mono text-[10px]">
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">MongoDB 7</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Mongoose ODM</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Atlas Cloud</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">B-Tree Indexes</span>
+          </div>
+        </div>
+
+        <!-- Real-Time & DevOps Card -->
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 mb-3 text-emerald-400">
+            <i data-lucide="git-merge" class="w-5 h-5"></i>
+            <h4 class="text-sm font-bold text-white">Realtime & DevOps</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Real-time synchronization via <strong>WebSockets</strong> for team chat and notification handshakes. Continuous integration via <strong>GitHub Actions</strong> and <strong>Oxlint</strong> code validation.
+          </p>
+          <div class="flex flex-wrap gap-1 font-mono text-[10px]">
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Socket.io</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">GitHub Actions</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Oxlint CI</span>
+            <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">GitHub Pages</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive REST API Explorer -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="terminal" class="w-5 h-5 text-accent-cyan"></i>
+            <span>Interactive REST API Specification</span>
+          </h3>
+          <span class="text-xs font-mono text-slate-400">Base URL: <code class="text-brand-300 font-bold">/api/v1</code></span>
+        </div>
+
+        <div class="space-y-3">
+          
+          <!-- Endpoint 1 -->
+          <div class="rounded-xl border border-dark-border bg-slate-900/60 overflow-hidden">
+            <button onclick="toggleAPI('api-1')" class="w-full p-3.5 flex items-center justify-between text-left hover:bg-slate-800/40 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded font-mono font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">POST</span>
+                <span class="font-mono text-sm text-white font-semibold">/api/v1/auth/register</span>
+                <span class="hidden sm:inline text-xs text-slate-400">— Register with institutional domain validation</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-mono text-slate-500">Public</span>
+                <i data-lucide="chevron-down" id="api-1-icon" class="w-4 h-4 text-slate-400 transition-transform"></i>
+              </div>
+            </button>
+            <div id="api-1" class="hidden p-4 border-t border-dark-border bg-slate-950/60 space-y-3 text-xs font-mono">
+              <div>
+                <span class="text-slate-400 block mb-1">Request Payload (JSON):</span>
+                <pre class="bg-dark-bg p-3 rounded-lg text-slate-300 overflow-x-auto border border-dark-border">{
+  "name": "Aadita Garg",
+  "email": "agarg9_be24@thapar.edu",
+  "password": "StrongPassword123!",
+  "rollNumber": "1024030461",
+  "college": "Thapar Institute of Engineering and Technology"
+}</pre>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-1">Response (201 Created):</span>
+                <pre class="bg-dark-bg p-3 rounded-lg text-emerald-400 overflow-x-auto border border-dark-border">{
+  "status": "success",
+  "message": "Verification token sent to institutional email address",
+  "userId": "usr_671b2a9f8c1e"
+}</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Endpoint 2 -->
+          <div class="rounded-xl border border-dark-border bg-slate-900/60 overflow-hidden">
+            <button onclick="toggleAPI('api-2')" class="w-full p-3.5 flex items-center justify-between text-left hover:bg-slate-800/40 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded font-mono font-bold text-xs bg-brand-500/20 text-brand-300 border border-brand-500/30">GET</span>
+                <span class="font-mono text-sm text-white font-semibold">/api/v1/listings/match/:listingId</span>
+                <span class="hidden sm:inline text-xs text-slate-400">— Execute complementary heuristic match calculation</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-mono text-amber-400">Bearer Auth</span>
+                <i data-lucide="chevron-down" id="api-2-icon" class="w-4 h-4 text-slate-400 transition-transform"></i>
+              </div>
+            </button>
+            <div id="api-2" class="hidden p-4 border-t border-dark-border bg-slate-950/60 space-y-3 text-xs font-mono">
+              <div>
+                <span class="text-slate-400 block mb-1">Query Headers:</span>
+                <pre class="bg-dark-bg p-2 rounded-lg text-slate-300 border border-dark-border">Authorization: Bearer &lt;JWT_TOKEN&gt;</pre>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-1">Response (200 OK — Ranked Candidates):</span>
+                <pre class="bg-dark-bg p-3 rounded-lg text-emerald-400 overflow-x-auto border border-dark-border">{
+  "listingId": "list_88291a",
+  "candidatesEvaluated": 42,
+  "topMatches": [
+    {
+      "candidateId": "usr_1024030466",
+      "name": "Ridhima Goel",
+      "college": "Thapar Institute",
+      "compositeScore": 0.94,
+      "breakdown": {
+        "skillOverlap": 0.95,
+        "domainInterest": 1.0,
+        "githubVerified": 0.90,
+        "availability": 0.90
+      },
+      "matchingSkills": ["Node.js", "Express", "MongoDB", "REST APIs"]
+    }
+  ]
+}</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Endpoint 3 -->
+          <div class="rounded-xl border border-dark-border bg-slate-900/60 overflow-hidden">
+            <button onclick="toggleAPI('api-3')" class="w-full p-3.5 flex items-center justify-between text-left hover:bg-slate-800/40 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded font-mono font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">POST</span>
+                <span class="font-mono text-sm text-white font-semibold">/api/v1/connections/request</span>
+                <span class="hidden sm:inline text-xs text-slate-400">— Initiate two-way teammate connection request</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-mono text-amber-400">Bearer Auth</span>
+                <i data-lucide="chevron-down" id="api-3-icon" class="w-4 h-4 text-slate-400 transition-transform"></i>
+              </div>
+            </button>
+            <div id="api-3" class="hidden p-4 border-t border-dark-border bg-slate-950/60 space-y-3 text-xs font-mono">
+              <div>
+                <span class="text-slate-400 block mb-1">Request Payload (JSON):</span>
+                <pre class="bg-dark-bg p-3 rounded-lg text-slate-300 overflow-x-auto border border-dark-border">{
+  "targetUserId": "usr_1024030437",
+  "listingId": "list_88291a",
+  "pitchMessage": "Hey Vedika! Saw your React & database skills on GitHub. Would love to team up for the SIH 48h build."
+}</pre>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-1">Response (200 OK):</span>
+                <pre class="bg-dark-bg p-3 rounded-lg text-emerald-400 overflow-x-auto border border-dark-border">{
+  "connectionId": "conn_44921",
+  "status": "PENDING",
+  "timestamp": "2026-10-27T10:15:00Z"
+}</pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Interactive UML & Architectural Diagrams Showcase -->
+    <section id="diagrams" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="git-fork" class="w-4 h-4"></i>
+        <span>Section 05 // System Modeling</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl font-bold text-white tracking-tight">Interactive UML Diagrams Showcase</h2>
+          <p class="mt-1 text-slate-400 text-sm max-w-2xl">
+            Explore all 9 formal Software Engineering UML & modeling diagrams with interactive Mermaid renderings and direct access to original compiled PDF artifacts.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-mono text-slate-400">Filter:</span>
+          <button onclick="filterDiagrams('all')" id="diag-btn-all" class="px-2.5 py-1 rounded text-xs font-semibold bg-brand-600 text-white">All 9</button>
+          <button onclick="filterDiagrams('behavioral')" id="diag-btn-behavioral" class="px-2.5 py-1 rounded text-xs text-slate-300 hover:bg-slate-800">Behavioral</button>
+          <button onclick="filterDiagrams('structural')" id="diag-btn-structural" class="px-2.5 py-1 rounded text-xs text-slate-300 hover:bg-slate-800">Structural</button>
+          <button onclick="filterDiagrams('process')" id="diag-btn-process" class="px-2.5 py-1 rounded text-xs text-slate-300 hover:bg-slate-800">Data & Flow</button>
+        </div>
+      </div>
+
+      <!-- Diagram Cards Grid -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- 1. Use Case Diagram -->
+        <div class="diag-card diag-behavioral glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-brand-400">Diagram 01</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Behavioral</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Use Case Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Maps primary actors (Student, Team Captain, Admin) to core functional goals: Auth, Posting Listings, Matching Engine, and Workspace.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart LR
+    Student((Student))
+    Lead((Team Lead))
+    System((Matching Engine))
+    
+    Student --> UC1[Verify College Email]
+    Student --> UC2[Link GitHub Account]
+    Lead --> UC3[Post Project Listing]
+    Lead --> UC4[Run Candidate Match]
+    System -.-> UC4
+    Student --> UC5[Accept Connection]
+    Student --> UC6[Shared Team Workspace]
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Use Case Diagram', 'Diagrams/Use Case Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Use Case Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (171 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. Activity Diagram -->
+        <div class="diag-card diag-behavioral glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-accent-purple">Diagram 02</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Behavioral</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Activity Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Step-by-step decision flow from user sign-up, verification branching, candidate scoring, to shared workspace activation.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart TD
+    Start([Start]) --> Reg[Register Account]
+    Reg --> Valid{Valid @thapar.edu?}
+    Valid -- No --> Reject[Show Domain Error] --> Reg
+    Valid -- Yes --> Git[Link GitHub Profile]
+    Git --> Decision{Has Project Idea?}
+    Decision -- Yes --> Post[Post Requirement Listing]
+    Decision -- No --> Browse[Browse & Match Teammates]
+    Post --> RunMatch[Engine Scores Candidates]
+    Browse --> ConnReq[Send Connection Request]
+    RunMatch --> ConnReq
+    ConnReq --> Mutual{Accepted?}
+    Mutual -- Yes --> Workspace[Unlock Workspace & Chat]
+    Mutual -- No --> Archive[Archive Request]
+    Workspace --> Complete([Team Formed])
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Activity Diagram', 'Diagrams/Activity Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Activity Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (122 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Sequence Diagram -->
+        <div class="diag-card diag-behavioral glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-accent-cyan">Diagram 03</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Behavioral</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Sequence Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Chronological message passing between Student, Frontend UI, Node Backend, Matching Heuristic, and Database.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+sequenceDiagram
+    autonumber
+    actor User as Student
+    participant FE as React Client
+    participant BE as Node Gateway
+    participant ME as Match Engine
+    participant DB as MongoDB Atlas
+    
+    User->>FE: Click 'Find Teammates'
+    FE->>BE: GET /listings/match/:id
+    BE->>DB: Fetch Active Profiles
+    DB-->>BE: Return Candidate Docs
+    BE->>ME: Compute Heuristic Scores
+    ME-->>BE: Sorted Leaderboard
+    BE-->>FE: 200 OK (Ranked Candidates)
+    FE-->>User: Display Matching Scorecards
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Sequence Diagram', 'Diagrams/Sequence Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Sequence Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (198 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. Class Diagram -->
+        <div class="diag-card diag-structural glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-emerald-400">Diagram 04</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Structural</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Class Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Object-oriented architecture highlighting classes, fields, methods, inheritance, and cardinality relationships.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+classDiagram
+    class User {
+        +String userId
+        +String email
+        +String college
+        +verifyDomain()
+        +linkGitHub()
+    }
+    class Listing {
+        +String listingId
+        +String title
+        +List requiredSkills
+        +createListing()
+        +closeListing()
+    }
+    class MatchEngine {
+        +Float computeScore()
+        +List rankCandidates()
+    }
+    class Workspace {
+        +String workspaceId
+        +List members
+        +createTask()
+    }
+    User "1" --> "0..*" Listing : creates
+    Listing --> MatchEngine : triggers
+    User "1" --> "0..1" Workspace : joins
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Class Diagram', 'Diagrams/Class Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Class Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (221 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 5. Entity Relationship (ER) Diagram -->
+        <div class="diag-card diag-structural glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-amber-400">Diagram 05</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Structural</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Entity-Relationship (ER)</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              MongoDB entity schemas, primary keys, foreign references, embedding vs referencing, and collection cardinalities.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+erDiagram
+    USER ||--|| PROFILE : owns
+    USER ||--o{ LISTING : publishes
+    LISTING ||--o{ MATCH_RECORD : generates
+    USER ||--o{ CONNECTION : initiates
+    TEAM_WORKSPACE ||--|{ TASK : contains
+    USER ||--o{ TEAM_WORKSPACE : belongs_to
+    
+    USER {
+        string userId PK
+        string email
+        string rollNumber
+        string college
+    }
+    PROFILE {
+        string profileId PK
+        string userId FK
+        array skills
+        string githubUrl
+    }
+    LISTING {
+        string listingId PK
+        string creatorId FK
+        string hackathonName
+        array requiredSkills
+    }
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('ER Diagram', 'Diagrams/ER diagram (2).pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/ER diagram (2).pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (170 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 6. Data Flow Diagram (DFD Level 0, 1, 2) -->
+        <div class="diag-card diag-process glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-rose-400">Diagram 06</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">Data & Flow</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Data Flow Diagram (DFD)</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Context Level 0, Level 1, and Level 2 process decompositions, data stores (D1-D4), and input/output transformations.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart LR
+    Student[Student User]
+    P1[1.0 Auth & Profile]
+    P2[2.0 Listing Engine]
+    P3[3.0 Heuristic Match]
+    P4[4.0 Workspace Kanban]
+    
+    D1[(D1 Users Store)]
+    D2[(D2 Listings Store)]
+    D3[(D3 Match Log)]
+    
+    Student -->|Credentials| P1
+    P1 -->|Save Profile| D1
+    Student -->|Requirement| P2
+    P2 -->|Save Listing| D2
+    D2 & D1 --> P3
+    P3 -->|Scores| D3
+    D3 -->|Ranked Feed| Student
+    Student -->|Task State| P4
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Data Flow Diagram', 'Diagrams/Data Flow Diagram(Level 0,1,2).pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Data Flow Diagram(Level 0,1,2).pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (1.02 MB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 7. Deployment Diagram -->
+        <div class="diag-card diag-structural glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-brand-300">Diagram 07</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Structural</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Deployment Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Physical node topology: Client Devices, CDN Edge, Node/Express Cloud Staging Container, and MongoDB Atlas.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart TB
+    subgraph ClientNode ["Client Workstations"]
+        BrowserApp["Chrome / Safari / Edge"]
+    end
+    
+    subgraph CloudHosting ["PaaS Staging Cloud"]
+        WebGateway["Node.js / Express Server"]
+        SocketEngine["Socket.io Realtime Service"]
+    end
+    
+    subgraph DatabaseNode ["Managed Database Cluster"]
+        MongoCluster[("MongoDB Atlas M10 Cluster")]
+    end
+    
+    BrowserApp -->|HTTPS / WSS| WebGateway
+    BrowserApp -->|WebSockets| SocketEngine
+    WebGateway -->|TCP 27017 TLS| MongoCluster
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Deployment Diagram', 'Diagrams/Deployment Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Deployment Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (160 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 8. Swimlane / Workflow Diagram -->
+        <div class="diag-card diag-process glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-purple-400">Diagram 08</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Process</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Swimlane Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Cross-functional swimlanes delineating role handoffs between Student A, System Core Engine, and Student B.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart LR
+    subgraph StudentA ["Lane: Initiator (Student A)"]
+        A1[Post Hackathon Requirement]
+        A2[Review Match Scorecards]
+        A3[Send Connection Handshake]
+    end
+    subgraph SystemCore ["Lane: TeamSync Engine"]
+        S1[Normalize Tech Tags]
+        S2[Calculate Overlap Metric]
+        S3[Dispatch Real-time Notification]
+    end
+    subgraph StudentB ["Lane: Candidate (Student B)"]
+        B1[Receive Connection Alert]
+        B2[Accept Request]
+        B3[Join Shared Workspace]
+    end
+    
+    A1 --> S1 --> S2 --> A2 --> A3 --> S3 --> B1 --> B2 --> B3
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Swimlane Diagram', 'Diagrams/Swinlane Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Swinlane Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (142 KB)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 9. Collaboration Diagram -->
+        <div class="diag-card diag-behavioral glass-panel p-5 rounded-2xl border border-dark-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono text-cyan-400">Diagram 09</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Behavioral</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Collaboration Diagram</h3>
+            <p class="text-xs text-slate-400 mb-4">
+              Numbered message pathways demonstrating structural object communication during teammate connection cycles.
+            </p>
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-dark-border mb-4 text-center overflow-x-auto max-h-48">
+              <div class="mermaid text-xs">
+flowchart TD
+    UserObj[1: User Object]
+    ListingObj[2: Listing Object]
+    MatchObj[3: Heuristic Engine Object]
+    ConnObj[4: Connection Object]
+    WorkObj[5: Workspace Object]
+    
+    UserObj -->|1.1: submitRequirement| ListingObj
+    ListingObj -->|1.2: invokeMatching| MatchObj
+    MatchObj -->|1.3: returnScorecard| ListingObj
+    UserObj -->|2.1: initiateHandshake| ConnObj
+    ConnObj -->|2.2: confirmAcceptance| WorkObj
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-dark-border">
+            <button onclick="openDiagramModal('Collaboration Diagram', 'Diagrams/Collaboration Diagram.pdf')" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span>View High-Res</span>
+            </button>
+            <a href="Diagrams/Collaboration Diagram.pdf" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>PDF (240 KB)</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Heuristic Matching Engine & Live Interactive Simulator -->
+    <section id="matching-engine" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="sliders" class="w-4 h-4"></i>
+        <span>Section 06 // Core Innovation</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">The Heuristic Matching Engine & Live Simulator</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Transparent weighted-overlap formulation designed for academic explainability, zero cold-start barriers, and real-time candidate ranking.
+      </p>
+
+      <!-- Mathematical Formulation Card -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border">
+        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+          <i data-lucide="calculator" class="w-5 h-5 text-accent-purple"></i>
+          <span>Mathematical Formulation</span>
+        </h3>
+        <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+          Rather than deploying a high-opacity neural recommender requiring thousands of interaction records, TeamSync computes a composite heuristic score \(S(u, L) \in [0, 1]\) evaluating candidate student \(u\) against project listing \(L\):
+        </p>
+
+        <!-- KaTeX Equation Display -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-brand-500/30 text-center my-4 overflow-x-auto">
+          <div class="text-lg text-brand-300 font-mono">
+            \[S(u, L) = w_1 \cdot C_{\text{skills}}(u, L) + w_2 \cdot O_{\text{domain}}(u, L) + w_3 \cdot G_{\text{github}}(u) + w_4 \cdot A_{\text{avail}}(u)\]
+          </div>
+          <div class="text-[11px] text-slate-400 mt-2 font-mono">
+            Subject to constraint: \(w_1 + w_2 + w_3 + w_4 = 1.0 \quad (w_1=0.45, \; w_2=0.25, \; w_3=0.15, \; w_4=0.15)\)
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs mt-4">
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-dark-border">
+            <span class="font-bold text-brand-300 block mb-1">\(C_{\text{skills}}(u, L)\)</span>
+            <span class="text-slate-400">Jaccard overlap between candidate's verified skills and listing's required tech stack tags.</span>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-dark-border">
+            <span class="font-bold text-accent-purple block mb-1">\(O_{\text{domain}}(u, L)\)</span>
+            <span class="text-slate-400">Cosine similarity of interest vectors (e.g., Fintech, Healthcare, EdTech, Web3).</span>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-dark-border">
+            <span class="font-bold text-accent-cyan block mb-1">\(G_{\text{github}}(u)\)</span>
+            <span class="text-slate-400">Verified activity index computed from repository commits and language badges.</span>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-dark-border">
+            <span class="font-bold text-emerald-400 block mb-1">\(A_{\text{avail}}(u)\)</span>
+            <span class="text-slate-400">Commitment coefficient (e.g., 24h, 36h, 48h active weekend sprint availability).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE INTERACTIVE SIMULATOR WIDGET -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-brand-500/40 bg-brand-950/10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30 mb-2">
+              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+              <span>Interactive Simulator Engine</span>
+            </span>
+            <h3 class="text-xl font-bold text-white">Live Candidate Match Scoring Simulator</h3>
+            <p class="text-xs text-slate-300">Adjust the heuristic weights or choose a project requirement to test the real-time scoring algorithm.</p>
+          </div>
+          <button onclick="runMatchSimulation()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/25 flex items-center gap-2 transition-all">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Re-Calculate Scores</span>
+          </button>
+        </div>
+
+        <!-- Simulator Controls Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Column 1: Listing Requirement Selector -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1.5">Select Hackathon Project Need:</label>
+              <select id="sim-project" onchange="runMatchSimulation()" class="w-full bg-slate-900 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+                <option value="fintech">Fintech 48h Sprint (Needs: React, Tailwind, Solidity)</option>
+                <option value="health">HealthTech AI (Needs: PyTorch, FastAPI, React)</option>
+                <option value="cloud">Campus Portal (Needs: Node.js, Express, MongoDB)</option>
+              </select>
+            </div>
+
+            <!-- Sliders for Weights -->
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-dark-border space-y-3">
+              <span class="text-xs font-mono text-slate-300 uppercase tracking-wider block font-bold">Heuristic Weights (\(w_i\))</span>
+              
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">Skill Overlap (\(w_1\)):</span>
+                  <span id="val-w1" class="font-mono text-brand-400 font-bold">0.45</span>
+                </div>
+                <input type="range" id="slider-w1" min="0.1" max="0.7" step="0.05" value="0.45" oninput="updateSliders('w1')" class="w-full accent-brand-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">Domain Interest (\(w_2\)):</span>
+                  <span id="val-w2" class="font-mono text-accent-purple font-bold">0.25</span>
+                </div>
+                <input type="range" id="slider-w2" min="0.05" max="0.5" step="0.05" value="0.25" oninput="updateSliders('w2')" class="w-full accent-purple-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">GitHub Verified (\(w_3\)):</span>
+                  <span id="val-w3" class="font-mono text-accent-cyan font-bold">0.15</span>
+                </div>
+                <input type="range" id="slider-w3" min="0.05" max="0.4" step="0.05" value="0.15" oninput="updateSliders('w3')" class="w-full accent-cyan-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">Availability (\(w_4\)):</span>
+                  <span id="val-w4" class="font-mono text-emerald-400 font-bold">0.15</span>
+                </div>
+                <input type="range" id="slider-w4" min="0.05" max="0.4" step="0.05" value="0.15" oninput="updateSliders('w4')" class="w-full accent-emerald-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2 & 3: Live Ranked Candidate Leaderboard -->
+          <div class="lg:col-span-2 space-y-3">
+            <span class="text-xs font-mono text-slate-300 uppercase tracking-wider block font-bold">Simulated Candidate Leaderboard</span>
+            
+            <div id="sim-results" class="space-y-2.5">
+              <!-- Dynamically populated by JS simulator -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Project Planning, Gantt Chart & SDLC -->
+    <section id="timeline" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="calendar" class="w-4 h-4"></i>
+        <span>Section 07 // Project Management</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Project Planning, Gantt Chart & SDLC Roadmap</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Iterative 12-week Agile sprint schedule mapping requirements to deliverables for UCS503P at Thapar Institute of Engineering and Technology.
+      </p>
+
+      <!-- 12-Week Agile Timeline Grid -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border overflow-x-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-mono">12-Week Work Breakdown Structure (WBS)</h3>
+          <div class="flex items-center gap-3 text-xs font-mono">
+            <a href="downloads/Gantt_Chart.pdf" target="_blank" class="text-brand-400 hover:text-brand-300 flex items-center gap-1 font-semibold">
+              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+              <span>Download PDF Gantt</span>
+            </a>
+            <span class="text-slate-600">|</span>
+            <a href="downloads/TeamSync_Gantt_Chart.xlsx" target="_blank" class="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-semibold">
+              <i data-lucide="sheet" class="w-3.5 h-3.5"></i>
+              <span>Excel Sheet (.xlsx)</span>
+            </a>
+          </div>
+        </div>
+
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-dark-border bg-slate-900/80 text-slate-400 font-mono">
+              <th class="py-3 px-3">Phase</th>
+              <th class="py-3 px-3">Weeks</th>
+              <th class="py-3 px-4">Sprint Goals & Concrete Deliverables</th>
+              <th class="py-3 px-3">Lead</th>
+              <th class="py-3 px-3">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-border text-slate-300">
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 1: Inception</td>
+              <td class="py-3 px-3 font-mono text-brand-300">Wk 1 – 2</td>
+              <td class="py-3 px-4">Problem formulation, literature review (Sommerville, Resnick & Varian), formal Project Proposal in LaTeX submitted to Prof. Asif.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Ridhima</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold text-[11px]">Completed</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 2: System Design</td>
+              <td class="py-3 px-3 font-mono text-brand-300">Wk 3 – 4</td>
+              <td class="py-3 px-4">Drafting all 9 formal UML software engineering diagrams (Activity, Sequence, ER, DFD, Class), MongoDB schema data modeling, wireframes.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Vedika</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold text-[11px]">Completed</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 3: Initial MVP</td>
+              <td class="py-3 px-3 font-mono text-brand-300">Wk 5 – 7</td>
+              <td class="py-3 px-4">Frontend dashboard shell (React 19, Tailwind v4), student profile creation, college email verification gateway, project listing CRUD.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Aadita</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold text-[11px]">Completed</span></td>
+            </tr>
+            <tr class="bg-brand-950/20">
+              <td class="py-3 px-3 font-semibold text-brand-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
+                <span>Phase 4: Matching & Workspace</span>
+              </td>
+              <td class="py-3 px-3 font-mono text-brand-300 font-bold">Wk 8 – 9</td>
+              <td class="py-3 px-4 font-medium text-white">Integration of Complementary Matching Engine, in-app connection request handshakes, shared team workspace with Kanban task allocation.</td>
+              <td class="py-3 px-3 font-mono text-brand-300 font-bold">All Team</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 font-bold text-[11px] border border-brand-500/40">Active Phase</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 5: Pilot & QA</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Wk 10</td>
+              <td class="py-3 px-4">Executing multi-college pilot UAT (15-25 students across TIET and collaborating institute), TTM measurement, load testing, bug triage.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Vedika</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[11px]">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 6: Staging Deployment</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Wk 11</td>
+              <td class="py-3 px-4">Production staging deployment via GitHub Pages and cloud container, final project documentation, test report compilation.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Aadita</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[11px]">Upcoming</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Phase 7: Final Defense</td>
+              <td class="py-3 px-3 font-mono text-slate-400">Wk 12</td>
+              <td class="py-3 px-4">Buffer margin, final demonstration to faculty panel and Prof. Asif, submission of comprehensive course documentation.</td>
+              <td class="py-3 px-3 font-mono text-slate-400">All Team</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[11px]">Upcoming</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8. Risk Assessment & Mitigation Matrix -->
+    <section id="risks" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+        <span>Section 08 // Risk Engineering</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Risk Assessment & Mitigation Matrix</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Structured risk analysis identifying critical operational, technical, and behavioural failure modes with pre-emptive mitigation plans.
+      </p>
+
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-dark-border bg-slate-900/80 text-slate-400 font-mono">
+              <th class="py-3 px-3">Risk ID</th>
+              <th class="py-3 px-4">Risk Description</th>
+              <th class="py-3 px-3">Likelihood</th>
+              <th class="py-3 px-3">Impact</th>
+              <th class="py-3 px-4">Pre-Emptive Mitigation Strategy</th>
+              <th class="py-3 px-4">Contingency Plan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-border text-slate-300">
+            <tr>
+              <td class="py-3 px-3 font-mono font-bold text-rose-400">RSK-01</td>
+              <td class="py-3 px-4 font-semibold text-white">Cold-Start Deficit (Few initial listings)</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Medium</span></td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono">High</span></td>
+              <td class="py-3 px-4">Schedule pilot launch strictly in sync with an active scheduled college hackathon (e.g., TIET Hack-O-Week) to pool natural demand.</td>
+              <td class="py-3 px-4 text-slate-400">Pre-seed mock listings based on real student teams seeking partners.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-mono font-bold text-rose-400">RSK-02</td>
+              <td class="py-3 px-4 font-semibold text-white">Identity & Student Spoofing</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Low</span></td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono">High</span></td>
+              <td class="py-3 px-4">Enforce programmatic regex validation permitting only approved college domain suffixes (`@thapar.edu`).</td>
+              <td class="py-3 px-4 text-slate-400">Immediate token revocation on domain mismatch or spam report.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-mono font-bold text-amber-400">RSK-03</td>
+              <td class="py-3 px-4 font-semibold text-white">Cross-College Communication Friction</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Medium</span></td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Medium</span></td>
+              <td class="py-3 px-4">Provide built-in in-app real-time messaging with browser notifications so users do not depend on external social handles.</td>
+              <td class="py-3 px-4 text-slate-400">Fallback email notifications dispatched on pending connection requests.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-mono font-bold text-brand-300">RSK-04</td>
+              <td class="py-3 px-4 font-semibold text-white">Heuristic Weight Inaccuracy</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Medium</span></td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Low</span></td>
+              <td class="py-3 px-4">Implement configurable coefficient weights (\(w_1\) to \(w_4\)) tunable dynamically without modifying core algorithms.</td>
+              <td class="py-3 px-4 text-slate-400">Allow users to manually adjust preference weights directly in search view.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-mono font-bold text-slate-400">RSK-05</td>
+              <td class="py-3 px-4 font-semibold text-white">Pilot UAT Survey Abandonment</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Medium</span></td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Low</span></td>
+              <td class="py-3 px-4">Replace lengthy surveys with a simple single-click 1-to-5 star clarity question immediately after match acceptance.</td>
+              <td class="py-3 px-4 text-slate-400">Conduct short 3-minute qualitative interviews with 5 active pilot leaders.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 9. Testing Strategy, QA & Pilot Metrics -->
+    <section id="testing" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="check-square" class="w-4 h-4"></i>
+        <span>Section 09 // Quality Assurance</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Testing Methodology & Performance Metrics</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Multi-tier verification strategy spanning backend unit tests, end-to-end integration flows, automated CI linting, and pilot metric targets.
+      </p>
+
+      <!-- Testing Pyramid Grid -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 text-brand-400 mb-2">
+            <i data-lucide="code" class="w-4 h-4"></i>
+            <h4 class="text-sm font-bold text-white">Unit Testing</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Automated test suites covering token validation, regex college domain filters, and scoring algorithm boundary conditions (\(S \in [0, 1]\)).
+          </p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 text-accent-purple mb-2">
+            <i data-lucide="git-commit" class="w-4 h-4"></i>
+            <h4 class="text-sm font-bold text-white">Integration Testing</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Validating complete multi-step lifecycle: Sign-up → Profile Creation → Listing Publication → Match Trigger → Connection Handshake.
+          </p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 text-accent-cyan mb-2">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            <h4 class="text-sm font-bold text-white">Performance Checks</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            API throughput and latency audits verifying sub-200ms response times for candidate queries under simulated pilot concurrency.
+          </p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-xl border border-dark-border">
+          <div class="flex items-center gap-2 text-emerald-400 mb-2">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+            <h4 class="text-sm font-bold text-white">Pilot UAT (Wk 10)</h4>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Real-world testing with 15–25 students across Thapar and partnering institutes during an upcoming collegiate hackathon build.
+          </p>
+        </div>
+      </div>
+
+      <!-- Performance Metrics Summary Table -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border overflow-x-auto">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-mono mb-4">Pilot Evaluation Metrics Table (Proposal vs. Milestone Status)</h3>
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-dark-border bg-slate-900/80 text-slate-400 font-mono">
+              <th class="py-3 px-4">Metric Dimension</th>
+              <th class="py-3 px-4">Evaluation Target</th>
+              <th class="py-3 px-4">Measurement Instrument</th>
+              <th class="py-3 px-4">Current Milestone Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-border text-slate-300">
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Time-to-First-Match (Median TTM)</td>
+              <td class="py-3 px-4 font-mono text-brand-300 font-bold">≤ 24 Hours</td>
+              <td class="py-3 px-4 text-slate-400">Database timestamp delta (Listing created vs. First qualifying match)</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold font-mono">Instrumented (Pilot pending)</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Connection-to-Team Conversion Rate</td>
+              <td class="py-3 px-4 font-mono text-emerald-400 font-bold">≥ 60%</td>
+              <td class="py-3 px-4 text-slate-400">Ratio of confirmed workspaces created over accepted connection requests</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold font-mono">Instrumented (Pilot pending)</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Cross-College Match Proportion</td>
+              <td class="py-3 px-4 font-mono text-accent-cyan font-bold">≥ 40%</td>
+              <td class="py-3 px-4 text-slate-400">Percentage of teams containing members with distinct institutional email domains</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold font-mono">Instrumented (Pilot pending)</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Profile Verification Rate</td>
+              <td class="py-3 px-4 font-mono text-purple-300 font-bold">≥ 85%</td>
+              <td class="py-3 px-4 text-slate-400">Proportion of sign-ups that complete institutional email OTP authorization</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold font-mono">100% in staging tests</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">GitHub Linkage Rate</td>
+              <td class="py-3 px-4 font-mono text-slate-200 font-bold">≥ 75%</td>
+              <td class="py-3 px-4 text-slate-400">Profiles with at least one authenticated GitHub repository linked as proof-of-work</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold font-mono">Tested in MVP</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-white">Pilot Staging Uptime</td>
+              <td class="py-3 px-4 font-mono text-emerald-400 font-bold">≥ 99.0%</td>
+              <td class="py-3 px-4 text-slate-400">Synthetic uptime probes executed at 60-second intervals</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold font-mono">99.8% logged</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10. Prototype Walkthrough & Module Showcase -->
+    <section id="prototype" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="monitor" class="w-4 h-4"></i>
+        <span>Section 10 // Frontend Implementation</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Interactive Prototype & Module Showcase</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        High-fidelity React 19 frontend application built in <code class="text-brand-300 font-mono">code/src/</code> featuring the Team Workspace, Kanban Board, Projects Directory, and Pilot Metrics.
+      </p>
+
+      <!-- Prototype Interactive Showcase Tabbed Component -->
+      <div class="mt-8 glass-panel p-6 rounded-2xl border border-dark-border">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-dark-border">
+          <div class="flex items-center gap-2">
+            <button onclick="switchProtoTab('workspace')" id="proto-tab-workspace" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-brand-600 text-white transition-colors">Team Workspace & Kanban</button>
+            <button onclick="switchProtoTab('listings')" id="proto-tab-listings" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Project Listings</button>
+            <button onclick="switchProtoTab('teams')" id="proto-tab-teams" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Formed Teams</button>
+            <button onclick="switchProtoTab('metrics')" id="proto-tab-metrics" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Pilot Metrics</button>
+          </div>
+          <button onclick="openPrototypeModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-dark-surface border border-brand-500/30 text-brand-300 hover:bg-brand-900/30 flex items-center gap-1.5">
+            <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
+            <span>Expand Fullscreen Preview</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: Workspace & Kanban View -->
+        <div id="proto-view-workspace" class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-white">Hackathon Sprint Workspace: <span class="text-brand-400">Fintech 48h Build</span></h4>
+              <span class="text-xs text-slate-400">Team: Aadita Garg, Ridhima Goel, Vedika Gupta • 3 Tasks Active</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Deadline: 24h Remaining</span>
+          </div>
+
+          <!-- Mock Kanban Board -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            
+            <!-- Column Todo -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-dark-border space-y-2">
+              <div class="flex items-center justify-between text-slate-400 font-mono font-bold">
+                <span>TO DO (1)</span>
+                <span class="text-xs bg-slate-800 px-1.5 py-0.5 rounded">1</span>
+              </div>
+              <div class="p-3 rounded-lg bg-dark-surface border border-dark-border space-y-2">
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">P0 Critical</span>
+                <p class="font-semibold text-white">Integrate WebSocket event listeners for real-time match alert popups</p>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-dark-border/50">
+                  <span>Assignee: Aadita</span>
+                  <span class="font-mono">Due: 6h</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column In Progress -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-dark-border space-y-2">
+              <div class="flex items-center justify-between text-brand-300 font-mono font-bold">
+                <span>IN PROGRESS (1)</span>
+                <span class="text-xs bg-brand-900/50 px-1.5 py-0.5 rounded">1</span>
+              </div>
+              <div class="p-3 rounded-lg bg-dark-surface border border-brand-500/30 space-y-2">
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-500/20 text-brand-300">Matching</span>
+                <p class="font-semibold text-white">Refactor weighted-overlap score normalization with Jaccard index</p>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-dark-border/50">
+                  <span>Assignee: Ridhima</span>
+                  <span class="font-mono">Due: 3h</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column Done -->
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-dark-border space-y-2">
+              <div class="flex items-center justify-between text-emerald-400 font-mono font-bold">
+                <span>COMPLETED (2)</span>
+                <span class="text-xs bg-emerald-950 px-1.5 py-0.5 rounded">2</span>
+              </div>
+              <div class="p-3 rounded-lg bg-dark-surface border border-dark-border space-y-2">
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Database</span>
+                <p class="font-semibold text-white">MongoDB schema modeling with compound index on skills array</p>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-dark-border/50">
+                  <span>Assignee: Vedika</span>
+                  <span class="font-mono text-emerald-400">✓ Done</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tab 2: Listings View (hidden by default) -->
+        <div id="proto-view-listings" class="hidden space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-dark-border flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <h4 class="text-sm font-bold text-white">Fintech Automated Micro-Lending Portal</h4>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-brand-500/20 text-brand-300 font-mono">1 Slot Open</span>
+              </div>
+              <p class="text-xs text-slate-400">Looking for a Flutter developer with smart contract / Web3 experience for EthIndia 2026.</p>
+              <div class="flex flex-wrap gap-1 mt-2">
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Flutter</span>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Solidity</span>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Ethers.js</span>
+              </div>
+            </div>
+            <button class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs">Request to Join</button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-dark-border flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <h4 class="text-sm font-bold text-white">AI Diagnostic Assistant for Rural Clinics</h4>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-accent-purple/20 text-purple-300 font-mono">2 Slots Open</span>
+              </div>
+              <p class="text-xs text-slate-400">Smart India Hackathon project. Team has ML pipeline; needs React frontend engineer and Node API lead.</p>
+              <div class="flex flex-wrap gap-1 mt-2">
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">React 19</span>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Node.js</span>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Tailwind CSS</span>
+              </div>
+            </div>
+            <button class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs">Request to Join</button>
+          </div>
+        </div>
+
+        <!-- Tab 3: Formed Teams View (hidden by default) -->
+        <div id="proto-view-teams" class="hidden space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-dark-border">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-sm font-bold text-white">Team Algorhythm (SIH 2026 Finalist Squad)</h4>
+              <span class="text-xs font-mono text-emerald-400">4 / 4 Confirmed</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Cross-college collaboration between Thapar Institute (2 members) and DTU (2 members).</p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="bg-dark-surface px-2.5 py-1 rounded border border-dark-border text-slate-300">Aadita Garg (Frontend Lead, TIET)</span>
+              <span class="bg-dark-surface px-2.5 py-1 rounded border border-dark-border text-slate-300">Ridhima Goel (Backend Lead, TIET)</span>
+              <span class="bg-dark-surface px-2.5 py-1 rounded border border-dark-border text-slate-300">Kavya Nair (ML Engineer, DTU)</span>
+              <span class="bg-dark-surface px-2.5 py-1 rounded border border-dark-border text-slate-300">Harsh Vardhan (UI/UX, DTU)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Pilot Metrics View (hidden by default) -->
+        <div id="proto-view-metrics" class="hidden space-y-4">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+            <div class="p-3 bg-slate-900 rounded-xl border border-dark-border">
+              <span class="text-[10px] font-mono text-slate-400 block">Simulated Median TTM</span>
+              <span class="text-xl font-bold text-brand-400 font-mono">14.2 Hours</span>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-dark-border">
+              <span class="text-[10px] font-mono text-slate-400 block">Cross-College Matches</span>
+              <span class="text-xl font-bold text-accent-cyan font-mono">46.5%</span>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-dark-border">
+              <span class="text-[10px] font-mono text-slate-400 block">Connection Conversion</span>
+              <span class="text-xl font-bold text-emerald-400 font-mono">71.8%</span>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-dark-border">
+              <span class="text-[10px] font-mono text-slate-400 block">Staging Server Uptime</span>
+              <span class="text-xl font-bold text-purple-300 font-mono">99.9%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 11. Academic Deliverables & Downloads Center -->
+    <section id="downloads" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="archive" class="w-4 h-4"></i>
+        <span>Section 11 // Course Artifacts</span>
+      </div>
+      <h2 class="text-3xl font-bold text-white tracking-tight">Academic Deliverables & Downloads Center</h2>
+      <p class="mt-2 text-slate-400 text-sm max-w-3xl">
+        Complete library of project documents, LaTeX research proposals, mid-semester evaluation reports, presentations, Gantt spreadsheets, and individual journals.
+      </p>
+
+      <!-- Downloads Grid -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Proposal PDF -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center mb-3">
+              <i data-lucide="file-text" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">UCS503P Project Proposal</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Full academic proposal in LaTeX submitted to Prof. Asif covering mathematical heuristics, literature framing, and scope.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>PDF Format</span>
+              <span>•</span>
+              <span>117 KB</span>
+            </div>
+          </div>
+          <a href="downloads/CampusSync_Proposal.pdf" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download Proposal PDF</span>
+          </a>
+        </div>
+
+        <!-- MidSem Report DOCX -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-accent-purple/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-accent-purple/20 text-purple-300 flex items-center justify-center mb-3">
+              <i data-lucide="file" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Mid-Semester Report</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Official mid-semester evaluation report (DOCX) covering prototype progress, 3-tier design, and preliminary test results.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>DOCX Format</span>
+              <span>•</span>
+              <span>25 KB</span>
+            </div>
+          </div>
+          <a href="downloads/TeamSync_MidSem_Report.docx" download class="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download Report (.docx)</span>
+          </a>
+        </div>
+
+        <!-- MidSem Presentation Slides -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-accent-cyan/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-accent-cyan/20 text-cyan-300 flex items-center justify-center mb-3">
+              <i data-lucide="presentation" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Mid-Sem Defense Slides</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Presentation deck delivered during mid-semester review session with Prof. Asif and TIET faculty evaluators.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>PDF & PPTX</span>
+              <span>•</span>
+              <span>151 KB / 198 KB</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="downloads/TeamSync_MidSem_Presentation.pdf" target="_blank" class="flex-1 py-2 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border text-center text-xs font-semibold">
+              PDF Slides
+            </a>
+            <a href="downloads/TeamSync_Presentation.pptx" download class="flex-1 py-2 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border text-center text-xs font-semibold">
+              PowerPoint
+            </a>
+          </div>
+        </div>
+
+        <!-- Gantt Chart Spreadsheet -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center mb-3">
+              <i data-lucide="sheet" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Gantt Chart & WBS Schedule</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Complete sprint breakdown across 12 project weeks with task dependencies, milestones, and assigned leads.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>PDF & XLSX</span>
+              <span>•</span>
+              <span>46 KB / 26 KB</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="downloads/Gantt_Chart.pdf" target="_blank" class="flex-1 py-2 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border text-center text-xs font-semibold">
+              View PDF
+            </a>
+            <a href="downloads/TeamSync_Gantt_Chart.xlsx" download class="flex-1 py-2 px-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-center text-xs font-semibold">
+              Excel (.xlsx)
+            </a>
+          </div>
+        </div>
+
+        <!-- Student Journals Package -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-amber-500/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center mb-3">
+              <i data-lucide="book-open" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Individual Student Journals</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Weekly reflective engineering journals documenting individual development sprints, problem logs, and learning.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>3 PDF Records</span>
+              <span>•</span>
+              <span>~50 KB Each</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs">
+            <a href="downloads/Aadita_Garg_Journal.pdf" target="_blank" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-slate-300 font-mono">Aadita</a>
+            <a href="downloads/Ridhima_Goel_Journal.pdf" target="_blank" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-slate-300 font-mono">Ridhima</a>
+            <a href="downloads/Vedika_Gupta_Journal.pdf" target="_blank" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-slate-300 font-mono">Vedika</a>
+          </div>
+        </div>
+
+        <!-- UML Diagrams Package -->
+        <div class="glass-panel p-5 rounded-2xl border border-dark-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center mb-3">
+              <i data-lucide="git-merge" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">All 9 UML Diagrams Package</h3>
+            <p class="text-xs text-slate-400 mb-3">
+              Directory of high-resolution vector PDFs containing all formal behavioral and structural software engineering models.
+            </p>
+            <div class="flex items-center gap-2 text-[11px] font-mono text-slate-500 mb-4">
+              <span>9 PDF Artifacts</span>
+              <span>•</span>
+              <span>docs/Diagrams/</span>
+            </div>
+          </div>
+          <a href="#diagrams" class="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+            <span>Browse Diagrams Section</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 12. Academic References & Bibliography -->
+    <section id="references" class="scroll-mt-32">
+      <div class="flex items-center gap-2 text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+        <i data-lucide="bookmark" class="w-4 h-4"></i>
+        <span>Section 12 // Literature</span>
+      </div>
+      <h2 class="text-2xl font-bold text-white tracking-tight">Academic References & Bibliography</h2>
+      <p class="mt-1 text-slate-400 text-sm max-w-3xl">
+        IEEE-formatted citations cited in the project proposal and mid-semester software engineering evaluation report.
+      </p>
+
+      <div class="mt-6 glass-panel p-6 rounded-2xl border border-dark-border space-y-3 text-xs text-slate-300 font-mono">
+        <div class="flex items-start gap-3">
+          <span class="text-brand-400 font-bold">[1]</span>
+          <p>P. Resnick and H. R. Varian, "Recommender systems," <em>Communications of the ACM</em>, vol. 40, no. 3, pp. 56–58, 1997.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-brand-400 font-bold">[2]</span>
+          <p>L. N. Lee and A. B. Lee, "Automated team formation in collaborative learning environments: A skill-based approach," <em>Journal of Educational Technology & Society</em>, vol. 22, no. 1, pp. 1–12, 2019.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-brand-400 font-bold">[3]</span>
+          <p>F. Ricci, L. Rokach, and B. Shapira, <em>Recommender Systems Handbook</em>, 2nd ed. New York: Springer, 2015.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-brand-400 font-bold">[4]</span>
+          <p>C. Ren, Y. Wang, and X. Li, "A survey on online collaboration platforms for distributed teams," in <em>Proceedings of the ACM Conference on Computer-Supported Cooperative Work</em>, 2020.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-brand-400 font-bold">[5]</span>
+          <p>I. Sommerville, <em>Software Engineering</em>, 10th ed. Boston: Pearson Education, 2016.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-dark-border bg-slate-950/80 py-12 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="font-extrabold text-white text-base">TeamSync</span>
+          <span class="text-slate-600">/</span>
+          <span class="text-brand-400 font-mono">CampusSync Platform</span>
+        </div>
+        <p class="text-slate-400 max-w-md">
+          Academic project submitted for UCS503P (Software Engineering) at Computer Science and Engineering Department (CSED), Thapar Institute of Engineering and Technology, Patiala.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-6">
+        <div class="text-center sm:text-right">
+          <span class="block text-slate-300 font-semibold">Faculty Supervisor: Prof. Asif</span>
+          <span class="text-slate-500 font-mono text-[11px]">Academic Group 3C32 • 2026–2027</span>
+        </div>
+        <a href="#top" class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-dark-border transition-colors" title="Back to top">
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Diagram Lightbox Modal -->
+  <div id="diagram-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-dark-surface border border-dark-border rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-dark-border flex items-center justify-between">
+        <h3 id="modal-diagram-title" class="font-bold text-white text-base">Diagram Title</h3>
+        <div class="flex items-center gap-3">
+          <a id="modal-diagram-download" href="#" target="_blank" class="px-3 py-1 rounded-lg text-xs font-semibold bg-brand-600 text-white flex items-center gap-1">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Open Original PDF</span>
+          </a>
+          <button onclick="closeDiagramModal()" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 flex-1 overflow-auto flex items-center justify-center bg-slate-950">
+        <iframe id="modal-diagram-frame" src="" class="w-full h-[70vh] rounded-lg border border-dark-border"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Demo / Prototype Modal -->
+  <div id="prototype-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-dark-surface border border-dark-border rounded-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-dark-border flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+          <span class="ml-2 font-mono text-xs text-slate-300 font-semibold">CampusSync Client Application Preview</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono">
+            <i data-lucide="github" class="w-3.5 h-3.5"></i>
+            <span>View Source (`code/`)</span>
+          </a>
+          <button onclick="closePrototypeModal()" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto space-y-6">
+        <div class="glass-panel p-6 rounded-xl border border-brand-500/30 text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-500/20 text-brand-300 mb-3">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">TeamSync Workspace Client Prototype</h3>
+          <p class="text-xs text-slate-300 max-w-xl mx-auto leading-relaxed mb-4">
+            The frontend client prototype is engineered with <strong>React 19 + Tailwind CSS + Lucide + Recharts</strong>. It implements modular views for Team Formations, Hackathon Task Kanbans, Project Listings, and Notifications.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <a href="#prototype" onclick="closePrototypeModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold">
+              Browse Interactive Screen Showcase
+            </a>
+            <a href="https://github.com/AaditaGarg/TeamSync/tree/main/code" target="_blank" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-dark-border text-xs font-semibold flex items-center gap-1.5">
+              <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+              <span>Run Locally (`npm run dev`)</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900 border border-dark-border">
+            <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>Active Prototype Modules</span>
+            </h4>
+            <ul class="text-xs text-slate-300 space-y-1.5 font-mono">
+              <li>• Overview Dashboard with Pilot Metrics (`OverviewView.jsx`)</li>
+              <li>• Hackathon Team Workspace & Task Allocation (`TasksView.jsx`)</li>
+              <li>• Cross-College Project Listings (`ProjectsView.jsx`)</li>
+              <li>• Formed Squad Directory (`TeamsView.jsx`)</li>
+              <li>• Real-Time Handshake Notification Center (`NotificationsView.jsx`)</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900 border border-dark-border">
+            <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+              <i data-lucide="terminal" class="w-4 h-4 text-accent-cyan"></i>
+              <span>Local Deployment Guide</span>
+            </h4>
+            <pre class="bg-dark-bg p-3 rounded-lg text-xs font-mono text-brand-300 overflow-x-auto border border-dark-border"># Clone repository
+git clone https://github.com/AaditaGarg/TeamSync.git
+cd TeamSync/code
+
+# Install React 19 dependencies
+npm install
+
+# Start local development server
+npm run dev
+# -> Opens http://localhost:5173</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Command Palette Modal -->
+  <div id="command-palette" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-start justify-center pt-20 p-4">
+    <div class="bg-dark-surface border border-dark-border rounded-2xl max-w-xl w-full shadow-2xl overflow-hidden">
+      <div class="p-3 border-b border-dark-border flex items-center gap-3">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+        <input type="text" id="cmd-input" oninput="filterCommandPalette()" placeholder="Search sections, UML diagrams, SRS requirements, APIs..." class="w-full bg-transparent text-sm text-white focus:outline-none placeholder:text-slate-500 font-mono" />
+        <kbd class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono border border-slate-700">ESC</kbd>
+      </div>
+      <div id="cmd-results" class="p-2 max-h-80 overflow-y-auto space-y-1 text-xs">
+        <a href="#executive-overview" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Executive Overview & Problem Formulation</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 01</span>
+        </a>
+        <a href="#team" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Team Matrix (Aadita, Ridhima, Vedika)</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 02</span>
+        </a>
+        <a href="#srs" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Software Requirements Specification (SRS)</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 03</span>
+        </a>
+        <a href="#architecture" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">3-Tier Architecture & REST API Explorer</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 04</span>
+        </a>
+        <a href="#diagrams" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">9 Formal UML Diagrams Showcase</span>
+          <span class="font-mono text-[10px] text-brand-400">9 Diagrams</span>
+        </a>
+        <a href="#matching-engine" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Heuristic Matching Engine & Live Simulator</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 06</span>
+        </a>
+        <a href="#timeline" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">12-Week Gantt Chart & SDLC Schedule</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 07</span>
+        </a>
+        <a href="#testing" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Testing Methodology & Performance Metrics</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 09</span>
+        </a>
+        <a href="#prototype" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Interactive Prototype Walkthrough</span>
+          <span class="font-mono text-[10px] text-slate-500">Section 10</span>
+        </a>
+        <a href="#downloads" onclick="toggleCommandPalette()" class="p-2.5 rounded-lg flex items-center justify-between hover:bg-slate-800 text-slate-300 hover:text-white">
+          <span class="font-semibold">Downloads Center (Proposal, Report, Journals)</span>
+          <span class="font-mono text-[10px] text-emerald-400">Downloads</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Interactivity -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Initialize Mermaid Diagrams
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#090D16',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#8b5cf6',
+        tertiaryColor: '#0f172a'
+      }
+    });
+
+    // Reading Progress Bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar').style.width = scrolled + '%';
+    });
+
+    // Dark / Light Theme Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('theme-icon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        icon.setAttribute('data-lucide', 'sun');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        icon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+    }
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Command Palette Toggle
+    function toggleCommandPalette() {
+      const pal = document.getElementById('command-palette');
+      pal.classList.toggle('hidden');
+      if (!pal.classList.contains('hidden')) {
+        setTimeout(() => document.getElementById('cmd-input').focus(), 50);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        toggleCommandPalette();
+      }
+      if (e.key === 'Escape') {
+        document.getElementById('command-palette').classList.add('hidden');
+        document.getElementById('diagram-modal').classList.add('hidden');
+        document.getElementById('prototype-modal').classList.add('hidden');
+      }
+    });
+
+    function filterCommandPalette() {
+      const q = document.getElementById('cmd-input').value.toLowerCase();
+      const items = document.querySelectorAll('#cmd-results a');
+      items.forEach(el => {
+        if (el.textContent.toLowerCase().includes(q)) {
+          el.style.display = 'flex';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+    // SRS Filter
+    function filterSRS(type) {
+      const rows = document.querySelectorAll('.srs-row');
+      const buttons = ['all', 'functional', 'non-functional', 'p0'];
+      buttons.forEach(b => {
+        const btn = document.getElementById('srs-btn-' + b);
+        if (b === type) {
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-brand-600 text-white transition-colors';
+        } else {
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors';
+        }
+      });
+
+      rows.forEach(r => {
+        if (type === 'all') {
+          r.style.display = '';
+        } else if (type === 'functional') {
+          r.style.display = r.classList.contains('srs-functional') ? '' : 'none';
+        } else if (type === 'non-functional') {
+          r.style.display = r.classList.contains('srs-non-functional') ? '' : 'none';
+        } else if (type === 'p0') {
+          r.style.display = r.classList.contains('srs-p0') ? '' : 'none';
+        }
+      });
+    }
+
+    // Diagrams Filter
+    function filterDiagrams(type) {
+      const cards = document.querySelectorAll('.diag-card');
+      const buttons = ['all', 'behavioral', 'structural', 'process'];
+      buttons.forEach(b => {
+        const btn = document.getElementById('diag-btn-' + b);
+        if (b === type) {
+          btn.className = 'px-2.5 py-1 rounded text-xs font-semibold bg-brand-600 text-white';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded text-xs text-slate-300 hover:bg-slate-800';
+        }
+      });
+
+      cards.forEach(c => {
+        if (type === 'all') {
+          c.style.display = 'flex';
+        } else if (type === 'behavioral') {
+          c.style.display = c.classList.contains('diag-behavioral') ? 'flex' : 'none';
+        } else if (type === 'structural') {
+          c.style.display = c.classList.contains('diag-structural') ? 'flex' : 'none';
+        } else if (type === 'process') {
+          c.style.display = c.classList.contains('diag-process') ? 'flex' : 'none';
+        }
+      });
+    }
+
+    // Diagram Modal View
+    function openDiagramModal(title, pdfPath) {
+      document.getElementById('modal-diagram-title').textContent = title + ' (Official Vector Document)';
+      document.getElementById('modal-diagram-download').href = pdfPath;
+      document.getElementById('modal-diagram-frame').src = pdfPath;
+      document.getElementById('diagram-modal').classList.remove('hidden');
+    }
+    function closeDiagramModal() {
+      document.getElementById('modal-diagram-frame').src = '';
+      document.getElementById('diagram-modal').classList.add('hidden');
+    }
+
+    // Prototype Modal
+    function openPrototypeModal() {
+      document.getElementById('prototype-modal').classList.remove('hidden');
+    }
+    function closePrototypeModal() {
+      document.getElementById('prototype-modal').classList.add('hidden');
+    }
+
+    // Prototype Showcase Tabs
+    function switchProtoTab(tabId) {
+      const tabs = ['workspace', 'listings', 'teams', 'metrics'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('proto-tab-' + t);
+        const view = document.getElementById('proto-view-' + t);
+        if (t === tabId) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-brand-600 text-white transition-colors';
+          view.classList.remove('hidden');
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors';
+          view.classList.add('hidden');
+        }
+      });
+    }
+
+    // API Accordion
+    function toggleAPI(id) {
+      const el = document.getElementById(id);
+      const icon = document.getElementById(id + '-icon');
+      el.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+
+    // Interactive Simulator Logic
+    const mockCandidates = [
+      {
+        id: 1,
+        name: "Ridhima Goel",
+        roll: "1024030466",
+        college: "Thapar Institute (TIET)",
+        skills: ["React", "Tailwind", "Solidity", "Node.js", "MongoDB"],
+        domains: ["fintech", "web3", "cloud"],
+        githubVerified: 0.95,
+        availability: 1.0
+      },
+      {
+        id: 2,
+        name: "Vedika Gupta",
+        roll: "1024030437",
+        college: "Thapar Institute (TIET)",
+        skills: ["Node.js", "Express", "MongoDB", "PyTorch", "FastAPI"],
+        domains: ["cloud", "health", "ai"],
+        githubVerified: 0.90,
+        availability: 0.90
+      },
+      {
+        id: 3,
+        name: "Karan Johar",
+        roll: "202404112",
+        college: "Delhi Technological Univ (DTU)",
+        skills: ["React", "FastAPI", "PyTorch", "Docker"],
+        domains: ["health", "ai"],
+        githubVerified: 0.85,
+        availability: 0.80
+      },
+      {
+        id: 4,
+        name: "Sneha Patel",
+        roll: "302408991",
+        college: "Punjab Engineering College (PEC)",
+        skills: ["Flutter", "Dart", "Firebase", "UI/UX"],
+        domains: ["fintech", "mobile"],
+        githubVerified: 0.75,
+        availability: 0.70
+      }
+    ];
+
+    const projectRequirements = {
+      fintech: {
+        skills: ["React", "Tailwind", "Solidity"],
+        domain: "fintech"
+      },
+      health: {
+        skills: ["PyTorch", "FastAPI", "React"],
+        domain: "health"
+      },
+      cloud: {
+        skills: ["Node.js", "Express", "MongoDB"],
+        domain: "cloud"
+      }
+    };
+
+    function updateSliders(changed) {
+      let w1 = parseFloat(document.getElementById('slider-w1').value);
+      let w2 = parseFloat(document.getElementById('slider-w2').value);
+      let w3 = parseFloat(document.getElementById('slider-w3').value);
+      let w4 = parseFloat(document.getElementById('slider-w4').value);
+
+      document.getElementById('val-w1').textContent = w1.toFixed(2);
+      document.getElementById('val-w2').textContent = w2.toFixed(2);
+      document.getElementById('val-w3').textContent = w3.toFixed(2);
+      document.getElementById('val-w4').textContent = w4.toFixed(2);
+
+      runMatchSimulation();
+    }
+
+    function runMatchSimulation() {
+      const projKey = document.getElementById('sim-project').value;
+      const req = projectRequirements[projKey];
+      const w1 = parseFloat(document.getElementById('slider-w1').value);
+      const w2 = parseFloat(document.getElementById('slider-w2').value);
+      const w3 = parseFloat(document.getElementById('slider-w3').value);
+      const w4 = parseFloat(document.getElementById('slider-w4').value);
+
+      const scored = mockCandidates.map(c => {
+        // Skill overlap Jaccard
+        const matchedSkills = c.skills.filter(s => req.skills.includes(s));
+        const skillScore = matchedSkills.length / req.skills.length;
+
+        // Domain overlap
+        const domainScore = c.domains.includes(req.domain) ? 1.0 : 0.3;
+
+        // Github activity
+        const ghScore = c.githubVerified;
+
+        // Availability
+        const availScore = c.availability;
+
+        // Composite formulation
+        const total = (w1 * skillScore) + (w2 * domainScore) + (w3 * ghScore) + (w4 * availScore);
+        const normalized = Math.min(1.0, Math.max(0.0, total / (w1 + w2 + w3 + w4)));
+
+        return {
+          ...c,
+          score: normalized,
+          matchedSkills: matchedSkills,
+          skillScore,
+          domainScore,
+          ghScore,
+          availScore
+        };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+
+      const container = document.getElementById('sim-results');
+      container.innerHTML = scored.map((c, idx) => {
+        const pct = Math.round(c.score * 100);
+        const badgeColor = idx === 0 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-slate-800 text-slate-300 border-dark-border';
+        const rankPill = idx === 0 ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500 text-black">Top Synergy Pick</span>' : '';
+
+        return `
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-dark-border flex flex-wrap items-center justify-between gap-3 hover:border-brand-500/40 transition-all">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-purple p-0.5">
+                <div class="w-full h-full bg-dark-surface rounded-[10px] flex items-center justify-center font-bold text-white text-xs">
+                  ${c.name.split(' ').map(n=>n[0]).join('')}
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="text-sm font-bold text-white">${c.name}</h4>
+                  ${rankPill}
+                </div>
+                <span class="text-[11px] text-slate-400 font-mono">${c.college} • Roll: ${c.roll}</span>
+                <div class="flex flex-wrap gap-1 mt-1.5">
+                  ${c.matchedSkills.map(s => `<span class="text-[10px] bg-brand-900/40 text-brand-300 px-1.5 py-0.5 rounded font-mono font-medium">✓ ${s}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="text-right">
+                <span class="text-xl font-mono font-extrabold text-brand-400">${pct}%</span>
+                <span class="text-[10px] text-slate-400 block font-mono">Match Score</span>
+              </div>
+              <div class="w-20 bg-slate-800 rounded-full h-2 overflow-hidden hidden sm:block">
+                <div class="bg-gradient-to-r from-brand-500 to-accent-cyan h-2 rounded-full" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Run initial simulation
+    runMatchSimulation();
+  </script>
+</body>
 </html>
