@@ -65,7 +65,8 @@ code/
     └── index.css           # Tailwind v4 theme tokens
 docs/
 ├── Diagrams/               # 9 Formal UML Diagrams (Activity, Sequence, Class, DFD, ER, etc.)
-├── downloads/              # Project proposal, mid-sem report, slides, and journals
+├── Gantt-Chart-.pdf        # 12-Week Gantt chart schedule
+├── TeamSync.pptx           # Presentation slide deck
 ├── index.html              # Project documentation showcase site (GitHub Pages)
 └── index.md                # Comprehensive academic Markdown specification
 journals/                   # Weekly reflective student engineering journals
@@ -131,12 +132,13 @@ npm run build
 
 ## Documentation
 
-- [Project Proposal (PDF)](docs/downloads/CampusSync_Proposal.pdf)
-- [Mid-Semester Evaluation Report (DOCX)](docs/downloads/TeamSync_MidSem_Report.docx)
-- [Mid-Semester Defense Presentation (PDF)](docs/downloads/TeamSync_MidSem_Presentation.pdf)
-- [12-Week Gantt Chart & WBS Schedule (PDF)](docs/downloads/Gantt_Chart.pdf)
+- [Project Proposal (PDF)](project-proposal/CampusSync_Proposal.pdf)
+- [Mid-Semester Evaluation Report (DOCX)](project-report-prototype-stage/TeamSync_MidSem_Report.docx)
+- [Mid-Semester Defense Presentation (PDF)](project-report-prototype-stage/TeamSync_MidSem_Presentation%20(1).pdf)
+- [Presentation Slide Deck (PPTX)](docs/TeamSync.pptx)
+- [12-Week Gantt Chart Schedule (PDF)](docs/Gantt-Chart-.pdf) & [Excel Sheet](docs/TeamSync_Gantt_Chart%20(1).xlsx)
 - [Formal UML Diagrams Directory](docs/Diagrams/)
-- [GitHub Pages Project Documentation Site](https://AaditaGarg.github.io/TeamSync/)
+- [Weekly Student Reflective Journals](journals/)
 
 ## Authors
 
