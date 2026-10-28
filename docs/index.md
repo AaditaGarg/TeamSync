@@ -43,7 +43,6 @@ Current teammate discovery suffers from four primary bottlenecks:
 
 ## ✨ Key Capabilities
 
-* **Strict Institutional Authentication:** Sign-up restricted to verified college email domains (`@thapar.edu`) using cryptographic token validation.
 * **GitHub Proof-of-Work Telemetry:** Direct linkage to GitHub API extracts public repositories, commit activity, and top language tags as verified signals.
 * **Heuristic Complementary Matching:** Evaluates candidates via a weighted-overlap composite formulation:
   $$S(u, L) = w_1 \cdot C_{\text{skills}}(u, L) + w_2 \cdot O_{\text{domain}}(u, L) + w_3 \cdot G_{\text{github}}(u) + w_4 \cdot A_{\text{avail}}(u)$$

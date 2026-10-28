@@ -12,7 +12,6 @@ The prototype prioritizes an explainable, deterministic heuristic workflow over 
 
 ## Features
 
-- **Institutional Authentication:** Domain-restricted onboarding requiring valid student email credentials (`@thapar.edu`).
 - **Verifiable GitHub Telemetry:** Proof-of-work verification extracting public repositories, primary programming languages, and commit activity via GitHub API.
 - **Team & Requirement Listings:** Structured requirement creation specifying hackathon name, open roles, required tech stacks, and team size.
 - **Complementary Matching Engine:** Heuristic algorithm scoring skill synergy $S(u, L) \in [0, 1]$ between candidate profiles and open listing requirements.
