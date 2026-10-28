@@ -37,7 +37,7 @@ Current teammate discovery suffers from four primary bottlenecks:
 3. **Trust & Verification Deficit:** Generic social networks cannot verify real student standing, resulting in ghosting or inflated skill claims.
 4. **Poor Skill Complementarity:** Search tools match identical tags rather than complementary roles (e.g. Pairing Frontend + Backend).
 
-**TeamSync (CampusSync)** solves this by creating a verified, cross-institutional teammate-to-team matching web platform restricted to valid college email domains (`@thapar.edu`), backed by GitHub proof-of-work telemetry, and scored via a transparent heuristic matching algorithm.
+**TeamSync** solves this by creating a verified, cross-institutional teammate-to-team matching web platform restricted to valid college email domains (`@thapar.edu`), backed by GitHub proof-of-work telemetry, and scored via a transparent heuristic matching algorithm.
 
 ---
 
@@ -103,7 +103,7 @@ All 9 formal Software Engineering UML & modeling diagrams are compiled as vector
 * [**TeamSync Project Document (PDF)**](<TeamSync .pdf>) — Complete compiled project document.
 * [**Presentation Slide Deck (PPTX)**](TeamSync.pptx) — TeamSync presentation slides.
 * [**Gantt Chart & WBS Schedule (PDF)**](Gantt-Chart-.pdf) & [Excel Sheet](<TeamSync_Gantt_Chart (1).xlsx>) — 12-week sprint schedule.
-* [**Project Proposal PDF**](../project-proposal/CampusSync_Proposal.pdf) — LaTeX research proposal submitted to Prof. Asif.
+* [**Project Proposal PDF**](../project-proposal/TeamSync_Proposal.pdf) — LaTeX research proposal submitted to Prof. Asif.
 * [**Mid-Semester Report DOCX**](../project-report-prototype-stage/TeamSync_MidSem_Report.docx) — Formal evaluation report.
 * [**Defense Presentation Slides (PDF)**](<../project-report-prototype-stage/TeamSync_MidSem_Presentation (1).pdf>) — Mid-semester review slide deck.
 * **Weekly Student Reflective Journals:**

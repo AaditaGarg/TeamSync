@@ -1,6 +1,6 @@
-# CampusSync — Team Workspace Dashboard
+# TeamSync — Team Workspace Dashboard
 
-A frontend dashboard for **CampusSync**, the cross-college hackathon team-formation
+A frontend dashboard for **TeamSync**, the cross-college hackathon team-formation
 platform described in `project-proposal/research_proposal.tex` and the ER/activity
 diagrams in `docs/`. This implements the "Team Workspace" + pilot-metrics dashboard
 deliverables from the proposal's project scope: teams, projects/listings, tasks,

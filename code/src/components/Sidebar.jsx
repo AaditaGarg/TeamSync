@@ -16,7 +16,7 @@ export default function Sidebar({ view, setView, unreadCount, currentUser }) {
           <Handshake size={17} strokeWidth={2.2} />
         </div>
         <div>
-          <div className="font-display font-semibold text-[15px] leading-none">CampusSync</div>
+          <div className="font-display font-semibold text-[15px] leading-none">TeamSync</div>
           <div className="text-[11px] text-[var(--color-brand-300)] mt-1">Team workspace</div>
         </div>
       </div>

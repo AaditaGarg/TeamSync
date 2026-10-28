@@ -1,4 +1,4 @@
-// Mock data shaped after the CampusSync ER diagram (docs/Activity-and-ER.pdf):
+// Mock data shaped after the TeamSync ER diagram (docs/Diagrams/):
 // User(Student) -> Listing -> Connection -> TeamWorkspace -> Task, Notification.
 // All data below is fabricated for demo purposes.
 
@@ -28,7 +28,7 @@ export const teams = [
   {
     id: "t1",
     name: "Nimbus",
-    project: "CampusSync — Matching Engine",
+    project: "TeamSync — Matching Engine",
     college: "Cross-college",
     memberIds: ["u1", "u2", "u3", "u6"],
     progress: 72,

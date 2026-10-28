@@ -1,4 +1,4 @@
-# TeamSync (CampusSync)
+# TeamSync
 
 A software-engineering prototype for cross-college hackathon team formation and project collaboration through a verified, skill-based matchmaking workflow. Students register with institutional email domains, link verifiable GitHub activity, post project requirements, match via a complementary-skill heuristic, and coordinate post-formation tasks in a shared workspace.
 
@@ -131,7 +131,7 @@ npm run build
 - [TeamSync Gantt Chart (Excel)](<docs/TeamSync_Gantt_Chart (1).xlsx>)
 - [Formal UML Diagrams Directory (9 Diagrams)](docs/Diagrams/)
 - [Academic Project Specification (Markdown)](docs/index.md)
-- [Project Proposal (PDF)](project-proposal/CampusSync_Proposal.pdf)
+- [Project Proposal (PDF)](project-proposal/TeamSync_Proposal.pdf)
 - [Mid-Semester Evaluation Report (DOCX)](project-report-prototype-stage/TeamSync_MidSem_Report.docx)
 - [Mid-Semester Defense Presentation (PDF)](<project-report-prototype-stage/TeamSync_MidSem_Presentation (1).pdf>)
 - [Weekly Student Reflective Journals](journals/)
@@ -147,5 +147,5 @@ npm run build
 
 ---
 
-TeamSync (CampusSync) · Software Engineering Prototype · Academic Year 2026–27  
+TeamSync · Software Engineering Prototype · Academic Year 2026–27  
 Computer Science and Engineering Department (CSED), Thapar Institute of Engineering and Technology, Patiala
