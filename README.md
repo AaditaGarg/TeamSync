@@ -1,5 +1,7 @@
 # TeamSync
 
+> 🌐 **Live Project Website (GitHub Pages):** [https://AaditaGarg.github.io/TeamSync/](https://AaditaGarg.github.io/TeamSync/)
+
 A software-engineering prototype for cross-college hackathon team formation and project collaboration through a verified, skill-based matchmaking workflow. Students register with institutional email domains, link verifiable GitHub activity, post project requirements, match via a complementary-skill heuristic, and coordinate post-formation tasks in a shared workspace.
 
 ## Project overview
@@ -96,7 +98,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173](http://localhost:5173) in your browser (local development server running on your machine).
 
 The frontend includes a built-in mock telemetry store (`src/data/mockData.js`). This allows immediate, full interactive testing of the Team Workspace, Project Listings, Kanban Task Board, and Notifications without requiring local MongoDB setup.
 
