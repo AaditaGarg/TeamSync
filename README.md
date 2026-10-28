@@ -69,10 +69,9 @@ docs/
 ├── Gantt-Chart-.pdf        # 12-Week Gantt chart schedule
 ├── TeamSync_Gantt_Chart (1).xlsx # Gantt chart spreadsheet
 ├── TeamSync.pptx           # Presentation slide deck
-└── index.md                # Comprehensive academic Markdown specification
+└── TeamSync .pdf           # Project summary document
 journals/                   # Weekly reflective student engineering journals
 project-proposal/           # LaTeX proposal source and compiled PDF submitted to Prof. Asif
-project-report-prototype-stage/ # Mid-semester presentation deck and progress report
 site/                       # GitHub Pages project documentation site (index.html)
 ```
 

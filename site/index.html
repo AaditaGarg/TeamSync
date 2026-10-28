@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TeamSync — A Cross-College Collaboration Platform for Hackathon Team Formation and Verified Skill-Based Matching. UCS503P Course Project." />
-  <title>TeamSync — Cross-College Hackathon Collaboration Platform | UCS503P</title>
+  <meta name="description" content="TeamSync — A Cross-College Hackathon Collaboration Platform & Verified Skill Matchmaking Architecture. UCS503P Course Project." />
+  <title>TeamSync — Engineering Documentation & Architecture Portal | UCS503P</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
-  <!-- Google Fonts: Space Grotesk & IBM Plex Sans -->
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,45 +20,54 @@
         extend: {
           fontFamily: {
             head: ['"Space Grotesk"', 'sans-serif'],
-            body: ['"IBM Plex Sans"', 'sans-serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-            },
-            accent: {
-              cyan: '#06b6d4',
-              teal: '#14b8a6',
-              emerald: '#10b981',
-              amber: '#f59e0b',
-              purple: '#8b5cf6',
-            },
-            canvas: {
-              dark: '#0B0F17',
-              panel: '#111827',
-              card: '#162032',
+            obsidian: {
+              950: '#06080D',
+              900: '#0B0F17',
+              850: '#101622',
+              800: '#161F2E',
+              700: '#222E42',
               border: 'rgba(255, 255, 255, 0.08)',
-              hover: '#1D2A42',
+              borderHover: 'rgba(52, 211, 153, 0.35)',
+            },
+            emeraldAccent: {
+              300: '#6EE7B7',
+              400: '#34D399',
+              500: '#10B981',
+              600: '#059669',
+              glow: 'rgba(16, 185, 129, 0.22)',
+            },
+            goldAccent: {
+              300: '#FDE68A',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              glow: 'rgba(245, 158, 11, 0.2)',
+            },
+            tealAccent: {
+              400: '#2DD4BF',
+              500: '#14B8A6',
             }
           },
           animation: {
-            'float': 'float 4s ease-in-out infinite',
-            'pulse-subtle': 'pulseSubtle 2.5s ease-in-out infinite',
+            'glow-slow': 'glowSlow 6s ease-in-out infinite alternate',
+            'float-soft': 'floatSoft 5s ease-in-out infinite',
+            'pulse-dot': 'pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
+            glowSlow: {
+              '0%': { transform: 'scale(1) translate(0px, 0px)', opacity: '0.35' },
+              '100%': { transform: 'scale(1.15) translate(15px, -15px)', opacity: '0.6' },
             },
-            pulseSubtle: {
-              '0%, 100%': { opacity: '1' },
-              '50%': { opacity: '0.5' },
+            floatSoft: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            pulseDot: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.4', transform: 'scale(1.2)' },
             }
           }
         }
@@ -70,268 +79,269 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #0B0F17; }
-    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    /* Sleek Custom Scrollbar */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #06080D; }
+    ::-webkit-scrollbar-thumb { background: #1B2433; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2B384E; }
 
-    /* Ambient Glows */
-    .glow-blob-1 {
+    /* Fine Micro-Dot Pattern */
+    .bg-mesh {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Ambient Lighting */
+    .ambient-glow-emerald {
       position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+      width: 580px;
+      height: 580px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, rgba(16, 185, 129, 0) 70%);
       pointer-events: none;
     }
-    .glow-blob-2 {
+    .ambient-glow-gold {
       position: absolute;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0) 70%);
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.10) 0%, rgba(245, 158, 11, 0) 70%);
       pointer-events: none;
     }
 
-    /* Grid Texture */
-    .bg-dots {
-      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-      background-size: 28px 28px;
+    /* Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #161F2E;
+      height: 6px;
+      border-radius: 3px;
     }
-
-    /* Live Pulsing Dot */
-    .pulse-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
       border-radius: 50%;
-      position: relative;
-    }
-    .pulse-dot::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      border-radius: 50%;
-      border: 1px solid currentColor;
-      animation: pulseSubtle 1.8s infinite;
+      background: #10B981;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+      border: 2px solid #06080D;
     }
   </style>
 </head>
-<body class="bg-canvas-dark text-slate-300 font-body antialiased selection:bg-brand-500 selection:text-white">
+<body class="bg-obsidian-950 text-slate-300 font-body antialiased selection:bg-emeraldAccent-500 selection:text-white">
 
-  <!-- Top Announcement Bar -->
-  <aside aria-label="Course banner" class="border-b border-canvas-border bg-slate-900/90 text-xs py-2 px-4 text-slate-400 font-mono">
-    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="pulse-dot bg-emerald-400 text-emerald-400"></span>
-        <span class="text-white font-medium">UCS503P: Software Engineering Practicum</span>
-        <span class="text-slate-600 hidden sm:inline">•</span>
-        <span class="hidden sm:inline">Thapar Institute of Engineering & Technology, Patiala</span>
+  <!-- ================= TOP INSTITUTIONAL BAR ================= -->
+  <aside aria-label="Course Header" class="border-b border-obsidian-border bg-obsidian-900/95 text-xs py-2 px-4 text-slate-400 font-mono sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full bg-emeraldAccent-400 animate-pulse-dot"></span>
+        <span class="text-slate-100 font-semibold tracking-wide">UCS503P: Software Engineering Practicum</span>
+        <span class="text-slate-600 hidden sm:inline">|</span>
+        <span class="text-slate-400 hidden sm:inline">Thapar Institute of Engg. & Tech., Patiala</span>
       </div>
-      <div class="flex items-center gap-3">
-        <span>Evaluator: <strong class="text-slate-200">Prof. Asif</strong></span>
-        <span class="text-slate-600">•</span>
-        <span>Group: <strong class="text-brand-400">3C32 (CSED)</strong></span>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>Evaluator: <strong class="text-emeraldAccent-300">Prof. Asif</strong></span>
+        <span class="text-slate-700">•</span>
+        <span>Group: <strong class="text-slate-200">3C32 (BE 3rd Year)</strong></span>
+        <span class="text-slate-700">•</span>
+        <span class="px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-400 border border-emeraldAccent-500/20 font-bold">Prototype Verified</span>
       </div>
     </div>
   </aside>
 
-  <!-- Sticky Navbar -->
-  <header class="sticky top-0 z-40 bg-canvas-dark/90 backdrop-blur-md border-b border-canvas-border">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+  <!-- ================= HEADER NAVIGATION ================= -->
+  <header class="border-b border-obsidian-border bg-obsidian-950/90 backdrop-blur-lg sticky top-[33px] z-40">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
       
-      <!-- Brand Logo -->
-      <a href="#top" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-cyan p-0.5 shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-          <div class="w-full h-full bg-canvas-panel rounded-[10px] flex items-center justify-center font-head font-bold text-white text-base">
+      <!-- Brand -->
+      <a href="#top" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emeraldAccent-500 via-tealAccent-500 to-obsidian-900 p-0.5 shadow-lg shadow-emeraldAccent-500/15 group-hover:shadow-emeraldAccent-500/30 transition-all">
+          <div class="w-full h-full bg-obsidian-900 rounded-[10px] flex items-center justify-center font-head font-extrabold text-white text-base">
             TS
           </div>
         </div>
         <div>
-          <span class="font-head font-bold text-lg text-white group-hover:text-brand-400 transition-colors">TeamSync</span>
-          <span class="text-[10px] font-mono text-slate-400 block -mt-1">Collaboration Platform</span>
+          <div class="flex items-center gap-2">
+            <span class="font-head font-bold text-lg text-white tracking-tight group-hover:text-emeraldAccent-400 transition-colors">TeamSync</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emeraldAccent-500/15 text-emeraldAccent-400 border border-emeraldAccent-500/20">v2.4</span>
+          </div>
+          <span class="text-[11px] font-mono text-slate-400 block -mt-0.5">Teammate Synergy & Workspace Engine</span>
         </div>
       </a>
 
-      <!-- Desktop Links -->
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-        <a href="#about" class="hover:text-white transition-colors">About</a>
-        <a href="#demo" class="hover:text-white transition-colors">Live Demo</a>
-        <a href="#workflow" class="hover:text-white transition-colors">How It Works</a>
-        <a href="#stack" class="hover:text-white transition-colors">Stack</a>
-        <a href="#diagrams" class="hover:text-white transition-colors flex items-center gap-1.5">
-          <span>UML Diagrams</span>
-          <span class="px-1.5 py-0.2 rounded-full bg-brand-500/20 text-brand-400 text-[11px] font-mono font-bold">9</span>
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono">
+        <a href="#architecture" class="hover:text-emeraldAccent-400 transition-colors">Architecture</a>
+        <a href="#simulator" class="hover:text-emeraldAccent-400 transition-colors">Match Engine</a>
+        <a href="#pipeline" class="hover:text-emeraldAccent-400 transition-colors">Workflow</a>
+        <a href="#diagrams" class="hover:text-emeraldAccent-400 transition-colors flex items-center gap-1.5">
+          <span>9 UML Specs</span>
+          <span class="px-1.5 py-0.2 rounded-full bg-emeraldAccent-500/20 text-emeraldAccent-300 font-bold">9</span>
         </a>
-        <a href="#downloads" class="hover:text-white transition-colors">Downloads</a>
-        <a href="#team" class="hover:text-white transition-colors">Team</a>
+        <a href="#roadmap" class="hover:text-emeraldAccent-400 transition-colors">12-Week WBS</a>
+        <a href="#downloads" class="hover:text-emeraldAccent-400 transition-colors">Deliverables</a>
+        <a href="#team" class="hover:text-emeraldAccent-400 transition-colors">Team</a>
       </nav>
 
-      <!-- Action Buttons -->
+      <!-- Action Pill -->
       <div class="flex items-center gap-3">
-        <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border transition-all">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span>GitHub</span>
+        <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border transition-all">
+          <i data-lucide="github" class="w-4 h-4 text-emeraldAccent-400"></i>
+          <span class="hidden sm:inline">AaditaGarg/TeamSync</span>
         </a>
-        <a href="#demo" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:-translate-y-px">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-          <span>Try Demo</span>
+        <a href="#simulator" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-head font-bold bg-emeraldAccent-600 hover:bg-emeraldAccent-500 text-white shadow-lg shadow-emeraldAccent-600/25 transition-all hover:-translate-y-0.5">
+          <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+          <span>Run Simulator</span>
         </a>
-        <!-- Mobile menu toggle -->
-        <button onclick="toggleNav()" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
       </div>
 
-    </div>
-
-    <!-- Mobile Drawer -->
-    <div id="nav-drawer" class="hidden md:hidden border-b border-canvas-border bg-canvas-panel px-6 py-4 space-y-2 text-sm font-medium">
-      <a href="#about" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">About Project</a>
-      <a href="#demo" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">Live Demo</a>
-      <a href="#workflow" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">How It Works</a>
-      <a href="#stack" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">Architecture & Stack</a>
-      <a href="#diagrams" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">9 UML Diagrams</a>
-      <a href="#downloads" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">Downloads Center</a>
-      <a href="#team" onclick="toggleNav()" class="block py-1.5 text-slate-300 hover:text-white">Team Members</a>
-      <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" class="block py-1.5 text-brand-400 font-semibold">View on GitHub →</a>
     </div>
   </header>
 
   <main id="top">
 
     <!-- ================= HERO SECTION ================= -->
-    <section class="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden bg-dots">
-      <div class="glow-blob-1 -top-24 -left-20"></div>
-      <div class="glow-blob-2 top-1/2 -right-20"></div>
+    <section class="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden bg-mesh border-b border-obsidian-border">
+      <!-- Ambient Lights -->
+      <div class="ambient-glow-emerald -top-24 -left-20 animate-glow-slow"></div>
+      <div class="ambient-glow-gold top-1/3 -right-20 animate-glow-slow" style="animation-delay: -3s;"></div>
 
-      <div class="max-w-6xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <!-- Left: Headline & Pitch -->
-        <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
-            <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
-            <span>Course Project &middot; UCS503P</span>
+        <!-- Left Column: Core Value Proposition -->
+        <div class="lg:col-span-7 space-y-7">
+          
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono bg-obsidian-850/90 text-emeraldAccent-300 border border-emeraldAccent-500/20 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-emeraldAccent-400 animate-pulse-dot"></span>
+            <span>Software Engineering Prototype &middot; Group 3C32</span>
           </div>
 
-          <h1 class="text-4xl sm:text-6xl font-head font-extrabold text-white tracking-tight leading-[1.1]">
-            Find teammates.<br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-accent-purple to-accent-cyan">
-              Not another
+          <h1 class="text-4xl sm:text-6xl lg:text-[64px] font-head font-extrabold text-white tracking-tight leading-[1.08]">
+            Cross-College <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emeraldAccent-300 via-tealAccent-400 to-goldAccent-400">
+              Hackathon Teammate
             </span><br />
-            dead end.
+            Discovery Platform.
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
-            <strong>TeamSync</strong> eliminates hackathon team formation friction. Built for college developers, it pairs institutional email verification (<code class="text-brand-300 font-mono text-sm">@thapar.edu</code>) with GitHub proof-of-work and a complementary-skill matching engine.
+          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl font-normal">
+            <strong>TeamSync</strong> eliminates multidisciplinary team formation friction. Combines verified collegiate email onboarding, GitHub proof-of-work telemetry, and a deterministic complementary-skill heuristic matching engine into an integrated Hackathon Kanban Workspace.
           </p>
 
-          <div class="flex flex-wrap items-center gap-4 pt-2">
-            <a href="#demo" class="px-6 py-3 rounded-xl font-head font-bold text-sm bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:-translate-y-0.5 flex items-center gap-2">
-              <span>Try Live Teammate Matcher</span>
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-4 pt-1">
+            <a href="#simulator" class="px-6 py-3.5 rounded-xl font-head font-bold text-sm bg-emeraldAccent-600 hover:bg-emeraldAccent-500 text-white shadow-xl shadow-emeraldAccent-600/30 transition-all hover:-translate-y-0.5 flex items-center gap-2.5">
+              <span>Test Matching Heuristic</span>
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
-            <a href="#diagrams" class="px-5 py-3 rounded-xl font-head font-bold text-sm bg-canvas-card hover:bg-canvas-hover text-slate-200 border border-canvas-border transition-all flex items-center gap-2">
-              <i data-lucide="git-merge" class="w-4 h-4 text-accent-cyan"></i>
-              <span>View 9 UML Diagrams</span>
+            <a href="#diagrams" class="px-5 py-3.5 rounded-xl font-head font-bold text-sm bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border transition-all flex items-center gap-2 hover:border-emeraldAccent-500/30">
+              <i data-lucide="file-code" class="w-4 h-4 text-emeraldAccent-400"></i>
+              <span>Explore 9 UML Specs</span>
             </a>
           </div>
 
-          <!-- Trust Badges -->
-          <div class="pt-6 border-t border-canvas-border/80 flex flex-wrap items-center gap-6 text-xs text-slate-400 font-mono">
-            <div class="flex items-center gap-2">
-              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-              <span>100% Verified Campus IDs</span>
+          <!-- Feature Metric Badges -->
+          <div class="pt-6 border-t border-obsidian-border/80 grid grid-cols-3 gap-4 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-obsidian-900/80 border border-obsidian-border">
+              <div class="text-emeraldAccent-400 font-bold text-base font-head">12 Weeks</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">Iterative Sprint WBS</div>
             </div>
-            <div class="flex items-center gap-2">
-              <i data-lucide="git-commit" class="w-4 h-4 text-accent-cyan"></i>
-              <span>GitHub Telemetry Proof</span>
+            <div class="p-3 rounded-xl bg-obsidian-900/80 border border-obsidian-border">
+              <div class="text-tealAccent-400 font-bold text-base font-head">9 Diagrams</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">Formal UML Models</div>
             </div>
-            <div class="flex items-center gap-2">
-              <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
-              <span>Median TTM &le; 24h</span>
+            <div class="p-3 rounded-xl bg-obsidian-900/80 border border-obsidian-border">
+              <div class="text-goldAccent-400 font-bold text-base font-head">3 Tiers</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">React + Node + Mongo</div>
             </div>
           </div>
+
         </div>
 
-        <!-- Right: Animated Floating Match Preview Card -->
+        <!-- Right Column: Interactive System Telemetry Engine (No hardcoded cards) -->
         <div class="lg:col-span-5 relative">
-          <div class="w-full max-w-md mx-auto rounded-2xl bg-canvas-card/90 border border-canvas-border p-5 shadow-2xl backdrop-blur-xl animate-float">
+          <div class="rounded-2xl bg-obsidian-900/90 border border-obsidian-border p-6 shadow-2xl backdrop-blur-xl animate-float-soft relative overflow-hidden">
             
-            <!-- Card Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-canvas-border">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center font-head font-bold text-sm">
-                  ⚡
-                </div>
-                <div>
-                  <h4 class="text-xs font-head font-bold text-white">Live Match Recommendation</h4>
-                  <span class="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-                    <span class="pulse-dot bg-emerald-400 text-emerald-400" style="width:5px;height:5px;"></span>
-                    <span>Heuristic Engine Active</span>
-                  </span>
-                </div>
+            <!-- Terminal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-obsidian-border">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                <span class="text-xs font-mono text-slate-400 ml-2">teamsync-core // v2.4</span>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20 font-semibold">96% Synergy</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-400 border border-emeraldAccent-500/20 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emeraldAccent-400 animate-pulse"></span>
+                <span>Telemetry Active</span>
+              </span>
             </div>
 
-            <!-- Candidate Profile -->
-            <div class="py-4 space-y-3">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-cyan p-0.5">
-                  <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-bold text-white text-sm">
-                    RG
+            <!-- Pipeline Live Stages -->
+            <div class="py-5 space-y-4 font-mono text-xs">
+              
+              <!-- Stage 1 -->
+              <div class="p-3 rounded-xl bg-obsidian-850/80 border border-obsidian-border flex items-start gap-3">
+                <div class="w-6 h-6 rounded-lg bg-emeraldAccent-500/20 text-emeraldAccent-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center text-slate-200 font-semibold">
+                    <span>1. Institutional Identity</span>
+                    <span class="text-emeraldAccent-400 text-[10px]">VERIFIED</span>
                   </div>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Token signature checked &middot; Domain restricted onboarding</p>
                 </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <h5 class="text-sm font-head font-bold text-white">Ridhima Goel</h5>
-                    <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Verified</span>
+              </div>
+
+              <!-- Stage 2 -->
+              <div class="p-3 rounded-xl bg-obsidian-850/80 border border-obsidian-border flex items-start gap-3">
+                <div class="w-6 h-6 rounded-lg bg-tealAccent-500/20 text-tealAccent-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="git-commit" class="w-3.5 h-3.5"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center text-slate-200 font-semibold">
+                    <span>2. GitHub Proof-of-Work</span>
+                    <span class="text-tealAccent-400 text-[10px]">SYNCED</span>
                   </div>
-                  <span class="text-xs text-slate-400 font-mono">Thapar Institute &middot; Roll: 1024030466</span>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Telemetry extracted: Public repositories & top language tags</p>
                 </div>
               </div>
 
-              <!-- Matched Skills -->
-              <div>
-                <span class="text-[11px] font-mono text-slate-400 block mb-1.5">Complementary Tech Stack:</span>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-brand-300 border border-brand-500/20 font-medium">React 19</span>
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-brand-300 border border-brand-500/20 font-medium">Node.js</span>
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-brand-300 border border-brand-500/20 font-medium">MongoDB</span>
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-accent-cyan border border-accent-cyan/20 font-medium">Solidity</span>
+              <!-- Stage 3 -->
+              <div class="p-3 rounded-xl bg-obsidian-850/80 border border-obsidian-border flex items-start gap-3">
+                <div class="w-6 h-6 rounded-lg bg-goldAccent-500/20 text-goldAccent-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center text-slate-200 font-semibold">
+                    <span>3. Heuristic Overlap Engine</span>
+                    <span class="text-goldAccent-400 text-[10px]">SCORING</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Weighted vector calculation across complementary skills</p>
                 </div>
               </div>
 
-              <!-- Real-time Score breakdown -->
-              <div class="p-3 rounded-xl bg-canvas-panel/80 border border-canvas-border space-y-2 text-xs">
-                <div class="flex justify-between text-[11px]">
-                  <span class="text-slate-400">Skill Complementarity (45%)</span>
-                  <span class="font-mono text-brand-300 font-bold">1.00</span>
+              <!-- Stage 4 -->
+              <div class="p-3 rounded-xl bg-obsidian-850/80 border border-obsidian-border flex items-start gap-3">
+                <div class="w-6 h-6 rounded-lg bg-emeraldAccent-500/20 text-emeraldAccent-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="trello" class="w-3.5 h-3.5"></i>
                 </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-brand-500 h-1.5 rounded-full" style="width: 100%"></div>
-                </div>
-
-                <div class="flex justify-between text-[11px] pt-1">
-                  <span class="text-slate-400">GitHub Verified Activity (25%)</span>
-                  <span class="font-mono text-accent-cyan font-bold">0.95</span>
-                </div>
-                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-accent-cyan h-1.5 rounded-full" style="width: 95%"></div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center text-slate-200 font-semibold">
+                    <span>4. Squad Workspace</span>
+                    <span class="text-emeraldAccent-400 text-[10px]">UNLOCKED</span>
+                  </div>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Sprint Kanban, milestone coordinator, and communication</p>
                 </div>
               </div>
+
             </div>
 
-            <!-- Card Action Footer -->
-            <div class="pt-3 border-t border-canvas-border flex items-center justify-between">
-              <span class="text-[11px] text-slate-400 font-mono">Status: Available (48h Sprint)</span>
-              <button class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-head font-bold text-xs flex items-center gap-1 transition-colors">
-                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                <span>Send Handshake</span>
-              </button>
+            <!-- Terminal Footer Status -->
+            <div class="pt-3 border-t border-obsidian-border flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span class="flex items-center gap-1.5 text-emeraldAccent-400">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                <span>All 4 pipeline tiers active</span>
+              </span>
+              <a href="#pipeline" class="text-slate-300 hover:text-white underline">Inspect flow &rarr;</a>
             </div>
 
           </div>
@@ -340,320 +350,72 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 01: ABOUT ================= -->
-    <section id="about" class="py-20 border-t border-canvas-border">
-      <div class="max-w-6xl mx-auto px-6">
+    <!-- ================= SECTION 01: ARCHITECTURE ================= -->
+    <section id="architecture" class="py-24 border-b border-obsidian-border bg-obsidian-950">
+      <div class="max-w-7xl mx-auto px-6">
         
-        <div class="text-center max-w-2xl mx-auto mb-14">
-          <p class="text-xs font-mono font-bold text-brand-400 uppercase tracking-widest mb-2">01 // Problem & Solution</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Why TeamSync Exists</h2>
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-emeraldAccent-400 uppercase tracking-widest mb-2">01 // Engineering Design</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">3-Tier Scalable System Architecture</h2>
           <p class="text-slate-400 text-sm mt-3 leading-relaxed">
-            Hackathons demand multidisciplinary skills — AI/ML, UI/UX, Web3, Backend. Yet teammate search remains broken across WhatsApp, batch Discord groups, and word-of-mouth.
+            Decoupled presentation, business logic, and document persistence tiers engineered for rapid 48-hour hackathon demand surges.
           </p>
         </div>
 
-        <!-- 4 Clean Feature Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all hover:-translate-y-1">
-            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center mb-4">
-              <i data-lucide="shield-check" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-base font-head font-bold text-white mb-2">Verified Campus Auth</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Registrations strictly restricted to verified college email domains (<code class="text-brand-300 font-mono">@thapar.edu</code>). Zero anonymous trolls, zero ghosting.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-cyan/50 transition-all hover:-translate-y-1">
-            <div class="w-10 h-10 rounded-xl bg-accent-cyan/20 text-accent-cyan flex items-center justify-center mb-4">
-              <i data-lucide="git-branch" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-base font-head font-bold text-white mb-2">GitHub Proof-of-Work</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Profiles pull verified public repositories, commit activity, and top language telemetry directly via GitHub API callbacks.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all hover:-translate-y-1">
-            <div class="w-10 h-10 rounded-xl bg-accent-purple/20 text-purple-400 flex items-center justify-center mb-4">
-              <i data-lucide="cpu" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-base font-head font-bold text-white mb-2">Complementary Matching</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Transparent weighted-overlap formulation calculates synergy rather than plain keyword overlap: <span class="font-mono text-purple-300">Skills + Domain + GitHub + Hours</span>.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-emerald-500/50 transition-all hover:-translate-y-1">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
-              <i data-lucide="trello" class="w-5 h-5"></i>
-            </div>
-            <h3 class="text-base font-head font-bold text-white mb-2">Hackathon Workspace</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Once connected, squads unlock an integrated Kanban board, milestone trackers, and deadline coordinator for the 48-hour build.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ================= SECTION 02: LIVE DEMO ================= -->
-    <section id="demo" class="py-20 border-t border-canvas-border bg-slate-950/60">
-      <div class="max-w-6xl mx-auto px-6">
-        
-        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
-          <div>
-            <p class="text-xs font-mono font-bold text-accent-cyan uppercase tracking-widest mb-2">02 // Interactive Engine</p>
-            <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Try the Teammate Matcher</h2>
-            <p class="text-slate-400 text-sm mt-1">Select a project need or pick a required skill tag to simulate candidate scoring in real time.</p>
-          </div>
-          
-          <!-- Filter Buttons -->
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-mono text-slate-400 mr-1">Project Need:</span>
-            <button onclick="filterDemo('all')" id="btn-demo-all" class="px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-brand-600 text-white transition-all">All Candidates</button>
-            <button onclick="filterDemo('frontend')" id="btn-demo-frontend" class="px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-canvas-card text-slate-300 hover:text-white transition-all">Frontend / UI</button>
-            <button onclick="filterDemo('backend')" id="btn-demo-backend" class="px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-canvas-card text-slate-300 hover:text-white transition-all">Backend / DB</button>
-            <button onclick="filterDemo('ai')" id="btn-demo-ai" class="px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-canvas-card text-slate-300 hover:text-white transition-all">AI / ML</button>
-          </div>
-        </div>
-
-        <!-- Candidate Cards Grid -->
-        <div id="demo-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <!-- Candidate 1 -->
-          <div class="demo-card demo-frontend p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> @thapar.edu Verified
-              </span>
-              <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 font-bold">96% Synergy</span>
-            </div>
-            
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-cyan p-0.5">
-                <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-bold text-white text-sm">
-                  AG
-                </div>
-              </div>
-              <div>
-                <h4 class="text-sm font-head font-bold text-white">Aadita Garg</h4>
-                <span class="text-xs text-slate-400 font-mono">Roll: 1024030461 &middot; TIET</span>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 mb-3">
-              Specializes in React 19, responsive Tailwind CSS dashboards, and real-time state management.
-            </p>
-
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">React 19</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Tailwind CSS</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">UI/UX</span>
-            </div>
-
-            <div class="pt-3 border-t border-canvas-border flex items-center justify-between text-xs">
-              <span class="text-slate-400 font-mono">GitHub: 14 Repos</span>
-              <button onclick="alert('Connection handshake sent to Aadita Garg!')" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-head font-bold text-xs">
-                Connect
-              </button>
-            </div>
-          </div>
-
-          <!-- Candidate 2 -->
-          <div class="demo-card demo-backend p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> @thapar.edu Verified
-              </span>
-              <span class="text-xs font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">94% Synergy</span>
-            </div>
-            
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-accent-purple to-accent-cyan p-0.5">
-                <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-bold text-white text-sm">
-                  RG
-                </div>
-              </div>
-              <div>
-                <h4 class="text-sm font-head font-bold text-white">Ridhima Goel</h4>
-                <span class="text-xs text-slate-400 font-mono">Roll: 1024030466 &middot; TIET</span>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 mb-3">
-              Backend systems engineer. Designed RESTful API contracts and heuristic weighted overlap algorithms.
-            </p>
-
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Node.js</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Express</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">REST APIs</span>
-            </div>
-
-            <div class="pt-3 border-t border-canvas-border flex items-center justify-between text-xs">
-              <span class="text-slate-400 font-mono">GitHub: 18 Repos</span>
-              <button onclick="alert('Connection handshake sent to Ridhima Goel!')" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-head font-bold text-xs">
-                Connect
-              </button>
-            </div>
-          </div>
-
-          <!-- Candidate 3 -->
-          <div class="demo-card demo-backend demo-ai p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-cyan/50 transition-all">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> @thapar.edu Verified
-              </span>
-              <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">91% Synergy</span>
-            </div>
-            
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-accent-cyan to-emerald-500 p-0.5">
-                <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-bold text-white text-sm">
-                  VG
-                </div>
-              </div>
-              <div>
-                <h4 class="text-sm font-head font-bold text-white">Vedika Gupta</h4>
-                <span class="text-xs text-slate-400 font-mono">Roll: 1024030437 &middot; TIET</span>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 mb-3">
-              Database schema modeler, MongoDB Atlas indexer, and author of 9 formal SE UML diagrams.
-            </p>
-
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">MongoDB</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">PyTorch</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">UML Specs</span>
-            </div>
-
-            <div class="pt-3 border-t border-canvas-border flex items-center justify-between text-xs">
-              <span class="text-slate-400 font-mono">GitHub: 11 Repos</span>
-              <button onclick="alert('Connection handshake sent to Vedika Gupta!')" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-head font-bold text-xs">
-                Connect
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ================= SECTION 03: WORKFLOW ================= -->
-    <section id="workflow" class="py-20 border-t border-canvas-border">
-      <div class="max-w-6xl mx-auto px-6">
-        
-        <div class="text-center max-w-2xl mx-auto mb-16">
-          <p class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest mb-2">03 // Execution Pipeline</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">How Team Formation Works</h2>
-          <p class="text-slate-400 text-sm mt-3">From identity verification to confirmed hackathon squads in 4 structured stages.</p>
-        </div>
-
-        <!-- 4 Step Flow -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-          
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border relative">
-            <span class="text-3xl font-head font-extrabold text-slate-700 block mb-2">01</span>
-            <h3 class="text-base font-head font-bold text-white mb-2">Domain Sign-Up</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Student enters <code class="text-brand-300 font-mono">@thapar.edu</code> credentials. System verifies institutional token and initializes profile.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border relative">
-            <span class="text-3xl font-head font-extrabold text-slate-700 block mb-2">02</span>
-            <h3 class="text-base font-head font-bold text-white mb-2">Link Proof-of-Work</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Student links GitHub handle. System parses public repos, commit frequency, and top tech stacks into structured signals.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border relative">
-            <span class="text-3xl font-head font-extrabold text-slate-700 block mb-2">03</span>
-            <h3 class="text-base font-head font-bold text-white mb-2">Heuristic Match</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              When a hackathon listing is posted, the engine calculates complementary overlap: <span class="font-mono text-brand-300">S(u, L) &in; [0, 1]</span> and ranks candidates.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border relative">
-            <span class="text-3xl font-head font-extrabold text-slate-700 block mb-2">04</span>
-            <h3 class="text-base font-head font-bold text-white mb-2">Squad Workspace</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Mutual connection handshake unlocks private coordination chat and a shared Kanban board for task allocation during the build.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ================= SECTION 04: ARCHITECTURE & STACK ================= -->
-    <section id="stack" class="py-20 border-t border-canvas-border bg-slate-950/60">
-      <div class="max-w-6xl mx-auto px-6">
-        
-        <div class="text-center max-w-2xl mx-auto mb-14">
-          <p class="text-xs font-mono font-bold text-accent-purple uppercase tracking-widest mb-2">04 // Engineering Foundation</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">System Architecture & Tech Stack</h2>
-          <p class="text-slate-400 text-sm mt-3">A clean 3-tier architecture ensuring low latency, stateless horizontal scalability, and verified telemetry.</p>
-        </div>
-
-        <!-- 3-Tier Grid -->
+        <!-- 3 Tiers Layout -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border">
-            <div class="flex items-center gap-2 mb-4 text-brand-400">
-              <i data-lucide="monitor" class="w-5 h-5"></i>
-              <h3 class="text-base font-head font-bold text-white">Tier 1: Client Layer</h3>
+          <!-- Tier 1 -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/30 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-emeraldAccent-500/10 text-emeraldAccent-400 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+              <i data-lucide="layout" class="w-6 h-6"></i>
             </div>
-            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-              Responsive single-page application built with React 19 and Tailwind CSS v4. Features fast Vite bundling, reactive Kanban views, and accessible design.
+            <span class="text-[11px] font-mono text-emeraldAccent-400 uppercase tracking-wider block mb-1">Presentation Layer</span>
+            <h3 class="text-lg font-head font-bold text-white mb-2">Client Single-Page App</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Built on React 19 and Tailwind CSS v4, compiled with Vite. Delivers reactive Kanban boards, requirement filter switches, and real-time telemetry state.
             </p>
-            <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">React 19</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Tailwind v4</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Vite 8</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Lucide Icons</span>
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] pt-4 border-t border-obsidian-border">
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">React 19</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Tailwind v4</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Vite 8</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Lucide</span>
             </div>
           </div>
 
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border">
-            <div class="flex items-center gap-2 mb-4 text-accent-purple">
-              <i data-lucide="server" class="w-5 h-5"></i>
-              <h3 class="text-base font-head font-bold text-white">Tier 2: API & Logic Gateway</h3>
+          <!-- Tier 2 -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/30 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-tealAccent-500/10 text-tealAccent-400 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+              <i data-lucide="server" class="w-6 h-6"></i>
             </div>
-            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-              RESTful backend engineered on Node.js & Express. Features stateless JWT authentication, regex college domain filters, and heuristic score computation.
+            <span class="text-[11px] font-mono text-tealAccent-400 uppercase tracking-wider block mb-1">Business Logic Layer</span>
+            <h3 class="text-lg font-head font-bold text-white mb-2">Node / Express Gateway</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Stateless REST API gateway executing JWT auth middleware, GitHub REST telemetry parsing, and the composite heuristic matching formula.
             </p>
-            <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Node.js LTS</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Express.js</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">JWT Auth</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Socket.io</span>
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] pt-4 border-t border-obsidian-border">
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Node.js LTS</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Express</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">JWT Token</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">REST APIs</span>
             </div>
           </div>
 
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border">
-            <div class="flex items-center gap-2 mb-4 text-accent-cyan">
-              <i data-lucide="database" class="w-5 h-5"></i>
-              <h3 class="text-base font-head font-bold text-white">Tier 3: Data & Cloud</h3>
+          <!-- Tier 3 -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/30 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-goldAccent-500/10 text-goldAccent-400 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+              <i data-lucide="database" class="w-6 h-6"></i>
             </div>
-            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-              Managed MongoDB Atlas document store with Mongoose ODM schemas. Compound multi-key indexes on skill arrays and college domains guarantee sub-200ms queries.
+            <span class="text-[11px] font-mono text-goldAccent-400 uppercase tracking-wider block mb-1">Persistence Layer</span>
+            <h3 class="text-lg font-head font-bold text-white mb-2">MongoDB Atlas Storage</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Document data model with compound multi-key indexes on skill arrays and student profiles. Supports sub-200ms heuristic query resolution.
             </p>
-            <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">MongoDB Atlas</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Mongoose ODM</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">B-Tree Index</span>
-              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">GitHub Actions</span>
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] pt-4 border-t border-obsidian-border">
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">MongoDB</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Mongoose</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">B-Tree Indexes</span>
+              <span class="px-2.5 py-1 rounded-md bg-obsidian-850 text-slate-300">Atlas Cloud</span>
             </div>
           </div>
 
@@ -662,229 +424,376 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 05: UML DIAGRAMS ================= -->
-    <section id="diagrams" class="py-20 border-t border-canvas-border">
-      <div class="max-w-6xl mx-auto px-6">
+    <!-- ================= SECTION 02: INTERACTIVE HEURISTIC SIMULATOR ================= -->
+    <section id="simulator" class="py-24 border-b border-obsidian-border bg-obsidian-900/50 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6">
         
-        <div class="text-center max-w-2xl mx-auto mb-14">
-          <p class="text-xs font-mono font-bold text-accent-cyan uppercase tracking-widest mb-2">05 // System Modeling</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Formal Engineering Diagrams</h2>
-          <p class="text-slate-400 text-sm mt-3">All 9 Software Engineering UML models created for UCS503P — with 1-click modal preview and direct PDF download.</p>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-goldAccent-400 uppercase tracking-widest mb-2">02 // Core Algorithm & Sandbox</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Heuristic Matching Engine Formulation</h2>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+            TeamSync avoids opaque black-box machine learning in favor of an explainable, deterministic weighted-overlap composite formulation. Adjust parameters below to compute synergy live:
+          </p>
+          <div class="mt-4 p-3 rounded-xl bg-obsidian-950 border border-obsidian-border inline-block font-mono text-xs text-emeraldAccent-300">
+            S(u, L) = w₁·C(u, L) + w₂·O(u, L) + w₃·G(u) + w₄·A(u)
+          </div>
+        </div>
+
+        <!-- Simulator Sandbox Box -->
+        <div class="max-w-4xl mx-auto rounded-2xl bg-obsidian-900 border border-obsidian-border p-6 sm:p-8 shadow-2xl">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Controls (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-2">
+                  <span class="text-slate-300 font-semibold">1. Skill Complementarity Overlap (w₁ = 45%)</span>
+                  <span id="val-w1" class="text-emeraldAccent-400 font-bold">1.00</span>
+                </div>
+                <input type="range" id="slider-w1" min="0" max="1" step="0.05" value="1.0" oninput="calculateSynergy()" class="w-full" />
+                <span class="text-[11px] text-slate-500 font-mono">Overlap between candidate tech stack and open project role</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-2">
+                  <span class="text-slate-300 font-semibold">2. Domain Interest Alignment (w₂ = 20%)</span>
+                  <span id="val-w2" class="text-tealAccent-400 font-bold">0.85</span>
+                </div>
+                <input type="range" id="slider-w2" min="0" max="1" step="0.05" value="0.85" oninput="calculateSynergy()" class="w-full" />
+                <span class="text-[11px] text-slate-500 font-mono">Interest match (e.g. Fintech, Healthcare AI, Web3, EdTech)</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-2">
+                  <span class="text-slate-300 font-semibold">3. GitHub Telemetry Activity (w₃ = 20%)</span>
+                  <span id="val-w3" class="text-goldAccent-400 font-bold">0.90</span>
+                </div>
+                <input type="range" id="slider-w3" min="0" max="1" step="0.05" value="0.9" oninput="calculateSynergy()" class="w-full" />
+                <span class="text-[11px] text-slate-500 font-mono">Verified commit frequency, repo stars, and language proof</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-mono mb-2">
+                  <span class="text-slate-300 font-semibold">4. Hackathon Sprint Availability (w₄ = 15%)</span>
+                  <span id="val-w4" class="text-slate-300 font-bold">1.00</span>
+                </div>
+                <input type="range" id="slider-w4" min="0" max="1" step="0.05" value="1.0" oninput="calculateSynergy()" class="w-full" />
+                <span class="text-[11px] text-slate-500 font-mono">Active 48h bandwidth confirmation</span>
+              </div>
+
+            </div>
+
+            <!-- Synergy Meter Display (5 cols) -->
+            <div class="lg:col-span-5 p-6 rounded-2xl bg-obsidian-950 border border-obsidian-border text-center flex flex-col items-center justify-center">
+              
+              <span class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">Calculated Synergy Score</span>
+              
+              <div class="my-4 relative flex items-center justify-center">
+                <div class="w-36 h-36 rounded-full border-4 border-obsidian-800 flex flex-col items-center justify-center relative">
+                  <span id="synergy-pct" class="text-4xl font-head font-extrabold text-white">95%</span>
+                  <span class="text-[10px] font-mono text-emeraldAccent-400 font-semibold mt-1">COMPOSITE</span>
+                </div>
+              </div>
+
+              <div id="synergy-status" class="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-emeraldAccent-500/10 text-emeraldAccent-300 border border-emeraldAccent-500/20 mb-2">
+                HIGH SYNERGY MATCH
+              </div>
+
+              <p class="text-[11px] text-slate-400 font-mono mt-1">
+                Threshold: &ge; 75% required for mutual handshake invitation.
+              </p>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 03: EXECUTION PIPELINE ================= -->
+    <section id="pipeline" class="py-24 border-b border-obsidian-border bg-obsidian-950">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-tealAccent-400 uppercase tracking-widest mb-2">03 // Lifecycle</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">4-Stage Team Formation Workflow</h2>
+          <p class="text-slate-400 text-sm mt-3">From identity check to sprint execution within 48 hours.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+          
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border relative">
+            <span class="text-2xl font-head font-bold text-emeraldAccent-400 font-mono block mb-3">01 // Auth</span>
+            <h3 class="text-base font-head font-bold text-white mb-2">Collegiate Verification</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Student enters verified college domain credentials. Cryptographic token initializes the student profile.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border relative">
+            <span class="text-2xl font-head font-bold text-tealAccent-400 font-mono block mb-3">02 // Telemetry</span>
+            <h3 class="text-base font-head font-bold text-white mb-2">GitHub Proof-of-Work</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              GitHub handle linkage extracts public commits, active repositories, and programming language distributions.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border relative">
+            <span class="text-2xl font-head font-bold text-goldAccent-400 font-mono block mb-3">03 // Heuristic</span>
+            <h3 class="text-base font-head font-bold text-white mb-2">Synergy Match Scoring</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Open hackathon listings trigger matching formulation S(u, L), ranking candidates by skill complementarity.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border relative">
+            <span class="text-2xl font-head font-bold text-emeraldAccent-300 font-mono block mb-3">04 // Workspace</span>
+            <h3 class="text-base font-head font-bold text-white mb-2">Sprint Kanban Board</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Mutual connection handshake unlocks private coordination chat, task boards, and milestone tracking.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 04: 9 UML DIAGRAMS ================= -->
+    <section id="diagrams" class="py-24 border-b border-obsidian-border bg-obsidian-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+          <div>
+            <p class="text-xs font-mono font-bold text-emeraldAccent-400 uppercase tracking-widest mb-2">04 // Software Engineering Specs</p>
+            <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">9 Formal Engineering UML Diagrams</h2>
+            <p class="text-slate-400 text-sm mt-2">Prepared for UCS503P evaluation. Click Preview for modal inspection or download original PDF.</p>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="filterDiagrams('all')" id="btn-diag-all" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-emeraldAccent-600 text-white transition-all">All (9)</button>
+            <button onclick="filterDiagrams('behavioral')" id="btn-diag-behavioral" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-obsidian-850 text-slate-300 hover:text-white transition-all">Behavioral (3)</button>
+            <button onclick="filterDiagrams('structural')" id="btn-diag-structural" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-obsidian-850 text-slate-300 hover:text-white transition-all">Structural (2)</button>
+            <button onclick="filterDiagrams('flow')" id="btn-diag-flow" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-obsidian-850 text-slate-300 hover:text-white transition-all">Data & Process (4)</button>
+          </div>
         </div>
 
         <!-- 9 Diagrams Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div id="diagrams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          <!-- 1. Use Case Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <!-- 1. Use Case -->
+          <div class="diag-card diag-behavioral p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-brand-400">Diagram 01</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Behavioral</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-emeraldAccent-400">Spec #01</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-300 border border-emeraldAccent-500/20">Behavioral</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Use Case Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Models primary actors (Student, Team Captain, Admin) interacting with Auth, Listings, Match Engine, and Workspace.
+              <h3 class="text-base font-head font-bold text-white mb-2">Use Case Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Models primary system actors (Student, Team Captain, Admin) interacting with Auth, Project Listings, Heuristic Engine, and Workspace.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Use Case Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Use%20Case%20Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Use Case Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Use%20Case%20Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Use%20Case%20Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Use%20Case%20Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (171 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 2. Activity Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <!-- 2. Activity -->
+          <div class="diag-card diag-behavioral p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-brand-400">Diagram 02</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Behavioral</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-emeraldAccent-400">Spec #02</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-300 border border-emeraldAccent-500/20">Behavioral</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Activity Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Decision workflows from student registration, domain validation branching, match scoring, to connection handshake.
+              <h3 class="text-base font-head font-bold text-white mb-2">Activity Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Step-by-step decision workflows from student registration, domain verification branching, heuristic match scoring, to connection handshake.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Activity Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Activity Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Activity Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Activity Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Activity Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Activity Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (122 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 3. Sequence Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <!-- 3. Sequence -->
+          <div class="diag-card diag-behavioral p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-brand-400">Diagram 03</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Behavioral</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-emeraldAccent-400">Spec #03</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-300 border border-emeraldAccent-500/20">Behavioral</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Sequence Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Time-sequenced message passing between Student, React UI, Node.js Gateway, Match Engine, and MongoDB Atlas.
+              <h3 class="text-base font-head font-bold text-white mb-2">Sequence Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Chronological message pathways between Student Client, React UI, Node.js Gateway, Match Engine, and MongoDB Atlas.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Sequence Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Sequence Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Sequence Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Sequence Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Sequence Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Sequence Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (198 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 4. Class Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all flex flex-col justify-between">
+          <!-- 4. Class -->
+          <div class="diag-card diag-structural p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-accent-purple">Diagram 04</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Structural</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-tealAccent-400">Spec #04</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tealAccent-500/10 text-tealAccent-300 border border-tealAccent-500/20">Structural</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Class Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                OOP structural design depicting User, StudentProfile, Listing, MatchScoreEngine, Connection, and Workspace entities.
+              <h3 class="text-base font-head font-bold text-white mb-2">Class Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                OOP entity structure depicting User, StudentProfile, ProjectListing, MatchScoreEngine, Connection, and Workspace domain entities.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Class Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Class Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Class Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Class Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Class Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Class Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (221 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 5. Entity Relationship (ER) Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all flex flex-col justify-between">
+          <!-- 5. ER -->
+          <div class="diag-card diag-structural p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-accent-purple">Diagram 05</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Structural</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-tealAccent-400">Spec #05</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tealAccent-500/10 text-tealAccent-300 border border-tealAccent-500/20">Structural</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">ER Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Entity-relationship schemas, primary/foreign keys, and cardinalities across User, Profile, Listing, Match, and Task tables.
+              <h3 class="text-base font-head font-bold text-white mb-2">Entity Relationship (ER)</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Entity schemas, primary/foreign keys, and cardinalities across User, Profile, Listing, Match, and Task document models.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('ER Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/ER diagram (2).pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('ER Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/ER diagram (2).pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/ER diagram (2).pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/ER diagram (2).pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (170 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 6. Data Flow Diagram (Level 0, 1, 2) -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-cyan/50 transition-all flex flex-col justify-between">
+          <!-- 6. DFD -->
+          <div class="diag-card diag-flow p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-accent-cyan">Diagram 06</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Data & Flow</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-goldAccent-400">Spec #06</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-goldAccent-500/10 text-goldAccent-300 border border-goldAccent-500/20">Data & Flow</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Data Flow Diagram (DFD)</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Decomposes Context Level 0, Level 1, and Level 2 process pipelines, data stores (D1–D4), and external interactions.
+              <h3 class="text-base font-head font-bold text-white mb-2">Data Flow Diagram (0, 1, 2)</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Multi-tier process decomposition: Context Level 0, Level 1, and Level 2 process pipelines and persistent datastores (D1–D4).
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Data Flow Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Data Flow Diagram(Level 0,1,2).pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Data Flow Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Data Flow Diagram(Level 0,1,2).pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Data Flow Diagram(Level 0,1,2).pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Data Flow Diagram(Level 0,1,2).pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (1.02 MB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 7. Deployment Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+          <!-- 7. Deployment -->
+          <div class="diag-card diag-flow p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-emerald-400">Diagram 07</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Deployment</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-goldAccent-400">Spec #07</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-goldAccent-500/10 text-goldAccent-300 border border-goldAccent-500/20">Deployment</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Deployment Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Hardware/Cloud topology: Client Workstations, Node/Express Cloud Container, and MongoDB Atlas Database.
+              <h3 class="text-base font-head font-bold text-white mb-2">Deployment Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Physical node distribution: Client Workstations (Browser), Node/Express Cloud Container, and MongoDB Atlas database cluster.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Deployment Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Deployment Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Deployment Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Deployment Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Deployment Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Deployment Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (160 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 8. Swimlane Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-amber-500/50 transition-all flex flex-col justify-between">
+          <!-- 8. Swimlane -->
+          <div class="diag-card diag-flow p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-amber-400">Diagram 08</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Process</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-goldAccent-400">Spec #08</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-goldAccent-500/10 text-goldAccent-300 border border-goldAccent-500/20">Process</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Swimlane Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Cross-functional swimlanes showing responsibilities between Student 1 (Initiator), System Backend, and Student 2 (Candidate).
+              <h3 class="text-base font-head font-bold text-white mb-2">Swimlane Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Cross-functional responsibility lanes: Student 1 (Initiator), System Backend Controller, and Student 2 (Candidate).
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Swimlane Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Swinlane Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Swimlane Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Swinlane Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Swinlane Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Swinlane Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (142 KB)</span>
               </a>
             </div>
           </div>
 
-          <!-- 9. Collaboration Diagram -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+          <!-- 9. Collaboration -->
+          <div class="diag-card diag-flow p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-cyan-400">Diagram 09</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Communication</span>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-mono text-goldAccent-400">Spec #09</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-goldAccent-500/10 text-goldAccent-300 border border-goldAccent-500/20">Communication</span>
               </div>
-              <h3 class="text-base font-head font-bold text-white mb-1.5">Collaboration Diagram</h3>
-              <p class="text-xs text-slate-400 mb-4">
-                Structural interaction model detailing numbered message pathways between runtime objects during teammate matchmaking.
+              <h3 class="text-base font-head font-bold text-white mb-2">Collaboration Diagram</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-5">
+                Structural interaction model detailing numbered synchronous/asynchronous message flows between runtime objects.
               </p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-canvas-border text-xs">
-              <button onclick="openModal('Collaboration Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Collaboration Diagram.pdf')" class="font-head font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <div class="flex items-center justify-between pt-4 border-t border-obsidian-border text-xs font-mono">
+              <button onclick="openModal('Collaboration Diagram', 'https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Collaboration Diagram.pdf')" class="text-emeraldAccent-400 hover:text-emeraldAccent-300 font-bold flex items-center gap-1.5">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 <span>Preview</span>
               </button>
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Collaboration Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white font-mono flex items-center gap-1">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Diagrams/Collaboration Diagram.pdf" target="_blank" class="text-slate-400 hover:text-white flex items-center gap-1">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>PDF (240 KB)</span>
               </a>
@@ -896,77 +805,143 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 06: DOWNLOADS & RESOURCES ================= -->
-    <section id="downloads" class="py-20 border-t border-canvas-border bg-slate-950/60">
-      <div class="max-w-6xl mx-auto px-6">
+    <!-- ================= SECTION 05: 12-WEEK ROADMAP / WBS ================= -->
+    <section id="roadmap" class="py-24 border-b border-obsidian-border bg-obsidian-950">
+      <div class="max-w-7xl mx-auto px-6">
         
-        <div class="text-center max-w-2xl mx-auto mb-14">
-          <p class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest mb-2">06 // Academic Artifacts</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Project Resources & Downloads</h2>
-          <p class="text-slate-400 text-sm mt-3">All official course deliverables, research proposals, evaluation reports, and student journals.</p>
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-emeraldAccent-400 uppercase tracking-widest mb-2">05 // Project Schedule</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">12-Week Gantt Chart & WBS Schedule</h2>
+          <p class="text-slate-400 text-sm mt-3">Structured bi-weekly sprint breakdown across the academic semester.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
           
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-emeraldAccent-400 font-bold block mb-1">Weeks 01–02</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 01: Proposal</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Problem definition, user research at TIET, and LaTeX proposal submission.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-300">Completed</span>
+          </div>
 
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-emeraldAccent-400 font-bold block mb-1">Weeks 03–04</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 02: Modeling</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Formulation of 9 SE UML diagrams, ER schemas, and system requirements spec.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-emeraldAccent-500/10 text-emeraldAccent-300">Completed</span>
+          </div>
 
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-tealAccent-400 font-bold block mb-1">Weeks 05–06</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 03: Client UI</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              React 19 client dashboard, Vite setup, Tailwind CSS components, and mock data.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-tealAccent-500/10 text-tealAccent-300">Completed</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-tealAccent-400 font-bold block mb-1">Weeks 07–08</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 04: Matching</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Weighted heuristic matching algorithm formulation and simulation endpoints.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-tealAccent-500/10 text-tealAccent-300">Completed</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-goldAccent-400 font-bold block mb-1">Weeks 09–10</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 05: Workspace</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Post-match squad workspace, Kanban task coordination, and notification broker.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-goldAccent-500/10 text-goldAccent-300">In Review</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/30 transition-all">
+            <span class="text-xs font-mono text-goldAccent-400 font-bold block mb-1">Weeks 11–12</span>
+            <h4 class="text-sm font-head font-bold text-white mb-2">Sprint 06: Defense</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              End-to-end integration testing, performance profiling, and final project defense.
+            </p>
+            <span class="inline-block mt-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400">Scheduled</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 06: DELIVERABLES & DOWNLOADS ================= -->
+    <section id="downloads" class="py-24 border-b border-obsidian-border bg-obsidian-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-emeraldAccent-400 uppercase tracking-widest mb-2">06 // Official Documents</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Project Deliverables & Downloads</h2>
+          <p class="text-slate-400 text-sm mt-3">Verified course artifacts submitted to Prof. Asif for UCS503P evaluation.</p>
+        </div>
+
+        <!-- 3 Core Documents Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           
-          <!-- Proposal -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all flex flex-col justify-between">
+          <!-- 1. Proposal -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-emeraldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center mb-3">
-                <i data-lucide="file-text" class="w-5 h-5"></i>
+              <div class="w-12 h-12 rounded-xl bg-emeraldAccent-500/10 text-emeraldAccent-400 flex items-center justify-center mb-5">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
               </div>
-              <h4 class="text-sm font-head font-bold text-white mb-1">Project Proposal</h4>
-              <p class="text-xs text-slate-400 mb-3">
-                LaTeX formatted research proposal submitted to Prof. Asif.
+              <h3 class="text-lg font-head font-bold text-white mb-2">Project Proposal</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                Formal LaTeX research proposal detailing problem scope, related work, and technical approach.
               </p>
-              <span class="text-[10px] font-mono text-slate-500 block mb-4">PDF &middot; 117 KB</span>
+              <span class="text-[11px] font-mono text-slate-500 block mb-6">PDF &middot; 776 KB</span>
             </div>
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/project-proposal/TeamSync_Proposal.pdf" target="_blank" class="w-full py-2 px-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-head font-bold text-xs text-center flex items-center justify-center gap-1.5 transition-colors">
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/project-proposal/TeamSync_Proposal.pdf" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-emeraldAccent-600 hover:bg-emeraldAccent-500 text-white font-head font-bold text-xs text-center flex items-center justify-center gap-2 transition-colors">
               <i data-lucide="download" class="w-3.5 h-3.5"></i>
-              <span>Download PDF</span>
+              <span>Download Proposal (PDF)</span>
             </a>
           </div>
 
-
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all flex flex-col justify-between">
+          <!-- 2. Presentation Deck -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-tealAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-3">
-                <i data-lucide="presentation" class="w-5 h-5"></i>
+              <div class="w-12 h-12 rounded-xl bg-tealAccent-500/10 text-tealAccent-400 flex items-center justify-center mb-5">
+                <i data-lucide="presentation" class="w-6 h-6"></i>
               </div>
-              <h4 class="text-sm font-head font-bold text-white mb-1">Presentation Deck</h4>
-              <p class="text-xs text-slate-400 mb-3">
-                TeamSync slide deck and review presentation.
+              <h3 class="text-lg font-head font-bold text-white mb-2">Presentation Deck</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                Official presentation slide deck prepared for academic project defense and reviews.
               </p>
-              <span class="text-[10px] font-mono text-slate-500 block mb-4">PPTX &middot; 198 KB</span>
+              <span class="text-[11px] font-mono text-slate-500 block mb-6">PPTX &middot; 198 KB</span>
             </div>
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/TeamSync.pptx" download class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border font-head font-bold text-xs text-center flex items-center justify-center gap-1.5 transition-colors">
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/TeamSync.pptx" download class="w-full py-2.5 px-4 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border font-head font-bold text-xs text-center flex items-center justify-center gap-2 transition-colors hover:border-tealAccent-500/30">
               <i data-lucide="download" class="w-3.5 h-3.5"></i>
-              <span>Download PPTX</span>
+              <span>Download Slides (PPTX)</span>
             </a>
           </div>
 
-
-
-
-          <!-- Gantt Chart -->
-          <div class="p-5 rounded-2xl bg-canvas-card border border-canvas-border hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+          <!-- 3. Gantt Chart & WBS -->
+          <div class="p-7 rounded-2xl bg-obsidian-900 border border-obsidian-border hover:border-goldAccent-500/40 transition-all flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                <i data-lucide="sheet" class="w-5 h-5"></i>
+              <div class="w-12 h-12 rounded-xl bg-goldAccent-500/10 text-goldAccent-400 flex items-center justify-center mb-5">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
               </div>
-              <h4 class="text-sm font-head font-bold text-white mb-1">12-Week Gantt</h4>
-              <p class="text-xs text-slate-400 mb-3">
-                Sprint schedule, milestones, and task breakdown.
+              <h3 class="text-lg font-head font-bold text-white mb-2">12-Week Gantt Schedule</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                Sprint schedule, milestones, work breakdown structure (WBS), and deliverable deadlines.
               </p>
-              <span class="text-[10px] font-mono text-slate-500 block mb-4">PDF & XLSX &middot; 46 KB</span>
+              <span class="text-[11px] font-mono text-slate-500 block mb-6">PDF & XLSX &middot; 46 KB</span>
             </div>
-            <div class="flex items-center gap-2">
-              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Gantt-Chart-.pdf" target="_blank" class="flex-1 py-2 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border font-head font-bold text-xs text-center">
+            <div class="flex items-center gap-2.5">
+              <a href="https://github.com/AaditaGarg/TeamSync/blob/main/docs/Gantt-Chart-.pdf" target="_blank" class="flex-1 py-2.5 px-3 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border font-head font-bold text-xs text-center hover:border-goldAccent-500/30">
                 PDF
               </a>
-              <a href="https://github.com/AaditaGarg/TeamSync/raw/main/docs/TeamSync_Gantt_Chart%20(1).xlsx" download class="flex-1 py-2 px-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-head font-bold text-xs text-center">
+              <a href="https://github.com/AaditaGarg/TeamSync/raw/main/docs/TeamSync_Gantt_Chart%20(1).xlsx" download class="flex-1 py-2.5 px-3 rounded-xl bg-goldAccent-500/20 hover:bg-goldAccent-500/30 text-goldAccent-300 border border-goldAccent-500/30 font-head font-bold text-xs text-center">
                 Excel
               </a>
             </div>
@@ -975,22 +950,22 @@
         </div>
 
         <!-- Student Journals Row -->
-        <div class="mt-8 p-5 rounded-2xl bg-canvas-card border border-canvas-border flex flex-wrap items-center justify-between gap-4">
+        <div class="mt-10 max-w-5xl mx-auto p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border flex flex-wrap items-center justify-between gap-4">
           <div>
             <h4 class="text-sm font-head font-bold text-white flex items-center gap-2">
-              <i data-lucide="book-open" class="w-4 h-4 text-brand-400"></i>
-              <span>Individual Student Journals (Weekly Logs)</span>
+              <i data-lucide="book-open" class="w-4 h-4 text-emeraldAccent-400"></i>
+              <span>Individual Student Reflective Journals (Weekly Logs)</span>
             </h4>
-            <p class="text-xs text-slate-400 mt-0.5">Reflective engineering journals maintained by team members throughout the semester.</p>
+            <p class="text-xs text-slate-400 mt-0.5">Formal engineering logs maintained individually across the 12-week semester.</p>
           </div>
-          <div class="flex items-center gap-3">
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Aadita_Garg_1024030461_Journal.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border text-xs font-mono">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Aadita_Garg_1024030461_Journal.pdf" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border text-xs font-mono hover:border-emeraldAccent-500/30">
               Aadita Garg
             </a>
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Ridhima_Goel_1024030466_Journal__1___1_.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border text-xs font-mono">
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Ridhima_Goel_1024030466_Journal__1___1_.pdf" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border text-xs font-mono hover:border-emeraldAccent-500/30">
               Ridhima Goel
             </a>
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Vedika_Gupta_1024030437_Journal.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-canvas-border text-xs font-mono">
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Vedika_Gupta_1024030437_Journal.pdf" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-200 border border-obsidian-border text-xs font-mono hover:border-emeraldAccent-500/30">
               Vedika Gupta
             </a>
           </div>
@@ -999,83 +974,81 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 07: TEAM ================= -->
-    <section id="team" class="py-20 border-t border-canvas-border">
-      <div class="max-w-6xl mx-auto px-6">
+    <!-- ================= SECTION 07: TEAM & ACADEMIC CREDENTIALS ================= -->
+    <section id="team" class="py-24 bg-obsidian-950">
+      <div class="max-w-7xl mx-auto px-6">
         
-        <div class="text-center max-w-2xl mx-auto mb-14">
-          <p class="text-xs font-mono font-bold text-brand-400 uppercase tracking-widest mb-2">07 // Academic Profile</p>
-          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Project Team</h2>
-          <p class="text-slate-400 text-sm mt-3">
-            Computer Science and Engineering Department (CSED), Thapar Institute of Engineering and Technology &middot; Group 3C32 &middot; Supervised by <strong>Prof. Asif</strong>
-          </p>
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-mono font-bold text-emeraldAccent-400 uppercase tracking-widest mb-2">07 // Project Creators</p>
+          <h2 class="text-3xl sm:text-4xl font-head font-extrabold text-white">Engineering Team & Supervision</h2>
+          <p class="text-slate-400 text-sm mt-3">Computer Science and Engineering Department, Thapar Institute of Engineering and Technology.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 3 Team Members -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           
           <!-- Aadita Garg -->
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-brand-500/50 transition-all text-center flex flex-col items-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-600 to-accent-cyan p-0.5 mb-4 shadow-lg shadow-brand-500/20">
-              <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border text-center flex flex-col items-center">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emeraldAccent-500 to-tealAccent-500 p-0.5 mb-4 shadow-xl shadow-emeraldAccent-500/10">
+              <div class="w-full h-full bg-obsidian-950 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
                 AG
               </div>
             </div>
             <h3 class="text-base font-head font-bold text-white">Aadita Garg</h3>
-            <span class="text-xs font-mono text-brand-400 block mb-1">Roll No: 1024030461</span>
+            <span class="text-xs text-emeraldAccent-400 font-mono mt-0.5 mb-2 font-medium">Roll: 1024030461</span>
             <span class="text-xs text-slate-400 font-mono mb-4">agarg9_be24@thapar.edu</span>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Lead Frontend Architecture, React 19 Workspace Dashboard, Presentation Lead, and Repository Governance.
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Frontend Lead &middot; React 19 Workspace Dashboard, Tailwind CSS design system, and presentation delivery.
             </p>
-
-            <a href="https://github.com/AaditaGarg" target="_blank" class="mt-auto px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-head font-bold flex items-center gap-1.5">
-              <i data-lucide="github" class="w-3.5 h-3.5"></i>
-              <span>GitHub Profile</span>
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Aadita_Garg_1024030461_Journal.pdf" target="_blank" class="mt-auto px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-300 text-xs font-mono border border-obsidian-border hover:border-emeraldAccent-500/30">
+              View Journal &rarr;
             </a>
           </div>
 
           <!-- Ridhima Goel -->
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-purple/50 transition-all text-center flex flex-col items-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-accent-purple to-accent-cyan p-0.5 mb-4 shadow-lg shadow-purple-500/20">
-              <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border text-center flex flex-col items-center">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-tealAccent-500 to-goldAccent-500 p-0.5 mb-4 shadow-xl shadow-tealAccent-500/10">
+              <div class="w-full h-full bg-obsidian-950 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
                 RG
               </div>
             </div>
             <h3 class="text-base font-head font-bold text-white">Ridhima Goel</h3>
-            <span class="text-xs font-mono text-purple-400 block mb-1">Roll No: 1024030466</span>
+            <span class="text-xs text-tealAccent-400 font-mono mt-0.5 mb-2 font-medium">Roll: 1024030466</span>
             <span class="text-xs text-slate-400 font-mono mb-4">Rgoel_be24@thapar.edu</span>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Backend System Architecture, Heuristic Matching Engine Formulation, REST API Gateway, and LaTeX Proposal Author.
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Backend Systems &middot; Heuristic matching formulation, RESTful endpoints, and project repository structuring.
             </p>
-
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Ridhima_Goel_1024030466_Journal__1___1_.pdf" target="_blank" class="mt-auto px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-head font-bold flex items-center gap-1.5">
-              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-              <span>View Journal</span>
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Ridhima_Goel_1024030466_Journal__1___1_.pdf" target="_blank" class="mt-auto px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-300 text-xs font-mono border border-obsidian-border hover:border-tealAccent-500/30">
+              View Journal &rarr;
             </a>
           </div>
 
           <!-- Vedika Gupta -->
-          <div class="p-6 rounded-2xl bg-canvas-card border border-canvas-border hover:border-accent-cyan/50 transition-all text-center flex flex-col items-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-accent-cyan to-emerald-500 p-0.5 mb-4 shadow-lg shadow-cyan-500/20">
-              <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
+          <div class="p-6 rounded-2xl bg-obsidian-900 border border-obsidian-border text-center flex flex-col items-center">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-goldAccent-500 to-emeraldAccent-500 p-0.5 mb-4 shadow-xl shadow-goldAccent-500/10">
+              <div class="w-full h-full bg-obsidian-950 rounded-[14px] flex items-center justify-center font-head font-bold text-white text-xl">
                 VG
               </div>
             </div>
             <h3 class="text-base font-head font-bold text-white">Vedika Gupta</h3>
-            <span class="text-xs font-mono text-accent-cyan block mb-1">Roll No: 1024030437</span>
+            <span class="text-xs text-goldAccent-400 font-mono mt-0.5 mb-2 font-medium">Roll: 1024030437</span>
             <span class="text-xs text-slate-400 font-mono mb-4">vgupta9_be24@thapar.edu</span>
-
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Database Modeling, 9 Formal SE UML Diagrams, Gantt Chart WBS, Quality Assurance, and Pilot Metrics.
+            <p class="text-xs text-slate-400 leading-relaxed mb-5">
+              Database Modeling &middot; MongoDB schemas, 9 formal Software Engineering UML diagrams, and testing QA.
             </p>
-
-            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Vedika_Gupta_1024030437_Journal.pdf" target="_blank" class="mt-auto px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-head font-bold flex items-center gap-1.5">
-              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-              <span>View Journal</span>
+            <a href="https://github.com/AaditaGarg/TeamSync/blob/main/journals/Vedika_Gupta_1024030437_Journal.pdf" target="_blank" class="mt-auto px-3.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-800 text-slate-300 text-xs font-mono border border-obsidian-border hover:border-goldAccent-500/30">
+              View Journal &rarr;
             </a>
           </div>
 
+        </div>
+
+        <!-- Supervisor Banner -->
+        <div class="mt-12 max-w-3xl mx-auto p-5 rounded-2xl bg-obsidian-900/60 border border-obsidian-border text-center">
+          <span class="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-1">Academic Supervision</span>
+          <p class="text-sm text-slate-200">
+            Supervised by <strong class="text-emeraldAccent-400 font-head">Prof. Asif</strong> &middot; Computer Science and Engineering Department (CSED), TIET Patiala.
+          </p>
         </div>
 
       </div>
@@ -1083,56 +1056,61 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-canvas-border bg-slate-950 py-12 text-xs text-slate-500">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <p class="text-slate-300 font-head font-bold text-sm">TeamSync &middot; UCS503P Software Engineering</p>
-        <p class="mt-1">Thapar Institute of Engineering and Technology, Patiala &middot; Group 3C32</p>
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-obsidian-border bg-obsidian-950 py-12 text-xs font-mono text-slate-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-head font-bold text-slate-300 text-sm">TeamSync</span>
+        <span class="text-slate-700">|</span>
+        <span>UCS503P Software Engineering Practicum &middot; 2026–2027</span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="#top" class="hover:text-white transition-colors">Back to top &uarr;</a>
+      <div class="flex items-center gap-6 text-slate-400">
+        <a href="#architecture" class="hover:text-emeraldAccent-400 transition-colors">Architecture</a>
+        <a href="#simulator" class="hover:text-emeraldAccent-400 transition-colors">Heuristic Engine</a>
+        <a href="#diagrams" class="hover:text-emeraldAccent-400 transition-colors">UML Specs</a>
+        <a href="#downloads" class="hover:text-emeraldAccent-400 transition-colors">Deliverables</a>
+        <a href="https://github.com/AaditaGarg/TeamSync" target="_blank" class="text-emeraldAccent-400 hover:underline">GitHub</a>
       </div>
     </div>
   </footer>
 
-  <!-- Lightbox Modal for Diagram PDFs -->
-  <div id="diag-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md items-center justify-center p-4">
-    <div class="bg-canvas-panel border border-canvas-border rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
-      <div class="p-4 border-b border-canvas-border flex items-center justify-between">
-        <h4 id="diag-modal-title" class="text-sm font-head font-bold text-white">Diagram Preview</h4>
+  <!-- ================= LIGHTBOX MODAL FOR DIAGRAM PREVIEWS ================= -->
+  <div id="diag-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md items-center justify-center p-4">
+    <div class="bg-obsidian-900 border border-obsidian-border rounded-2xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-obsidian-border flex items-center justify-between">
+        <h4 id="diag-modal-title" class="text-sm font-head font-bold text-white flex items-center gap-2">
+          <i data-lucide="file-text" class="w-4 h-4 text-emeraldAccent-400"></i>
+          <span>Diagram Preview</span>
+        </h4>
         <div class="flex items-center gap-3">
-          <a id="diag-modal-download" href="#" target="_blank" class="px-3 py-1 rounded-lg text-xs font-head font-bold bg-brand-600 text-white flex items-center gap-1">
+          <a id="diag-modal-download" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-emeraldAccent-600 hover:bg-emeraldAccent-500 text-white flex items-center gap-1.5 transition-colors">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Open Original PDF</span>
+            <span>Open PDF</span>
           </a>
-          <button onclick="closeModal()" class="p-1 rounded-lg text-slate-400 hover:text-white">
+          <button onclick="closeModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-obsidian-800 transition-colors">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
       </div>
-      <div class="p-4 flex-1 bg-slate-950 flex items-center justify-center">
-        <iframe id="diag-modal-frame" src="" class="w-full h-[70vh] rounded-lg border border-canvas-border"></iframe>
+      <div class="p-4 flex-1 bg-obsidian-950 flex items-center justify-center">
+        <iframe id="diag-modal-frame" src="" class="w-full h-[72vh] rounded-lg border border-obsidian-border"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- ================= SCRIPTS ================= -->
   <script>
     lucide.createIcons();
 
-    function toggleNav() {
-      const drawer = document.getElementById('nav-drawer');
-      drawer.classList.toggle('hidden');
-    }
-
+    // Modal Handlers
     function openModal(title, pdfPath) {
-      document.getElementById('diag-modal-title').textContent = title + ' (Engineering Document)';
+      document.getElementById('diag-modal-title').innerHTML = '<i data-lucide="file-text" class="w-4 h-4 text-emeraldAccent-400"></i><span>' + title + ' (Official Spec)</span>';
       document.getElementById('diag-modal-download').href = pdfPath;
       document.getElementById('diag-modal-frame').src = pdfPath;
       const modal = document.getElementById('diag-modal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+      lucide.createIcons();
     }
 
     function closeModal() {
@@ -1142,32 +1120,67 @@
       modal.classList.add('hidden');
     }
 
-    // Interactive Demo Filter
-    function filterDemo(category) {
-      const cards = document.querySelectorAll('.demo-card');
-      const buttons = ['all', 'frontend', 'backend', 'ai'];
-      
-      buttons.forEach(b => {
-        const btn = document.getElementById('btn-demo-' + b);
-        if (b === category) {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-brand-600 text-white transition-all';
+    // Interactive Live Synergy Calculator
+    function calculateSynergy() {
+      const w1 = parseFloat(document.getElementById('slider-w1').value);
+      const w2 = parseFloat(document.getElementById('slider-w2').value);
+      const w3 = parseFloat(document.getElementById('slider-w3').value);
+      const w4 = parseFloat(document.getElementById('slider-w4').value);
+
+      document.getElementById('val-w1').textContent = w1.toFixed(2);
+      document.getElementById('val-w2').textContent = w2.toFixed(2);
+      document.getElementById('val-w3').textContent = w3.toFixed(2);
+      document.getElementById('val-w4').textContent = w4.toFixed(2);
+
+      // Formula: S(u, L) = 0.45*w1 + 0.20*w2 + 0.20*w3 + 0.15*w4
+      const score = (0.45 * w1) + (0.20 * w2) + (0.20 * w3) + (0.15 * w4);
+      const pct = Math.round(score * 100);
+
+      document.getElementById('synergy-pct').textContent = pct + '%';
+
+      const status = document.getElementById('synergy-status');
+      if (pct >= 85) {
+        status.textContent = 'HIGH SYNERGY MATCH';
+        status.className = 'px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-emeraldAccent-500/10 text-emeraldAccent-300 border border-emeraldAccent-500/20 mb-2';
+      } else if (pct >= 65) {
+        status.textContent = 'MODERATE SYNERGY';
+        status.className = 'px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-tealAccent-500/10 text-tealAccent-300 border border-tealAccent-500/20 mb-2';
+      } else {
+        status.textContent = 'LOW COMPLEMENTARITY';
+        status.className = 'px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-goldAccent-500/10 text-goldAccent-300 border border-goldAccent-500/20 mb-2';
+      }
+    }
+
+    // Filter Diagrams
+    function filterDiagrams(cat) {
+      const cards = document.querySelectorAll('.diag-card');
+      const btns = ['all', 'behavioral', 'structural', 'flow'];
+
+      btns.forEach(b => {
+        const btn = document.getElementById('btn-diag-' + b);
+        if (b === cat) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-emeraldAccent-600 text-white transition-all';
         } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-head font-bold bg-canvas-card text-slate-300 hover:text-white transition-all';
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-obsidian-850 text-slate-300 hover:text-white transition-all';
         }
       });
 
-      cards.forEach(card => {
-        if (category === 'all') {
-          card.style.display = 'block';
+      cards.forEach(c => {
+        if (cat === 'all') {
+          c.classList.remove('hidden');
+        } else if (c.classList.contains('diag-' + cat)) {
+          c.classList.remove('hidden');
         } else {
-          card.style.display = card.classList.contains('demo-' + category) ? 'block' : 'none';
+          c.classList.add('hidden');
         }
       });
     }
 
-    document.addEventListener('keydown', (e) => {
+    // Close modal on Escape
+    window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
   </script>
+
 </body>
 </html>
