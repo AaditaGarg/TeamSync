@@ -126,17 +126,13 @@ npm run build
 
 ## Documentation
 
-- [TeamSync Project Document (PDF)](<docs/TeamSync .pdf>)
-- [Presentation Slide Deck (PPTX)](docs/TeamSync.pptx)
-- [12-Week Gantt Chart Schedule (PDF)](docs/Gantt-Chart-.pdf)
-- [TeamSync Gantt Chart (Excel)](<docs/TeamSync_Gantt_Chart (1).xlsx>)
-- [Formal UML Diagrams Directory (9 Diagrams)](docs/Diagrams/)
-- [Academic Project Specification (Markdown)](docs/index.md)
 - [Project Proposal (PDF)](project-proposal/TeamSync_Proposal.pdf)
 - [Mid-Semester Evaluation Report (DOCX)](project-report-prototype-stage/TeamSync_MidSem_Report.docx)
 - [Mid-Semester Defense Presentation (PDF)](<project-report-prototype-stage/TeamSync_MidSem_Presentation (1).pdf>)
+- [Presentation Slide Deck (PPTX)](docs/TeamSync.pptx)
+- [12-Week Gantt Chart Schedule (PDF)](docs/Gantt-Chart-.pdf) & [Excel Sheet](<docs/TeamSync_Gantt_Chart (1).xlsx>)
+- [Formal UML Diagrams Directory](docs/Diagrams/)
 - [Weekly Student Reflective Journals](journals/)
-- [Living Project Documentation Site (GitHub Pages)](https://AaditaGarg.github.io/TeamSync/)
 
 ## Authors
 
