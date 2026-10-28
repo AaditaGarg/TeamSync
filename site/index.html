@@ -1116,7 +1116,7 @@
   </footer>
 
   <!-- Lightbox Modal for Diagram PDFs -->
-  <div id="diag-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+  <div id="diag-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md items-center justify-center p-4">
     <div class="bg-canvas-panel border border-canvas-border rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
       <div class="p-4 border-b border-canvas-border flex items-center justify-between">
         <h4 id="diag-modal-title" class="text-sm font-head font-bold text-white">Diagram Preview</h4>
@@ -1149,12 +1149,16 @@
       document.getElementById('diag-modal-title').textContent = title + ' (Engineering Document)';
       document.getElementById('diag-modal-download').href = pdfPath;
       document.getElementById('diag-modal-frame').src = pdfPath;
-      document.getElementById('diag-modal').classList.remove('hidden');
+      const modal = document.getElementById('diag-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closeModal() {
       document.getElementById('diag-modal-frame').src = '';
-      document.getElementById('diag-modal').classList.add('hidden');
+      const modal = document.getElementById('diag-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
     }
 
     // Interactive Demo Filter
