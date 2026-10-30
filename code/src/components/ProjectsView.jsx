@@ -1,21 +1,21 @@
 import React, { useState, useMemo } from "react";
-import { Plus, Users, Send, CheckCircle2 } from "lucide-react";
+import { Plus, Users, Send, CheckCircle2, Search } from "lucide-react";
 import { Card, Badge, Button, Avatar } from "./ui";
 
 const CATEGORIES = ["All", "Healthcare & AI", "Web3 & Governance", "Smart City", "Fintech", "EdTech & Productivity"];
 
 export default function ProjectsView({
   listings,
-  query,
   onOpenNewListing,
   onApplyListing,
   appliedListings,
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
 
   const filteredListings = useMemo(() => {
-    const q = (query || "").trim().toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     return listings.filter((l) => {
       const matchCat = selectedCategory === "All" || l.category === selectedCategory;
       const matchStatus = statusFilter === "All" || l.status === statusFilter;
@@ -27,7 +27,7 @@ export default function ProjectsView({
         l.techStack.some((t) => t.toLowerCase().includes(q));
       return matchCat && matchStatus && matchQuery;
     });
-  }, [listings, query, selectedCategory, statusFilter]);
+  }, [listings, searchQuery, selectedCategory, statusFilter]);
 
   return (
     <div className="space-y-6">
@@ -72,17 +72,30 @@ export default function ProjectsView({
           })}
         </div>
 
-        <div className="flex items-center gap-2 self-end sm:self-auto text-xs font-mono text-slate-400">
-          <span>Status:</span>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-[#0b121e] border border-white/10 rounded-lg px-2.5 py-1 text-slate-200 text-xs font-mono focus:outline-none"
-          >
-            <option value="All">All Statuses</option>
-            <option value="Open">Open Only</option>
-            <option value="Filled">Filled</option>
-          </select>
+        <div className="flex items-center gap-3 self-end sm:self-auto text-xs font-mono text-slate-400">
+          <div className="relative">
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search hackathons or roles..."
+              className="bg-[#0b121e] border border-white/10 rounded-lg pl-7 pr-3 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-teal-500/50 w-48 sm:w-56"
+            />
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span>Status:</span>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="bg-[#0b121e] border border-white/10 rounded-lg px-2.5 py-1 text-slate-200 text-xs font-mono focus:outline-none"
+            >
+              <option value="All">All Statuses</option>
+              <option value="Open">Open Only</option>
+              <option value="Filled">Filled</option>
+            </select>
+          </div>
         </div>
       </div>
 

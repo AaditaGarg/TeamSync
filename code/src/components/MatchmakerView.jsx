@@ -5,6 +5,7 @@ import {
   Check,
   Send,
   Zap,
+  Search,
 } from "lucide-react";
 import { Card, Button, Avatar, GithubIcon } from "./ui";
 import { candidates, colleges } from "../data/mockData";
@@ -20,7 +21,8 @@ const ROLES = [
   "Product Designer & UI Specialist",
 ];
 
-export default function MatchmakerView({ query, onSendHandshake, sentHandshakes }) {
+export default function MatchmakerView({ onSendHandshake, sentHandshakes }) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedRole, setSelectedRole] = useState("All");
   const [selectedCollege, setSelectedCollege] = useState("All");
   const [weights, setWeights] = useState({
@@ -33,7 +35,7 @@ export default function MatchmakerView({ query, onSendHandshake, sentHandshakes 
 
   // Filter candidates based on filters and search query
   const filteredCandidates = useMemo(() => {
-    const q = (query || "").trim().toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     return candidates.filter((cand) => {
       const matchRole = selectedRole === "All" || cand.role === selectedRole;
       const matchCollege = selectedCollege === "All" || cand.college === selectedCollege;
@@ -45,7 +47,7 @@ export default function MatchmakerView({ query, onSendHandshake, sentHandshakes 
         cand.techStack.some((t) => t.toLowerCase().includes(q));
       return matchRole && matchCollege && matchQuery;
     });
-  }, [query, selectedRole, selectedCollege]);
+  }, [searchQuery, selectedRole, selectedCollege]);
 
   return (
     <div className="space-y-6">
@@ -175,24 +177,38 @@ export default function MatchmakerView({ query, onSendHandshake, sentHandshakes 
           })}
         </div>
 
-        {/* College Filter + Counter */}
-        <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
-          <div className="flex items-center gap-2">
-            <span className="font-mono">College:</span>
-            <select
-              value={selectedCollege}
-              onChange={(e) => setSelectedCollege(e.target.value)}
-              className="bg-[#0b121e] border border-white/10 rounded-lg px-2.5 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-teal-500/50"
-            >
-              <option value="All">All Partner Colleges</option>
-              {colleges.map((col) => (
-                <option key={col} value={col}>
-                  {col}
-                </option>
-              ))}
-            </select>
+        {/* College Filter + Search + Counter */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1 text-xs text-slate-400">
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              <span className="font-mono">College:</span>
+              <select
+                value={selectedCollege}
+                onChange={(e) => setSelectedCollege(e.target.value)}
+                className="bg-[#0b121e] border border-white/10 rounded-lg px-2.5 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-teal-500/50"
+              >
+                <option value="All">All Partner Colleges</option>
+                {colleges.map((col) => (
+                  <option key={col} value={col}>
+                    {col}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="relative">
+              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search candidates or skills..."
+                className="bg-[#0b121e] border border-white/10 rounded-lg pl-7 pr-3 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-teal-500/50 w-52 sm:w-60"
+              />
+            </div>
           </div>
-          <span className="font-mono">{filteredCandidates.length} Candidates Available</span>
+
+          <span className="font-mono self-end sm:self-auto">{filteredCandidates.length} Candidates Available</span>
         </div>
       </div>
 

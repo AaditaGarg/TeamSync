@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { Plus, Filter, CheckCircle2, Clock, ArrowRight, ArrowLeft } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Plus, Filter, CheckCircle2, Clock, ArrowRight, ArrowLeft, Search } from "lucide-react";
 import { Card, Badge, Button, Avatar } from "./ui";
 
 const COLUMNS = [
@@ -19,14 +19,15 @@ const PRIORITY_TONES = {
 export default function TasksView({
   tasks,
   squads,
-  query,
   selectedSquadId,
   setSelectedSquadId,
   onOpenNewTask,
   onMoveTask,
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const filteredTasks = useMemo(() => {
-    const q = (query || "").trim().toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     return tasks.filter((t) => {
       const matchSquad = selectedSquadId === "All" || t.squadId === selectedSquadId;
       const matchQuery =
@@ -36,7 +37,7 @@ export default function TasksView({
         t.tags?.some((tag) => tag.toLowerCase().includes(q));
       return matchSquad && matchQuery;
     });
-  }, [tasks, selectedSquadId, query]);
+  }, [tasks, selectedSquadId, searchQuery]);
 
   const getSquadName = (squadId) => {
     return squads.find((s) => s.id === squadId)?.name || "Sprint Team";
@@ -78,7 +79,7 @@ export default function TasksView({
         </Button>
       </div>
 
-      {/* Squad Filter Tabs */}
+      {/* Squad Filter Tabs & Search */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scroll-quiet">
           <span className="text-xs font-mono text-slate-400 shrink-0 mr-1 flex items-center gap-1">
@@ -113,7 +114,19 @@ export default function TasksView({
           })}
         </div>
 
-        <span className="text-xs font-mono text-slate-400">{filteredTasks.length} Active Tasks</span>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search sprint tasks..."
+              className="bg-[#0b121e] border border-white/10 rounded-lg pl-7 pr-3 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-teal-500/50 w-44 sm:w-52"
+            />
+          </div>
+          <span className="text-xs font-mono text-slate-400">{filteredTasks.length} Tasks</span>
+        </div>
       </div>
 
       {/* Kanban 4 Columns */}

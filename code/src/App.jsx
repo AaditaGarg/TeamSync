@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
-import OverviewView from "./components/OverviewView";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import HomeView from "./components/HomeView";
 import MatchmakerView from "./components/MatchmakerView";
 import ProjectsView from "./components/ProjectsView";
 import TeamsView from "./components/TeamsView";
 import TasksView from "./components/TasksView";
 import ChatView from "./components/ChatView";
 import NotificationsView from "./components/NotificationsView";
+import AboutView from "./components/AboutView";
 import { Modal, Button, Toast } from "./components/ui";
 
 import {
@@ -21,11 +22,9 @@ import {
 } from "./data/mockData";
 
 export default function App() {
-  const [view, setView] = useState("overview");
-  const [query, setQuery] = useState("");
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [view, setView] = useState("home");
 
-  // Persistent / dynamic application state
+  // Persistent application state
   const [listings, setListings] = useState(seedListings);
   const [appliedListings, setAppliedListings] = useState([]);
   const [squads, setSquads] = useState(seedSquads);
@@ -41,7 +40,7 @@ export default function App() {
   const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
   const [isNewSquadOpen, setIsNewSquadOpen] = useState(false);
 
-  // Form states for modals
+  // Form states
   const [listingForm, setListingForm] = useState({
     title: "",
     hackathon: "HackThapar 2026",
@@ -86,9 +85,7 @@ export default function App() {
     setNotifications((prev) =>
       prev.map((n) => (n.id === notifId ? { ...n, read: true, actionRequired: false } : n))
     );
-    showToast(
-      `Handshake accepted with ${sender?.name || "Candidate"}! Two-way channel unlocked.`
-    );
+    showToast(`Handshake accepted with ${sender?.name || "Candidate"}! Two-way channel unlocked.`);
   };
 
   const handleDeclineHandshake = (notifId) => {
@@ -234,96 +231,85 @@ export default function App() {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#070b12] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
-      {/* Sidebar Navigation */}
-      <Sidebar
+    <div className="min-h-screen flex flex-col bg-[#070b12] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
+      {/* Top Navbar */}
+      <Navbar
         view={view}
         setView={setView}
         unreadCount={unreadCount}
         currentUser={currentUser}
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
+        onOpenNewListing={() => setIsNewListingOpen(true)}
       />
 
-      {/* Main App Container */}
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-[#070b12]">
-        <Topbar
-          view={view}
-          query={query}
-          setQuery={setQuery}
-          unreadCount={unreadCount}
-          setView={setView}
-          onOpenNewListing={() => setIsNewListingOpen(true)}
-          onOpenNewTask={() => setIsNewTaskOpen(true)}
-          setMobileOpen={setMobileOpen}
-        />
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+        {view === "home" && (
+          <HomeView
+            setView={setView}
+            onSendHandshake={handleSendHandshake}
+            sentHandshakes={sentHandshakes}
+            onOpenNewListing={() => setIsNewListingOpen(true)}
+          />
+        )}
 
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 scroll-quiet">
-          {view === "overview" && (
-            <OverviewView
-              setView={setView}
-              onSendHandshake={handleSendHandshake}
-              sentHandshakes={sentHandshakes}
-            />
-          )}
+        {view === "matchmaker" && (
+          <MatchmakerView
+            onSendHandshake={handleSendHandshake}
+            sentHandshakes={sentHandshakes}
+          />
+        )}
 
-          {view === "matchmaker" && (
-            <MatchmakerView
-              query={query}
-              onSendHandshake={handleSendHandshake}
-              sentHandshakes={sentHandshakes}
-            />
-          )}
+        {view === "projects" && (
+          <ProjectsView
+            listings={listings}
+            onOpenNewListing={() => setIsNewListingOpen(true)}
+            onApplyListing={handleApplyListing}
+            appliedListings={appliedListings}
+          />
+        )}
 
-          {view === "projects" && (
-            <ProjectsView
-              listings={listings}
-              query={query}
-              onOpenNewListing={() => setIsNewListingOpen(true)}
-              onApplyListing={handleApplyListing}
-              appliedListings={appliedListings}
-            />
-          )}
+        {view === "squads" && (
+          <TeamsView
+            squads={squads}
+            setView={setView}
+            onOpenNewSquad={() => setIsNewSquadOpen(true)}
+            onSelectSquadForKanban={(squadId) => {
+              setSelectedSquadId(squadId);
+              setView("tasks");
+            }}
+          />
+        )}
 
-          {view === "squads" && (
-            <TeamsView
-              squads={squads}
-              setView={setView}
-              onOpenNewSquad={() => setIsNewSquadOpen(true)}
-              onSelectSquadForKanban={(squadId) => {
-                setSelectedSquadId(squadId);
-                setView("tasks");
-              }}
-            />
-          )}
+        {view === "tasks" && (
+          <TasksView
+            tasks={tasks}
+            squads={squads}
+            selectedSquadId={selectedSquadId}
+            setSelectedSquadId={setSelectedSquadId}
+            onOpenNewTask={() => setIsNewTaskOpen(true)}
+            onMoveTask={handleMoveTask}
+          />
+        )}
 
-          {view === "tasks" && (
-            <TasksView
-              tasks={tasks}
-              squads={squads}
-              query={query}
-              selectedSquadId={selectedSquadId}
-              setSelectedSquadId={setSelectedSquadId}
-              onOpenNewTask={() => setIsNewTaskOpen(true)}
-              onMoveTask={handleMoveTask}
-            />
-          )}
+        {view === "chat" && (
+          <ChatView chatMessages={chatMessages} onSendMessage={handleSendMessage} />
+        )}
 
-          {view === "chat" && (
-            <ChatView chatMessages={chatMessages} onSendMessage={handleSendMessage} />
-          )}
+        {view === "notifications" && (
+          <NotificationsView
+            notifications={notifications}
+            onMarkAllRead={handleMarkAllRead}
+            onAcceptHandshake={handleAcceptHandshake}
+            onDeclineHandshake={handleDeclineHandshake}
+            onMarkSingleRead={handleMarkSingleRead}
+          />
+        )}
 
-          {view === "notifications" && (
-            <NotificationsView
-              notifications={notifications}
-              onMarkAllRead={handleMarkAllRead}
-              onAcceptHandshake={handleAcceptHandshake}
-              onDeclineHandshake={handleDeclineHandshake}
-              onMarkSingleRead={handleMarkSingleRead}
-            />
-          )}
-        </main>
-      </div>
+        {view === "about" && <AboutView />}
+      </main>
+
+      {/* Footer */}
+      <Footer setView={setView} />
 
       {/* Toast Notification */}
       <Toast toast={toast} onClose={() => setToast(null)} />
