@@ -1,59 +1,123 @@
-import { useState } from "react";
-import { Handshake, Sparkles, CheckSquare, Clock, MessageSquare, Info } from "lucide-react";
-import { Card } from "./ui";
-import { notifications as seed } from "../data/mockData";
+import React from "react";
+import { Bell, Handshake, Sparkles, FolderGit2, ShieldCheck, Check, X, CheckCheck } from "lucide-react";
+import { Card, Button } from "./ui";
 
 const ICONS = {
-  connection: { icon: Handshake, tone: "#16a38a" },
-  match: { icon: Sparkles, tone: "#2c4d8a" },
-  task: { icon: CheckSquare, tone: "#16a38a" },
-  deadline: { icon: Clock, tone: "#d99a3c" },
-  message: { icon: MessageSquare, tone: "#2c4d8a" },
-  system: { icon: Info, tone: "#5c706c" },
+  handshake: { icon: Handshake, color: "text-teal-400", bg: "bg-teal-500/15" },
+  match: { icon: Sparkles, color: "text-cyan-400", bg: "bg-cyan-500/15" },
+  squad: { icon: FolderGit2, color: "text-amber-400", bg: "bg-amber-500/15" },
+  system: { icon: ShieldCheck, color: "text-emerald-400", bg: "bg-emerald-500/15" },
 };
 
-export default function NotificationsView() {
-  const [items, setItems] = useState(seed);
-  const unread = items.filter((n) => !n.read).length;
+export default function NotificationsView({
+  notifications,
+  onMarkAllRead,
+  onAcceptHandshake,
+  onDeclineHandshake,
+  onMarkSingleRead,
+}) {
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-[var(--color-text-muted)]">{unread} unread</span>
-        <button
-          onClick={() => setItems((prev) => prev.map((n) => ({ ...n, read: true })))}
-          className="text-sm font-medium text-[var(--color-brand-500)] hover:underline"
-        >
-          Mark all as read
-        </button>
+    <div className="space-y-6 max-w-4xl mx-auto">
+      {/* Header Banner */}
+      <div className="p-6 rounded-2xl bg-[#0f1826] border border-teal-500/30 flex items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-400" />
+            <h2 className="font-head text-lg sm:text-xl font-bold text-white tracking-tight">
+              Two-Way Handshakes & Activity
+            </h2>
+          </div>
+          <p className="text-xs text-slate-400 mt-1">
+            Privacy-preserving connection protocol: Communication channels and squad repositories unlock once mutual handshakes are accepted.
+          </p>
+        </div>
+
+        {unreadCount > 0 && (
+          <Button variant="secondary" size="sm" onClick={onMarkAllRead}>
+            <CheckCheck size={14} />
+            <span>Mark all read</span>
+          </Button>
+        )}
       </div>
 
-      <Card className="divide-y divide-[var(--color-line)] overflow-hidden">
-        {items.map((n) => {
-          const { icon: Icon, tone } = ICONS[n.type] ?? ICONS.system;
+      {/* Notifications List */}
+      <div className="space-y-3">
+        {notifications.map((notif) => {
+          const style = ICONS[notif.type] || ICONS.system;
+          const Icon = style.icon;
+
           return (
-            <button
-              key={n.id}
-              onClick={() => setItems((prev) => prev.map((x) => (x.id === n.id ? { ...x, read: true } : x)))}
-              className={`flex w-full items-start gap-3 px-5 py-4 text-left transition-colors hover:bg-[var(--color-canvas)] ${
-                !n.read ? "bg-[var(--color-brand-100)]/40" : ""
+            <Card
+              key={notif.id}
+              className={`p-5 transition-all ${
+                !notif.read ? "border-teal-500/40 bg-[#0f1d2d]/90" : "bg-[#0f1826]/70"
               }`}
             >
-              <div
-                className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                style={{ background: tone + "1a", color: tone }}
-              >
-                <Icon size={15} />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3.5">
+                  <div className={`w-10 h-10 rounded-xl ${style.bg} ${style.color} flex items-center justify-center shrink-0 border border-white/5`}>
+                    <Icon size={18} />
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="font-head text-sm font-bold text-white">{notif.title}</h4>
+                      {!notif.read && (
+                        <span className="w-2 h-2 rounded-full bg-teal-400" title="Unread" />
+                      )}
+                      <span className="text-[10px] font-mono text-slate-400">{notif.time}</span>
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed max-w-xl">
+                      {notif.message}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Handshake Protocol Actions */}
+                {notif.actionRequired ? (
+                  <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => onAcceptHandshake(notif.id, notif.sender)}
+                    >
+                      <Check size={14} />
+                      <span>Accept Handshake</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onDeclineHandshake(notif.id)}
+                    >
+                      <X size={14} />
+                      <span>Decline</span>
+                    </Button>
+                  </div>
+                ) : (
+                  !notif.read && (
+                    <button
+                      onClick={() => onMarkSingleRead(notif.id)}
+                      className="text-xs font-mono text-teal-400 hover:text-teal-300 self-end sm:self-center"
+                    >
+                      Mark read
+                    </button>
+                  )
+                )}
               </div>
-              <div className="min-w-0 flex-1">
-                <p className={`text-sm ${!n.read ? "font-medium" : "text-[var(--color-text-muted)]"}`}>{n.message}</p>
-                <span className="text-xs text-[var(--color-text-faint)]">{n.time}</span>
-              </div>
-              {!n.read && <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[var(--color-brand-500)]" />}
-            </button>
+            </Card>
           );
         })}
-      </Card>
+
+        {notifications.length === 0 && (
+          <div className="py-16 text-center text-slate-400 border border-dashed border-white/10 rounded-2xl">
+            <Bell size={24} className="mx-auto mb-2 text-slate-500" />
+            <p className="text-sm">No notifications or handshake requests at this time.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
