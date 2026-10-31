@@ -237,7 +237,6 @@ export default function App() {
         view={view}
         setView={setView}
         unreadCount={unreadCount}
-        currentUser={currentUser}
         onOpenNewListing={() => setIsNewListingOpen(true)}
       />
 

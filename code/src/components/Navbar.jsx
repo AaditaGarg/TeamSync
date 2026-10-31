@@ -9,11 +9,9 @@ import {
   Plus,
   Menu,
   X,
-  ShieldCheck,
   Home,
   Info,
 } from "lucide-react";
-import { Avatar } from "./ui";
 
 const NAV_LINKS = [
   { key: "home", label: "Home", icon: Home },
@@ -29,7 +27,6 @@ export default function Navbar({
   view,
   setView,
   unreadCount,
-  currentUser,
   onOpenNewListing,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -121,24 +118,6 @@ export default function Navbar({
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-teal-400 ring-2 ring-[#070b12] animate-pulse" />
             )}
           </button>
-
-          {/* User Profile Pill */}
-          <div
-            onClick={() => setView("about")}
-            className="hidden md:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-slate-900/60 border border-white/10 hover:border-teal-500/30 transition-all cursor-pointer"
-            title="View Profile & Academic Credits"
-          >
-            <Avatar user={currentUser} size={26} showVerified={true} />
-            <div className="text-left leading-none hidden xl:block">
-              <span className="text-[11px] font-bold text-white block truncate max-w-[85px]">
-                {currentUser.name}
-              </span>
-              <span className="text-[9px] text-teal-300 font-mono flex items-center gap-0.5 mt-0.5">
-                <ShieldCheck size={9} />
-                <span>@thapar.edu</span>
-              </span>
-            </div>
-          </div>
 
           {/* Mobile Menu Button */}
           <button
